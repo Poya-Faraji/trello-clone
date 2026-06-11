@@ -4,7 +4,8 @@ import Counter from "./components/Counter/Counter";
 export default function App(): ReactNode {
   return (
     <div className="app">
-      <Counter />
+      <Counter title="first counter" />
+      <Counter title="second counter" />
     </div>
   )
 }
