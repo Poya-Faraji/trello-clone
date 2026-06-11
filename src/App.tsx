@@ -1,27 +1,24 @@
 import { useState, type ReactNode } from "react";
 
-type User = {
-  username: string;
-  password: string
-}
+const selection = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 export default function App(): ReactNode {
-  const [user, setUser] = useState<Readonly<User>>(({
-    username: "Pouya",
-    password: "not1234"
-  }))
+  const [numbers, setNumbers] = useState(selection)
 
   const handleButtonClick = (): void => {
-    setUser({
-      ...user,
-      password: "4321"
-    })
+    setNumbers(numbers => numbers.filter((x) => x % 2 === 0))
+    setNumbers(numbers => numbers.filter((x) => x % 3 === 0))
+    // do above instead of below 
+    // below is wrong and doesn't use the lates updated version of the state value.
+    setNumbers(numbers.filter((x) => x % 2 === 0))
+    setNumbers(numbers.filter((x) => x % 3 === 0))
   }
 
   return (
     <div>
-      <pre>{JSON.stringify(user)}</pre>
-      <button onClick={handleButtonClick}>update user password</button>
+      <pre>filtere numbers: {JSON.stringify(selection)}</pre>
+      <pre>{JSON.stringify(numbers)}</pre>
+      <button onClick={handleButtonClick}>filter</button>
     </div>
   );
 }
