@@ -7,11 +7,15 @@ export type Theme = "light" | "dark"
 export default function App(): ReactNode {
   const [theme, setTheme] = useState<Theme>("light")
 
+  const handleOnThemeToggle = (): void => {
+    setTheme(theme => theme === "light" ? "dark" : "light")
+  }
+
   return (
     <div className="app">
-      <ThemeSwitcher theme={theme} setTheme={setTheme} />
-      <Counter title="first counter" />
-      <Counter title="second counter" />
+      <ThemeSwitcher theme={theme} onToggleTheme={handleOnThemeToggle} />
+      <Counter title="first counter" theme="dark" />
+      <Counter title="second counter" theme={theme} />
     </div>
   )
 }
