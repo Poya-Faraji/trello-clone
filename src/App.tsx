@@ -1,16 +1,27 @@
 import { useState, type ReactNode } from "react";
 
-export default function App(): ReactNode {
-  const [count, setCount] = useState(0)
+type User = {
+  username: string;
+  password: string
+}
 
-  const handleButtonIcrement = (): void => {
-    setCount(count => count + 1)
+export default function App(): ReactNode {
+  const [user, setUser] = useState<Readonly<User>>(({
+    username: "Pouya",
+    password: "not1234"
+  }))
+
+  const handleButtonClick = (): void => {
+    setUser({
+      ...user,
+      password: "4321"
+    })
   }
 
   return (
     <div>
-      <div>Counter : {count}</div>
-      <button onClick={handleButtonIcrement}>Increment</button>
+      <pre>{JSON.stringify(user)}</pre>
+      <button onClick={handleButtonClick}>update user password</button>
     </div>
   );
 }
