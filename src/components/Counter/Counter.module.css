@@ -1,0 +1,23 @@
+.counter {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+
+  border: 1px solid hsl(0, 0%, 70%);
+  border-radius: 0.5rem;
+
+  padding: 1rem;
+  inline-size: 10rem;
+
+  .title {
+    font-weight: bold;
+  }
+
+  .count {
+    font-family: monospace;
+  }
+
+  .increment {
+    text-transform: uppercase;
+  }
+}
