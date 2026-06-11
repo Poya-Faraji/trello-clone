@@ -7,15 +7,14 @@ type Props = {
     theme?: Theme
 }
 
-export default function Counter({ title, theme }: Props): ReactNode {
+export default function Counter({ title, theme = "light" }: Props): ReactNode {
     const [count, setCount] = useState(0)
 
     const handleButtonIncrement = (): void => {
         setCount(perv => perv + 1)
     }
 
-    return <div className={styles.counter}>
-        {theme}
+    return <div className={`${styles.counter} ${styles[theme]}`}>
         <div className={styles.title}>{title}</div>
         <div className={styles.count}>{count}</div>
 
