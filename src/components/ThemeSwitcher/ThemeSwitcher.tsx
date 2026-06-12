@@ -1,18 +1,26 @@
-import type { Theme } from "@/App";
 import type { ReactNode } from "react";
 
+import type { Theme } from "@/App";
+
 type Prop = {
-    theme: Theme
-    onToggleTheme: () => void
-}
+  theme: Theme;
+  onToggleTheme: () => void;
+};
 
-export default function ThemeSwitcher({ theme, onToggleTheme }: Prop): ReactNode {
-    const handleButtonThemeSwitch = (): void => {
-        onToggleTheme()
-    }
+export default function ThemeSwitcher({
+  theme,
+  onToggleTheme,
+}: Prop): ReactNode {
+  console.log("ThemeSwitcher");
 
-    return <div>
-        <p>{theme}</p>
-        <button onClick={handleButtonThemeSwitch}>Switch theme</button>
+  const handleButtonThemeSwitch = (): void => {
+    onToggleTheme();
+  };
+
+  return (
+    <div>
+      <p>{theme}</p>
+      <button onClick={handleButtonThemeSwitch}>Switch theme</button>
     </div>
+  );
 }
