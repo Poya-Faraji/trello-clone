@@ -27,4 +27,8 @@
     background-color: Canvas;
     color: CanvasText;
   }
+
+  &.primary {
+    border: 2px solid hsl(0, 100%, 50%);
+  }
 }
