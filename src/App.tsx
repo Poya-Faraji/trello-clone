@@ -14,8 +14,13 @@ export default function App(): ReactNode {
   return (
     <div className="app">
       <ThemeSwitcher theme={theme} onToggleTheme={handleOnThemeToggle} />
-      <Counter title="first counter" theme={theme} />
-      <Counter title="second counter" theme={theme} />
+      <Counter title="first counter" theme={theme} >
+        <p>This is test children/prop for counter 1</p>
+        <ThemeSwitcher theme={theme} onToggleTheme={handleOnThemeToggle} />
+      </Counter>
+      <Counter title="second counter" theme={theme} >
+        <p>This is test children/prop for counter 2</p>
+      </Counter>
     </div>
   )
 }
