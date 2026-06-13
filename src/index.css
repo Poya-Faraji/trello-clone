@@ -8,9 +8,8 @@
 }
 
 html {
-  caret-color: var(--color-primary);
-  accent-color: var(--color-primary);
-
+  /* caret-color: var(--color-primary); */
+  /* accent-color: var(--color-primary); */
   font-family: "Vazirmatn", sans-serif;
 }
 
@@ -30,6 +29,9 @@ optgroup {
 
 body {
   background-color: var(--color-surface-1);
+
+  inline-size: min(75rem, 100% - 2rem);
+
   color: var(--color-text);
 
   margin-inline: auto;
