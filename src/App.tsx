@@ -1,5 +1,6 @@
 import { type ReactNode } from "react";
 import styles from "./App.module.css"
+import clsx from "clsx";
 
 export default function App(): ReactNode {
   return (
@@ -13,7 +14,7 @@ export default function App(): ReactNode {
 
         <ul className={styles.boards}>
           <li>
-            <div className={styles.board}>
+            <div className={clsx(styles.board, "blue")}>
               <div className={styles.cover}></div>
               <div className={styles.content}>
                 <div className={styles.header}>
@@ -28,7 +29,7 @@ export default function App(): ReactNode {
           </li>
 
           <li>
-            <div className={styles.board}>
+            <div className={clsx(styles.board, "yellow")}>
               <div className={styles.cover}></div>
               <div className={styles.content}>
                 <div className={styles.header}>
@@ -44,7 +45,7 @@ export default function App(): ReactNode {
 
 
           <li>
-            <div className={styles.board}>
+            <div className={clsx(styles.board, "green")}>
               <div className={styles.cover}></div>
               <div className={styles.content}>
                 <div className={styles.header}>
