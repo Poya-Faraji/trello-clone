@@ -1,6 +1,9 @@
 import { type ReactNode } from "react";
-import styles from "./App.module.css"
+
 import clsx from "clsx";
+
+import styles from "./App.module.css";
+import BoardCard from "./components/BoardCard/BoardCard";
 
 export default function App(): ReactNode {
   return (
@@ -14,49 +17,27 @@ export default function App(): ReactNode {
 
         <ul className={styles.boards}>
           <li>
-            <div className={clsx(styles.board, "blue")}>
-              <div className={styles.cover}></div>
-              <div className={styles.content}>
-                <div className={styles.header}>
-                  <div className={styles.title}>Board 1</div>
-                  <a href="/board">View</a>
-                </div>
-              </div>
-              <p className={styles.description}>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque, officiis.
-              </p>
-            </div>
+            <BoardCard
+              title="Board 1"
+              color="green"
+              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium consequuntur reprehenderit ex tempore magni soluta amet perferendis, vel quibusdam rerum."
+            />
           </li>
 
           <li>
-            <div className={clsx(styles.board, "yellow")}>
-              <div className={styles.cover}></div>
-              <div className={styles.content}>
-                <div className={styles.header}>
-                  <div className={styles.title}>Board 1</div>
-                  <a href="/board">View</a>
-                </div>
-              </div>
-              <p className={styles.description}>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque, officiis.
-              </p>
-            </div>
+            <BoardCard
+              title="Board 2"
+              color="blue"
+              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium consequuntur reprehenderit ex tempore magni soluta amet perferendis, vel quibusdam rerum."
+            />
           </li>
 
-
           <li>
-            <div className={clsx(styles.board, "green")}>
-              <div className={styles.cover}></div>
-              <div className={styles.content}>
-                <div className={styles.header}>
-                  <div className={styles.title}>Board 1</div>
-                  <a href="/board">View</a>
-                </div>
-              </div>
-              <p className={styles.description}>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque, officiis.
-              </p>
-            </div>
+            <BoardCard
+              title="Board 3"
+              color="red"
+              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium consequuntur reprehenderit ex tempore magni soluta amet perferendis, vel quibusdam rerum."
+            />
           </li>
         </ul>
       </main>
