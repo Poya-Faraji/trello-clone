@@ -5,6 +5,7 @@ import { Route, Routes } from "react-router";
 import BoardPage from "./pages/BoardPage/BoardPage";
 import HomePage from "./pages/HomePage/HomePage";
 import RootLayout from "./layouts/RootLayout";
+import NotFoundPage from "./pages/notFoundPage/NotFoundPage";
 
 
 export default function App(): ReactNode {
@@ -13,6 +14,7 @@ export default function App(): ReactNode {
       <Route element={<RootLayout />}>
         <Route index element={<HomePage />} />
         <Route path="board/:id" element={<BoardPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
   );
