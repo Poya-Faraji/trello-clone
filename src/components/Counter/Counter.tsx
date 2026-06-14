@@ -1,8 +1,8 @@
 import { type PropsWithChildren, type ReactNode, useState } from "react";
 
-type Theme = "light" | "dark"
-
 import styles from "./Counter.module.css";
+
+type Theme = "light" | "dark";
 
 type Props = PropsWithChildren<{
   title: string;
