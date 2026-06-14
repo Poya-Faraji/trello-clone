@@ -1,9 +1,8 @@
 import { type ReactNode } from "react";
 
-import clsx from "clsx";
-
 import styles from "./App.module.css";
 import BoardCard from "./components/BoardCard/BoardCard";
+import Button from "./components/Button/Button";
 
 export default function App(): ReactNode {
   return (
@@ -12,7 +11,7 @@ export default function App(): ReactNode {
       <main>
         <div className={styles.header}>
           <h1 className={styles.title}>Boards</h1>
-          <button>Create</button>
+          <Button color="primary">Create</Button>
         </div>
 
         <ul className={styles.boards}>
