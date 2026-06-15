@@ -8,7 +8,7 @@ export default function Header(): ReactNode {
   return (
     <header className={styles.header}>
       <Link to="/" className={styles.logo}>
-        <img src="./logo.svg" alt="Canban Logo" />
+        <img src="/public/logo.svg" alt="Canban Logo" />
       </Link>
     </header>
   );
