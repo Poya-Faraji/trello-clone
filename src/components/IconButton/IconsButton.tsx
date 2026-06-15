@@ -16,10 +16,7 @@ export default function IconsButton({
   ...otherProps
 }: Props): ReactNode {
   return (
-    <button
-      className={clsx(styles["icon-button"], className)}
-      {...otherProps}
-    >
+    <button className={clsx(styles["icon-button"], className)} {...otherProps}>
       {children}
     </button>
   );
