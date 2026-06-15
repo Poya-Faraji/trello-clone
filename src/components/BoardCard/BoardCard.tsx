@@ -1,9 +1,10 @@
 import type { ReactNode } from "react";
 
+import { Link } from "react-router";
+
 import clsx from "clsx";
 
 import styles from "./BoardCard.module.css";
-import { Link } from "react-router";
 
 type BoardColor =
   | "purple"
@@ -15,7 +16,7 @@ type BoardColor =
   | "gray";
 
 type Props = {
-  id: number
+  id: number;
   title: string;
   description: string;
   color: BoardColor;
@@ -37,6 +38,6 @@ export default function BoardCard({
         </div>
         <p className={styles.description}>{description}</p>
       </div>
-    </div >
+    </div>
   );
 }

@@ -38,8 +38,6 @@ export default function HomePage(): ReactNode {
           />
         </li>
       </ul>
-
-
     </div>
   );
 }

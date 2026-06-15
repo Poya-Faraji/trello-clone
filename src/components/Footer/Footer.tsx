@@ -1,13 +1,11 @@
 import { type ReactNode } from "react";
 
-import styles from "./Footer.module.css"
+import styles from "./Footer.module.css";
 
 export default function Footer(): ReactNode {
-    const year = new Date().getFullYear()
+  const year = new Date().getFullYear();
 
-    return (
-        <footer className={styles.footer}>
-            Copyright © {year} pouya-faraji
-        </footer>
-    )
+  return (
+    <footer className={styles.footer}>Copyright © {year} pouya-faraji</footer>
+  );
 }
