@@ -1,9 +1,7 @@
 import type { ReactNode } from "react";
 
-import type { Theme } from "@/App";
-
 type Prop = {
-  theme: Theme;
+  theme: "light" | "dark";
   onToggleTheme: () => void;
 };
 
@@ -11,8 +9,6 @@ export default function ThemeSwitcher({
   theme,
   onToggleTheme,
 }: Prop): ReactNode {
-  console.log("ThemeSwitcher");
-
   const handleButtonThemeSwitch = (): void => {
     onToggleTheme();
   };

@@ -1,34 +1,34 @@
 import type { ReactNode } from "react";
 
-import styles from "./List.module.css"
 import type { ListType } from "@/Types/list";
-import IconsButton from "../IconButton/IconsButton";
+
 import MingcuteMore1Line from "@/icons/MingcuteMore1Line";
+
+import IconsButton from "../IconButton/IconsButton";
 import ListItem from "../ListItem/ListItem";
 
-type Props = {
-    list: ListType
-}
+import styles from "./List.module.css";
 
+type Props = {
+  list: ListType;
+};
 
 export default function List({ list }: Props): ReactNode {
-    return (
-        <div className={styles.list}>
-            <div className={styles.header}>
-                <div className={styles.title}> {list.title}</div>
-                <IconsButton>
-                    <MingcuteMore1Line />
-                </IconsButton>
-            </div>
-            <ul className={styles.items}>
-                {
-                    list.items.map((item) => (
-                        <li key={item.id}>
-                            <ListItem item={item} />
-                        </li>
-                    ))
-                }
-            </ul>
-        </div>
-    )
+  return (
+    <div className={styles.list}>
+      <div className={styles.header}>
+        <div className={styles.title}> {list.title}</div>
+        <IconsButton>
+          <MingcuteMore1Line />
+        </IconsButton>
+      </div>
+      <ul className={styles.items}>
+        {list.items.map((item) => (
+          <li key={item.id}>
+            <ListItem item={item} />
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
