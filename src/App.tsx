@@ -12,6 +12,7 @@ import NotFoundPage from "./pages/notFoundPage/NotFoundPage";
 
 export default function App(): ReactNode {
   return (
+    // <ErrorBoundary FallbackComponent={ErrorPage}>
     <ErrorBoundary fallback={<ErrorPage />}>
       <Routes>
         <Route element={<RootLayout />}>
