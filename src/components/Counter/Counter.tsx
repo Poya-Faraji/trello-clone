@@ -16,7 +16,6 @@ export default function Counter({
   primary = false,
   theme = "light",
 }: Props): ReactNode {
-  console.log("Counter");
 
   const [count, setCount] = useState(0);
 
