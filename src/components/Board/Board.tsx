@@ -1,98 +1,78 @@
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 
 import MingcuteAddLine from "@/icons/MingcuteAddLine";
 import MingcuteEdit2Line from "@/icons/MingcuteEdit2Line";
-import MingcuteMore1Line from "@/icons/MingcuteMore1Line";
 
 import IconsButton from "../IconButton/IconsButton";
 
 import styles from "./Board.module.css";
+import List from "../List/List";
+import type { ListType } from "@/Types/list";
 
 export default function Board(): ReactNode {
-    return (
-        <div className={styles.board}>
-            <div className={styles.toolbar}>
-                <div className={styles.title}>Board Title</div>
-                <div className={styles.actions}>
-                    <IconsButton>
-                        <MingcuteEdit2Line />
-                    </IconsButton>
-                    <IconsButton>
-                        <MingcuteAddLine />
-                    </IconsButton>
-                </div>
-            </div>
+  const [toDoList, setToDoList] = useState<ListType>(
+    {
+      id: crypto.randomUUID(),
+      title: "🔜 To Do",
+      items: [
+        { id: crypto.randomUUID(), title: "first action 1" },
+        { id: crypto.randomUUID(), title: "first action 2" },
+        { id: crypto.randomUUID(), title: "first action 3" },
+      ]
+    }
+  )
 
-            <ul className={styles.lists}>
-                <li>
-                    <div className={styles.list}>
-                        <div className={styles.header}>
-                            <div className={styles.title}>🔜 To do</div>
-                            <IconsButton>
-                                <MingcuteMore1Line />
-                            </IconsButton>
-                        </div>
-                        <ul className={styles.items}>
-                            <li>
-                                <div className={styles.item}>Lorem ipsum dolor sit.</div>
-                            </li>
-                            <li>
-                                <div className={styles.item}>Lorem ipsum dolor sit.</div>
-                            </li>
-                            <li>
-                                <div className={styles.item}>Lorem ipsum dolor sit.</div>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
+  const [doingList, setDoingList] = useState<ListType>(
+    {
+      id: crypto.randomUUID(),
+      title: "🔨 Doing",
+      items: [
+        { id: crypto.randomUUID(), title: "Doing action 1" },
+        { id: crypto.randomUUID(), title: "Doing action 2" },
+        { id: crypto.randomUUID(), title: "Doing action 3" },
+      ]
+    }
+  )
+
+  const [doneList, setDoneList] = useState<ListType>(
+    {
+      id: crypto.randomUUID(),
+      title: "✅ Done",
+      items: [
+        { id: crypto.randomUUID(), title: "Done action 1" },
+        { id: crypto.randomUUID(), title: "Done action 2" },
+        { id: crypto.randomUUID(), title: "Done action 3" },
+      ]
+    }
+  )
 
 
-                <li>
-                    <div className={styles.list}>
-                        <div className={styles.header}>
-                            <div className={styles.title}>🔨 Doing</div>
-                            <IconsButton>
-                                <MingcuteMore1Line />
-                            </IconsButton>
-                        </div>
-                        <ul className={styles.items}>
-                            <li>
-                                <div className={styles.item}>Lorem ipsum dolor sit.</div>
-                            </li>
-                            <li>
-                                <div className={styles.item}>Lorem ipsum dolor sit.</div>
-                            </li>
-                            <li>
-                                <div className={styles.item}>Lorem ipsum dolor sit.</div>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
 
-                <li>
-                    <div className={styles.list}>
-                        <div className={styles.header}>
-                            <div className={styles.title}>✅ Done</div>
-                            <IconsButton>
-                                <MingcuteMore1Line />
-                            </IconsButton>
-                        </div>
-                        <ul className={styles.items}>
-                            <li>
-                                <div className={styles.item}>Lorem ipsum dolor sit.</div>
-                            </li>
-                            <li>
-                                <div className={styles.item}>Lorem ipsum dolor sit.</div>
-                            </li>
-                            <li>
-                                <div className={styles.item}>Lorem ipsum dolor sit.</div>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-
-            </ul>
-
+  return (
+    <div className={styles.board}>
+      <div className={styles.toolbar}>
+        <div className={styles.title}>Board Title</div>
+        <div className={styles.actions}>
+          <IconsButton>
+            <MingcuteEdit2Line />
+          </IconsButton>
+          <IconsButton>
+            <MingcuteAddLine />
+          </IconsButton>
         </div>
-    );
+      </div>
+
+      <ul className={styles.lists}>
+        <li>
+          <List list={toDoList} />
+        </li>
+        <li>
+          <List list={doingList} />
+        </li>
+        <li>
+          <List list={doneList} />
+        </li>
+      </ul>
+    </div>
+  );
 }

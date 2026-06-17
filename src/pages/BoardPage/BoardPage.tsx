@@ -1,9 +1,10 @@
 import type { ReactNode } from "react";
 
+import Board from "@/components/Board/Board";
+
 // import { useParams } from "react-router";
 
 import styles from "./BoardPage.module.css";
-import Board from "@/components/Board/Board";
 
 export default function BoardPage(): ReactNode {
   // const { id } = useParams();
