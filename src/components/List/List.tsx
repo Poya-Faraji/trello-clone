@@ -1,4 +1,4 @@
-import { memo, type ReactNode } from "react";
+import { type ReactNode, memo } from "react";
 
 import type { ListType } from "@/Types/list";
 
@@ -11,9 +11,10 @@ import styles from "./List.module.css";
 
 type Props = {
   list: ListType;
+  onClick: (id: string) => void;
 };
 
-const List = memo(function List({ list }: Props): ReactNode {
+const List = memo(function List({ list, onClick }: Props): ReactNode {
   return (
     <div className={styles.list}>
       <div className={styles.header}>
@@ -25,12 +26,12 @@ const List = memo(function List({ list }: Props): ReactNode {
       <ul className={styles.items}>
         {list.items.map((item) => (
           <li key={item.id}>
-            <ListItem item={item} />
+            <ListItem item={item} onClick={onClick} />
           </li>
         ))}
       </ul>
     </div>
   );
-})
+});
 
-export default List
+export default List;

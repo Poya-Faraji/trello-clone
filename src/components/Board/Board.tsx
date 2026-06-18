@@ -1,4 +1,4 @@
-import { type ReactNode, useMemo, useState } from "react";
+import { type ReactNode, useCallback, useMemo, useState } from "react";
 
 import type { ListType } from "@/Types/list";
 
@@ -9,13 +9,6 @@ import IconsButton from "../IconButton/IconsButton";
 import List from "../List/List";
 
 import styles from "./Board.module.css";
-import type { ListItemType } from "@/Types/list-item";
-
-
-function cb(a: ListItemType, b: ListItemType): number {
-  return a.title.localeCompare(b.title)
-}
-
 
 export default function Board(): ReactNode {
   const [toDoList, setToDoList] = useState<ListType>({
@@ -48,30 +41,40 @@ export default function Board(): ReactNode {
     ],
   });
 
-  const handleIconDeleteAction = (): void => {
+  const handleOnClickToDoList = useCallback((id: string): void => {
     setToDoList((prev) => {
-      return { ...prev, items: prev.items.filter((item) => item.id !== "2") };
+      return { ...prev, items: prev.items.filter((item) => item.id !== id) };
     });
-  };
+  }, []);
 
+  // smart way of using useMemo instead of useCallback however it is not necessary: 
+  // keep on using useCallback instead
+  const handleOnClickDoingList = useMemo(() => {
+    return (id: string): void => {
+      setDoingList((prev) => {
+        return {
+          ...prev,
+          items: [...prev.items].filter((item) => item.id !== id),
+        };
+      });
+    };
+  }, []);
 
-  const sortedToDoList = useMemo(() => {
-    return { ...toDoList, items: [...toDoList.items.sort(cb)] }
-  }, [toDoList])
-  const sortedDoingList = useMemo(() => {
-    return { ...doingList, items: [...doingList.items.sort(cb)] }
-  }, [doingList])
-  const sortedDoneList = useMemo(() => {
-    return { ...doneList, items: [...doneList.items.sort(cb)] }
-  }, [doneList])
-
+  const handleOnClickDoneList = useCallback((id: string): void => {
+    setDoneList((prev) => {
+      return {
+        ...prev,
+        items: [...prev.items].filter((item) => item.id !== id),
+      };
+    });
+  }, []);
 
   return (
     <div className={styles.board}>
       <div className={styles.toolbar}>
         <div className={styles.title}>Board Title</div>
         <div className={styles.actions}>
-          <IconsButton onClick={handleIconDeleteAction}>
+          <IconsButton>
             <MingcuteEdit2Line />
           </IconsButton>
           <IconsButton>
@@ -82,16 +85,13 @@ export default function Board(): ReactNode {
 
       <ul className={styles.lists}>
         <li>
-          {/* <List list={toDoList} /> */}
-          <List list={sortedToDoList} />
+          <List list={toDoList} onClick={handleOnClickToDoList} />
         </li>
         <li>
-          {/* <List list={doingList} /> */}
-          <List list={sortedDoingList} />
+          <List list={doingList} onClick={handleOnClickDoingList} />
         </li>
         <li>
-          {/* <List list={doneList} /> */}
-          <List list={sortedDoneList} />
+          <List list={doneList} onClick={handleOnClickDoneList} />
         </li>
       </ul>
     </div>

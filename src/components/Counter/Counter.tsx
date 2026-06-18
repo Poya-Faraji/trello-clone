@@ -16,7 +16,6 @@ export default function Counter({
   primary = false,
   theme = "light",
 }: Props): ReactNode {
-
   const [count, setCount] = useState(0);
 
   const handleButtonIncrement = (): void => {
