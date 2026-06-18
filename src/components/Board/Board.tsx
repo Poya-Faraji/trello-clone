@@ -1,4 +1,4 @@
-import { type ReactNode, useCallback, useMemo, useState } from "react";
+import { type ReactNode, useCallback, useState } from "react";
 
 import type { ListType } from "@/Types/list";
 
@@ -10,25 +10,36 @@ import List from "../List/List";
 
 import styles from "./Board.module.css";
 import { listsData } from "@/data/list-data";
+import Button from "../Button/Button";
 
 export default function Board(): ReactNode {
   const [lists, setLists] = useState<ListType[]>(listsData)
 
-  console.log(lists);
+  const [activeListId, setActiveListId] = useState<string | null>(null)
+  const [activeItemId, setActiveItemId] = useState<string | null>(null)
 
-
-  const handleOnClickItemDeletion = useCallback((id: string): void => {
-    setLists((prev) => {
-      const clone = { ...prev[0], items: [...prev[0].items].filter((item) => item.id !== id) };
-      return [clone, prev[1], prev[2]]
-    });
-  }, []);
+  const handleListItemClick = useCallback((listId: string, itemId: string) => {
+    setActiveListId(listId)
+    setActiveItemId(itemId)
+  }, [])
 
   return (
     <div className={styles.board}>
       <div className={styles.toolbar}>
         <div className={styles.title}>Board Title</div>
         <div className={styles.actions}>
+          {activeItemId !== null &&
+            (
+              <div className={styles.spacer}>
+                {
+                  lists.filter(list => list.id !== activeListId).map(list => {
+                    return (
+                      <Button key={list.id}>{list.title}</Button>
+                    )
+                  })
+                }
+              </div>
+            )}
           <IconsButton>
             <MingcuteEdit2Line />
           </IconsButton>
@@ -40,13 +51,17 @@ export default function Board(): ReactNode {
 
       <ul className={styles.lists}>
 
-        {lists.map(list => {
-          return (
-            <li key={list.id}>
-              <List list={list} onClick={handleOnClickItemDeletion} />
-            </li>
-          )
-        })}
+        <li>
+          <List list={lists[0]} onClick={handleListItemClick} />
+        </li>
+
+        <li>
+          <List list={lists[1]} onClick={handleListItemClick} />
+        </li>
+
+        <li>
+          <List list={lists[2]} onClick={handleListItemClick} />
+        </li>
       </ul>
     </div>
   );

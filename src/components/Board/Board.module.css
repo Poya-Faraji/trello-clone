@@ -24,6 +24,11 @@
     }
 
     .actions {
+      .spacer {
+        margin-inline-end: 0.5rem;
+        display: flex;
+        gap: 0.5rem;
+      }
       display: flex;
       align-items: center;
     }
