@@ -31,6 +31,18 @@ const List = memo(function List({ list }: Props): ReactNode {
       </ul>
     </div>
   );
+}, (prev, next) => {
+  if (prev.list.items.length !== next.list.items.length) {
+    return false
+  }
+
+  for (let i = 0; i < prev.list.items.length; i++) {
+    if (prev.list.items[i].title !== next.list.items[i].title) {
+      return false
+    }
+  }
+
+  return true
 })
 
 export default List

@@ -9,15 +9,22 @@ import IconsButton from "../IconButton/IconsButton";
 import List from "../List/List";
 
 import styles from "./Board.module.css";
+import type { ListItemType } from "@/Types/list-item";
+
+
+function cb(a: ListItemType, b: ListItemType): number {
+  return a.title.localeCompare(b.title)
+}
+
 
 export default function Board(): ReactNode {
   const [toDoList, setToDoList] = useState<ListType>({
     id: crypto.randomUUID(),
     title: "🔜 To Do",
     items: [
-      { id: crypto.randomUUID(), title: "first action 1" },
-      { id: "2", title: "first action 2" },
-      { id: crypto.randomUUID(), title: "first action 3" },
+      { id: crypto.randomUUID(), title: "C First action 1" },
+      { id: "2", title: "A First action 2" },
+      { id: crypto.randomUUID(), title: "B First action 3" },
     ],
   });
 
@@ -25,9 +32,9 @@ export default function Board(): ReactNode {
     id: crypto.randomUUID(),
     title: "🔨 Doing",
     items: [
-      { id: crypto.randomUUID(), title: "Doing action 1" },
-      { id: crypto.randomUUID(), title: "Doing action 2" },
-      { id: crypto.randomUUID(), title: "Doing action 3" },
+      { id: crypto.randomUUID(), title: "C Doing action 1" },
+      { id: crypto.randomUUID(), title: "A Doing action 2" },
+      { id: crypto.randomUUID(), title: "B Doing action 3" },
     ],
   });
 
@@ -35,9 +42,9 @@ export default function Board(): ReactNode {
     id: crypto.randomUUID(),
     title: "✅ Done",
     items: [
-      { id: crypto.randomUUID(), title: "Done action 1" },
-      { id: crypto.randomUUID(), title: "Done action 2" },
-      { id: crypto.randomUUID(), title: "Done action 3" },
+      { id: crypto.randomUUID(), title: "C Done action 1" },
+      { id: crypto.randomUUID(), title: "ADone action 2" },
+      { id: crypto.randomUUID(), title: "B Done action 3" },
     ],
   });
 
@@ -46,6 +53,12 @@ export default function Board(): ReactNode {
       return { ...prev, items: prev.items.filter((item) => item.id !== "2") };
     });
   };
+
+
+  const sortedToDoList = { ...toDoList, items: [...toDoList.items.sort(cb)] }
+  const sortedDoingList = { ...doingList, items: [...doingList.items.sort(cb)] }
+  const sortedDoneList = { ...doneList, items: [...doneList.items.sort(cb)] }
+
 
   return (
     <div className={styles.board}>
@@ -63,13 +76,16 @@ export default function Board(): ReactNode {
 
       <ul className={styles.lists}>
         <li>
-          <List list={toDoList} />
+          {/* <List list={toDoList} /> */}
+          <List list={sortedToDoList} />
         </li>
         <li>
-          <List list={doingList} />
+          {/* <List list={doingList} /> */}
+          <List list={sortedDoingList} />
         </li>
         <li>
-          <List list={doneList} />
+          {/* <List list={doneList} /> */}
+          <List list={sortedDoneList} />
         </li>
       </ul>
     </div>
