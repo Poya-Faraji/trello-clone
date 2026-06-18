@@ -1,4 +1,4 @@
-import { type ReactNode, useState } from "react";
+import { type ReactNode, useMemo, useState } from "react";
 
 import type { ListType } from "@/Types/list";
 
@@ -55,9 +55,15 @@ export default function Board(): ReactNode {
   };
 
 
-  const sortedToDoList = { ...toDoList, items: [...toDoList.items.sort(cb)] }
-  const sortedDoingList = { ...doingList, items: [...doingList.items.sort(cb)] }
-  const sortedDoneList = { ...doneList, items: [...doneList.items.sort(cb)] }
+  const sortedToDoList = useMemo(() => {
+    return { ...toDoList, items: [...toDoList.items.sort(cb)] }
+  }, [toDoList])
+  const sortedDoingList = useMemo(() => {
+    return { ...doingList, items: [...doingList.items.sort(cb)] }
+  }, [doingList])
+  const sortedDoneList = useMemo(() => {
+    return { ...doneList, items: [...doneList.items.sort(cb)] }
+  }, [doneList])
 
 
   return (
