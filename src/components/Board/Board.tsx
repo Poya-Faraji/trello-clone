@@ -25,8 +25,8 @@ export default function Board(): ReactNode {
   }, []);
 
   const handleRemoveButtonClick = (): void => {
-    try {
-      setLists((prev) => {
+    setLists((prev) => {
+      try {
         const activeListIndex = prev.findIndex(
           (list) => list.id === activeListId,
         );
@@ -37,7 +37,10 @@ export default function Board(): ReactNode {
         }
 
         const clone = [...prev];
-        const activeList = { ...clone[activeListIndex] };
+        const activeList = {
+          ...clone[activeListIndex],
+          items: [...clone[activeListIndex].items],
+        };
 
         const activeItemIndex = clone[activeListIndex].items.findIndex(
           (item) => item.id === activeItemId,
@@ -58,11 +61,60 @@ export default function Board(): ReactNode {
         clone[activeListIndex] = activeList;
 
         return clone;
-      });
-    } finally {
-      setActiveListId(null);
-      setActiveItemId(null);
-    }
+      } finally {
+        setActiveListId(null);
+        setActiveItemId(null);
+      }
+    });
+  };
+
+  const handleMoveButtonClick = (destinationListId: string): void => {
+    setLists((prev) => {
+      try {
+        const activeListIndex = prev.findIndex(
+          (list) => list.id === activeListId,
+        );
+
+        const destinationListIndex = prev.findIndex(
+          (list) => list.id === destinationListId,
+        );
+
+        if (activeListIndex === -1 || destinationListIndex === -1) {
+          console.error("Error findind desired list.");
+          return prev;
+        }
+
+        const clone = [...prev];
+        const activeList = {
+          ...clone[activeListIndex],
+          items: [...clone[activeListIndex].items],
+        };
+        const destinationList = {
+          ...clone[destinationListIndex],
+          items: [...clone[destinationListIndex].items],
+        };
+
+        const activeItemIndex = clone[activeListIndex].items.findIndex(
+          (item) => item.id === activeItemId,
+        );
+
+        if (activeItemIndex === -1) {
+          console.error("Error findind desired list-item.");
+          return prev;
+        }
+
+        const [activeItem] = activeList.items.splice(activeItemIndex, 1);
+        destinationList.items.push(activeItem);
+
+        clone[activeListIndex] = activeList;
+        clone[destinationListIndex] = destinationList;
+
+        return clone;
+      } finally {
+        setActiveListId(null);
+        setActiveItemId(null);
+      }
+    });
   };
 
   return (
@@ -75,7 +127,14 @@ export default function Board(): ReactNode {
               {lists
                 .filter((list) => list.id !== activeListId)
                 .map((list) => {
-                  return <Button key={list.id}>{list.title}</Button>;
+                  return (
+                    <Button
+                      onClick={() => handleMoveButtonClick(list.id)}
+                      key={list.id}
+                    >
+                      {list.title}
+                    </Button>
+                  );
                 })}
               <Button onClick={handleRemoveButtonClick}>Remove</Button>
             </div>
