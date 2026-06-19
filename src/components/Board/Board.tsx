@@ -38,6 +38,7 @@ export default function Board(): ReactNode {
                     )
                   })
                 }
+                <Button>Remove</Button>
               </div>
             )}
           <IconsButton>
@@ -50,18 +51,13 @@ export default function Board(): ReactNode {
       </div>
 
       <ul className={styles.lists}>
-
-        <li>
-          <List list={lists[0]} onClick={handleListItemClick} />
-        </li>
-
-        <li>
-          <List list={lists[1]} onClick={handleListItemClick} />
-        </li>
-
-        <li>
-          <List list={lists[2]} onClick={handleListItemClick} />
-        </li>
+        {lists.map((list) => {
+          return (
+            <li key={list.id}>
+              <List list={list} onClick={handleListItemClick} />
+            </li>
+          )
+        })}
       </ul>
     </div>
   );
