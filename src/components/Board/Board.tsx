@@ -1,4 +1,4 @@
-import { type ReactNode, useCallback, useState } from "react";
+import { type ReactNode, useCallback, useMemo, useState } from "react";
 
 import type { ListType } from "@/Types/list";
 
@@ -24,7 +24,7 @@ export default function Board(): ReactNode {
     setActiveItemId(itemId);
   }, []);
 
-  const handleRemoveButtonClick = (): void => {
+  const handleRemoveButtonClick = useCallback((): void => {
     setLists((prev) => {
       try {
         const activeListIndex = prev.findIndex(
@@ -66,9 +66,9 @@ export default function Board(): ReactNode {
         setActiveItemId(null);
       }
     });
-  };
+  }, [activeItemId, activeListId])
 
-  const handleMoveButtonClick = (destinationListId: string): void => {
+  const handleMoveButtonClick = useCallback((destinationListId: string): void => {
     setLists((prev) => {
       try {
         const activeListIndex = prev.findIndex(
@@ -115,7 +115,11 @@ export default function Board(): ReactNode {
         setActiveItemId(null);
       }
     });
-  };
+  }, [activeItemId, activeListId])
+
+
+  const editIcon = useMemo(() => <MingcuteEdit2Line />, [])
+  const addIcon = useMemo(() => <MingcuteAddLine />, [])
 
   return (
     <div className={styles.board}>
@@ -140,10 +144,10 @@ export default function Board(): ReactNode {
             </div>
           )}
           <IconsButton>
-            <MingcuteEdit2Line />
+            {editIcon}
           </IconsButton>
           <IconsButton>
-            <MingcuteAddLine />
+            {addIcon}
           </IconsButton>
         </div>
       </div>

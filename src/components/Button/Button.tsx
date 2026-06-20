@@ -1,4 +1,4 @@
-import type { ComponentProps, ReactNode } from "react";
+import { memo, type ComponentProps, type ReactNode } from "react";
 
 import clsx from "clsx";
 
@@ -8,7 +8,8 @@ type Props = ComponentProps<"button"> & {
   variant?: "solid" | "outlined";
   color?: "default" | "primary";
 };
-export default function Button({
+
+const Button = memo(function Button({
   className,
   variant = "solid",
   color = "default",
@@ -24,3 +25,5 @@ export default function Button({
     </button>
   );
 }
+)
+export default Button

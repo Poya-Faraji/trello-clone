@@ -1,4 +1,4 @@
-import { type ReactNode, memo } from "react";
+import { type ReactNode, memo, useMemo } from "react";
 
 import type { ListType } from "@/Types/list";
 
@@ -15,12 +15,15 @@ type Props = {
 };
 
 const List = memo(function List({ list, onClick }: Props): ReactNode {
+
+  const moreIcon = useMemo(() => <MingcuteMore1Line />, [])
+
   return (
     <div className={styles.list}>
       <div className={styles.header}>
         <div className={styles.title}> {list.title}</div>
         <IconsButton>
-          <MingcuteMore1Line />
+          {moreIcon}
         </IconsButton>
       </div>
       <ul className={styles.items}>
