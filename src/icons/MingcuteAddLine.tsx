@@ -1,8 +1,6 @@
 import { type ReactNode, type SVGProps } from "react";
 
-function MingcuteAddLine(
-  props: SVGProps<SVGSVGElement>,
-): ReactNode {
+function MingcuteAddLine(props: SVGProps<SVGSVGElement>): ReactNode {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -23,4 +21,4 @@ function MingcuteAddLine(
   );
 }
 
-export default MingcuteAddLine
+export default MingcuteAddLine;

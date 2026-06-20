@@ -66,60 +66,74 @@ export default function Board(): ReactNode {
         setActiveItemId(null);
       }
     });
-  }, [activeItemId, activeListId])
+  }, [activeItemId, activeListId]);
 
-  const handleMoveButtonClick = useCallback((destinationListId: string): void => {
+  const handleMoveButtonClick = useCallback(
+    (destinationListId: string): void => {
+      setLists((prev) => {
+        try {
+          const activeListIndex = prev.findIndex(
+            (list) => list.id === activeListId,
+          );
+
+          const destinationListIndex = prev.findIndex(
+            (list) => list.id === destinationListId,
+          );
+
+          if (activeListIndex === -1 || destinationListIndex === -1) {
+            console.error("Error findind desired list.");
+            return prev;
+          }
+
+          const clone = [...prev];
+          const activeList = {
+            ...clone[activeListIndex],
+            items: [...clone[activeListIndex].items],
+          };
+          const destinationList = {
+            ...clone[destinationListIndex],
+            items: [...clone[destinationListIndex].items],
+          };
+
+          const activeItemIndex = clone[activeListIndex].items.findIndex(
+            (item) => item.id === activeItemId,
+          );
+
+          if (activeItemIndex === -1) {
+            console.error("Error findind desired list-item.");
+            return prev;
+          }
+
+          const [activeItem] = activeList.items.splice(activeItemIndex, 1);
+          destinationList.items.push(activeItem);
+
+          clone[activeListIndex] = activeList;
+          clone[destinationListIndex] = destinationList;
+
+          return clone;
+        } finally {
+          setActiveListId(null);
+          setActiveItemId(null);
+        }
+      });
+    },
+    [activeItemId, activeListId],
+  );
+
+  const editIcon = useMemo(() => <MingcuteEdit2Line />, []);
+  const addIcon = useMemo(() => <MingcuteAddLine />, []);
+
+  const handleAddButtonClick = (): void => {
     setLists((prev) => {
-      try {
-        const activeListIndex = prev.findIndex(
-          (list) => list.id === activeListId,
-        );
-
-        const destinationListIndex = prev.findIndex(
-          (list) => list.id === destinationListId,
-        );
-
-        if (activeListIndex === -1 || destinationListIndex === -1) {
-          console.error("Error findind desired list.");
-          return prev;
-        }
-
-        const clone = [...prev];
-        const activeList = {
-          ...clone[activeListIndex],
-          items: [...clone[activeListIndex].items],
-        };
-        const destinationList = {
-          ...clone[destinationListIndex],
-          items: [...clone[destinationListIndex].items],
-        };
-
-        const activeItemIndex = clone[activeListIndex].items.findIndex(
-          (item) => item.id === activeItemId,
-        );
-
-        if (activeItemIndex === -1) {
-          console.error("Error findind desired list-item.");
-          return prev;
-        }
-
-        const [activeItem] = activeList.items.splice(activeItemIndex, 1);
-        destinationList.items.push(activeItem);
-
-        clone[activeListIndex] = activeList;
-        clone[destinationListIndex] = destinationList;
-
-        return clone;
-      } finally {
-        setActiveListId(null);
-        setActiveItemId(null);
-      }
+      const randUUID = crypto.randomUUID();
+      const clone = [...prev];
+      clone[0] = {
+        ...clone[0],
+        items: [...clone[0].items, { id: randUUID, title: randUUID }],
+      };
+      return clone;
     });
-  }, [activeItemId, activeListId])
-
-
-  const editIcon = useMemo(() => <MingcuteEdit2Line />, [])
-  const addIcon = useMemo(() => <MingcuteAddLine />, [])
+  };
 
   return (
     <div className={styles.board}>
@@ -143,12 +157,8 @@ export default function Board(): ReactNode {
               <Button onClick={handleRemoveButtonClick}>Remove</Button>
             </div>
           )}
-          <IconsButton>
-            {editIcon}
-          </IconsButton>
-          <IconsButton>
-            {addIcon}
-          </IconsButton>
+          <IconsButton>{editIcon}</IconsButton>
+          <IconsButton onClick={handleAddButtonClick}>{addIcon}</IconsButton>
         </div>
       </div>
 

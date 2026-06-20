@@ -1,4 +1,4 @@
-import { memo, type ComponentProps, type ReactNode } from "react";
+import { type ComponentProps, type ReactNode, memo } from "react";
 
 import clsx from "clsx";
 
@@ -24,6 +24,5 @@ const Button = memo(function Button({
       {children}
     </button>
   );
-}
-)
-export default Button
+});
+export default Button;

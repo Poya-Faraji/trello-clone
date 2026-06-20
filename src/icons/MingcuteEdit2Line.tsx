@@ -22,5 +22,3 @@ export default function MingcuteEdit2Line(
     </svg>
   );
 }
-
-

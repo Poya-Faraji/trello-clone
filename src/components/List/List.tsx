@@ -15,16 +15,13 @@ type Props = {
 };
 
 const List = memo(function List({ list, onClick }: Props): ReactNode {
-
-  const moreIcon = useMemo(() => <MingcuteMore1Line />, [])
+  const moreIcon = useMemo(() => <MingcuteMore1Line />, []);
 
   return (
     <div className={styles.list}>
       <div className={styles.header}>
         <div className={styles.title}> {list.title}</div>
-        <IconsButton>
-          {moreIcon}
-        </IconsButton>
+        <IconsButton>{moreIcon}</IconsButton>
       </div>
       <ul className={styles.items}>
         {list.items.map((item) => (
