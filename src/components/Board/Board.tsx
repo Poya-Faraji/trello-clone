@@ -1,4 +1,4 @@
-import { type ReactNode, useCallback, useMemo, useState } from "react";
+import { type ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 
 import type { ListType } from "@/Types/list";
 
@@ -13,8 +13,23 @@ import List from "../List/List";
 
 import styles from "./Board.module.css";
 
+function save(lists: ListType[]): void {
+  localStorage.setItem("lists", JSON.stringify(lists))
+}
+
+function load(): ListType[] {
+  const isEmpty = localStorage.getItem("lists")
+  return isEmpty === null ? listsData : JSON.parse(isEmpty)
+}
+
+
 export default function Board(): ReactNode {
-  const [lists, setLists] = useState<ListType[]>(listsData);
+
+  const [lists, setLists] = useState<ListType[]>(load);
+
+  // useEffect(() => {
+  //   setLists(prev => load())
+  // }, [])
 
   const [activeListId, setActiveListId] = useState<string | null>(null);
   const [activeItemId, setActiveItemId] = useState<string | null>(null);
@@ -59,7 +74,7 @@ export default function Board(): ReactNode {
         // activeList.items.splice(activeItemIndex, 1)
 
         clone[activeListIndex] = activeList;
-
+        save(clone)
         return clone;
       } finally {
         setActiveListId(null);
@@ -110,6 +125,7 @@ export default function Board(): ReactNode {
           clone[activeListIndex] = activeList;
           clone[destinationListIndex] = destinationList;
 
+          save(clone)
           return clone;
         } finally {
           setActiveListId(null);
@@ -131,6 +147,7 @@ export default function Board(): ReactNode {
         ...clone[0],
         items: [...clone[0].items, { id: randUUID, title: randUUID }],
       };
+      save(clone)
       return clone;
     });
   };
