@@ -1,4 +1,8 @@
-import { type ReactNode, useCallback, useEffect, useMemo, useState } from "react";
+import {
+  type ReactNode,
+  useEffect,
+  useState,
+} from "react";
 
 import type { ListType } from "@/Types/list";
 
@@ -14,34 +18,30 @@ import List from "../List/List";
 import styles from "./Board.module.css";
 
 function save(lists: ListType[]): void {
-  localStorage.setItem("lists", JSON.stringify(lists))
+  localStorage.setItem("lists", JSON.stringify(lists));
 }
 
 function load(): ListType[] {
-  const isEmpty = localStorage.getItem("lists")
-  return isEmpty === null ? listsData : JSON.parse(isEmpty)
+  const isEmpty = localStorage.getItem("lists");
+  return isEmpty === null ? listsData : JSON.parse(isEmpty);
 }
 
-
 export default function Board(): ReactNode {
-
   const [lists, setLists] = useState<ListType[]>(load);
 
   useEffect(() => {
-    save(lists)
-  }, [lists])
-
-
+    save(lists);
+  }, [lists]);
 
   const [activeListId, setActiveListId] = useState<string | null>(null);
   const [activeItemId, setActiveItemId] = useState<string | null>(null);
 
-  const handleListItemClick = useCallback((listId: string, itemId: string) => {
+  const handleListItemClick = (listId: string, itemId: string): void => {
     setActiveListId(listId);
     setActiveItemId(itemId);
-  }, []);
+  }
 
-  const handleRemoveButtonClick = useCallback((): void => {
+  const handleRemoveButtonClick = (): void => {
     setLists((prev) => {
       try {
         const activeListIndex = prev.findIndex(
@@ -83,9 +83,9 @@ export default function Board(): ReactNode {
         setActiveItemId(null);
       }
     });
-  }, [activeItemId, activeListId]);
+  }
 
-  const handleMoveButtonClick = useCallback(
+  const handleMoveButtonClick =
     (destinationListId: string): void => {
       setLists((prev) => {
         try {
@@ -133,12 +133,8 @@ export default function Board(): ReactNode {
           setActiveItemId(null);
         }
       });
-    },
-    [activeItemId, activeListId],
-  );
+    }
 
-  const editIcon = useMemo(() => <MingcuteEdit2Line />, []);
-  const addIcon = useMemo(() => <MingcuteAddLine />, []);
 
   const handleAddButtonClick = (): void => {
     setLists((prev) => {
@@ -153,8 +149,6 @@ export default function Board(): ReactNode {
     });
   };
 
-
-
   useEffect(() => {
     const deselectList = (e: KeyboardEvent): void => {
       if (e.code !== "Escape") {
@@ -163,12 +157,10 @@ export default function Board(): ReactNode {
       setActiveItemId(null);
       setActiveListId(null);
     };
-
     document.addEventListener("keydown", deselectList);
-
     return (): void => {
       document.removeEventListener("keydown", deselectList);
-    }
+    };
   }, []);
 
   return (
@@ -193,8 +185,13 @@ export default function Board(): ReactNode {
               <Button onClick={handleRemoveButtonClick}>Remove</Button>
             </div>
           )}
-          <IconsButton>{editIcon}</IconsButton>
-          <IconsButton onClick={handleAddButtonClick}>{addIcon}</IconsButton>
+
+          <IconsButton>
+            <MingcuteEdit2Line />
+          </IconsButton>
+          <IconsButton onClick={handleAddButtonClick}>
+            <MingcuteAddLine />
+          </IconsButton>
         </div>
       </div>
 

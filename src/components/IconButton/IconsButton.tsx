@@ -1,4 +1,4 @@
-import { type ComponentProps, type ReactNode, memo } from "react";
+import { type ComponentProps, type ReactNode } from "react";
 
 import clsx from "clsx";
 
@@ -11,7 +11,7 @@ type Props = ComponentProps<"button"> & {
 
 // you can strict the children to just receive svgs for optimize or prenting bugs in the future.
 
-const IconsButton = memo(function IconsButton({
+export default function IconsButton({
   className,
   children,
   ...otherProps
@@ -21,5 +21,5 @@ const IconsButton = memo(function IconsButton({
       {children}
     </button>
   );
-});
-export default IconsButton;
+}
+
