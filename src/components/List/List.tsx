@@ -16,7 +16,6 @@ type Props = {
 };
 
 export default function List({ list, onClick, onRemove }: Props): ReactNode {
-
   return (
     <div className={styles.list}>
       <div className={styles.header}>

@@ -1,11 +1,12 @@
-import { useState, type ReactNode } from "react";
+import { type ReactNode } from "react";
+
+import CounterProvider from "@/Provider/CounterProvider";
 
 import Board from "@/components/Board/Board";
 
 // import { useParams } from "react-router";
 
 import styles from "./BoardPage.module.css";
-import CounterProvider from "@/Provider/CounterProvider";
 
 export default function BoardPage(): ReactNode {
   // const { id } = useParams();
