@@ -16,10 +16,11 @@ type Props = {
 };
 
 export default function List({ list, onClick, onRemove }: Props): ReactNode {
+
   return (
     <div className={styles.list}>
       <div className={styles.header}>
-        <div className={styles.title}> {list.title}</div>
+        <div className={styles.title}>{list.title}</div>
         <IconsButton>
           <MingcuteMore1Line />
         </IconsButton>
