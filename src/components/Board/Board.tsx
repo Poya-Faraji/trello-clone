@@ -153,6 +153,24 @@ export default function Board(): ReactNode {
     });
   };
 
+
+
+  useEffect(() => {
+    const deselectList = (e: KeyboardEvent): void => {
+      if (e.code !== "Escape") {
+        return;
+      }
+      setActiveItemId(null);
+      setActiveListId(null);
+    };
+
+    document.addEventListener("keydown", deselectList);
+
+    return (): void => {
+      document.removeEventListener("keydown", deselectList);
+    }
+  }, []);
+
   return (
     <div className={styles.board}>
       <div className={styles.toolbar}>
