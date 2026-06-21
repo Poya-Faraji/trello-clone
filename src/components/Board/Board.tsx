@@ -1,8 +1,6 @@
-import { type ReactNode, useEffect, useState } from "react";
+import { type ReactNode, useContext, useEffect, useState } from "react";
 
-import type { ListType } from "@/Types/list";
-
-import { listsData } from "@/data/list-data";
+import { BoardContext } from "@/context/Board-context";
 
 import MingcuteAddLine from "@/icons/MingcuteAddLine";
 import MingcuteEdit2Line from "@/icons/MingcuteEdit2Line";
@@ -13,21 +11,8 @@ import List from "../List/List";
 
 import styles from "./Board.module.css";
 
-function save(lists: ListType[]): void {
-  localStorage.setItem("lists", JSON.stringify(lists));
-}
-
-function load(): ListType[] {
-  const isEmpty = localStorage.getItem("lists");
-  return isEmpty === null ? listsData : JSON.parse(isEmpty);
-}
-
 export default function Board(): ReactNode {
-  const [lists, setLists] = useState<ListType[]>(load);
-
-  useEffect(() => {
-    save(lists);
-  }, [lists]);
+  const { lists, create, move, remove } = useContext(BoardContext);
 
   const [activeListId, setActiveListId] = useState<string | null>(null);
   const [activeItemId, setActiveItemId] = useState<string | null>(null);
@@ -37,152 +22,22 @@ export default function Board(): ReactNode {
     setActiveItemId(itemId);
   };
 
-  const handleRemoveButtonClick = (): void => {
-    setLists((prev) => {
-      try {
-        const activeListIndex = prev.findIndex(
-          (list) => list.id === activeListId,
-        );
-
-        if (activeListIndex === -1) {
-          console.error("Error findind desired list.");
-          return prev;
-        }
-
-        const clone = [...prev];
-        const activeList = {
-          ...clone[activeListIndex],
-          items: [...clone[activeListIndex].items],
-        };
-
-        const activeItemIndex = clone[activeListIndex].items.findIndex(
-          (item) => item.id === activeItemId,
-        );
-
-        if (activeItemIndex === -1) {
-          console.error("Error findind desired list-item.");
-          return prev;
-        }
-
-        activeList.items = activeList.items.filter(
-          (item) => item.id !== activeItemId,
-        );
-        //  You can also mutate the array however since it is happening twice via strictmode
-        // it is recommended to have a clone and return a array to that clone.
-        // activeList.items.splice(activeItemIndex, 1)
-
-        clone[activeListIndex] = activeList;
-
-        return clone;
-      } finally {
-        setActiveListId(null);
-        setActiveItemId(null);
-      }
-    });
-  };
-
-  const handleMoveButtonClick = (destinationListId: string): void => {
-    setLists((prev) => {
-      try {
-        const activeListIndex = prev.findIndex(
-          (list) => list.id === activeListId,
-        );
-
-        const destinationListIndex = prev.findIndex(
-          (list) => list.id === destinationListId,
-        );
-
-        if (activeListIndex === -1 || destinationListIndex === -1) {
-          console.error("Error findind desired list.");
-          return prev;
-        }
-
-        const clone = [...prev];
-        const activeList = {
-          ...clone[activeListIndex],
-          items: [...clone[activeListIndex].items],
-        };
-        const destinationList = {
-          ...clone[destinationListIndex],
-          items: [...clone[destinationListIndex].items],
-        };
-
-        const activeItemIndex = clone[activeListIndex].items.findIndex(
-          (item) => item.id === activeItemId,
-        );
-
-        if (activeItemIndex === -1) {
-          console.error("Error findind desired list-item.");
-          return prev;
-        }
-
-        const [activeItem] = activeList.items.splice(activeItemIndex, 1);
-        destinationList.items.push(activeItem);
-
-        clone[activeListIndex] = activeList;
-        clone[destinationListIndex] = destinationList;
-
-        return clone;
-      } finally {
-        setActiveListId(null);
-        setActiveItemId(null);
-      }
-    });
+  const handleMoveButtonClick = (toListId: string): void => {
+    if (activeListId && activeItemId) {
+      move(activeListId, activeItemId, toListId);
+    }
+    setActiveListId(null);
+    setActiveItemId(null);
   };
 
   const handleAddButtonClick = (): void => {
-    setLists((prev) => {
-      const randUUID = crypto.randomUUID();
-      const clone = [...prev];
-      clone[0] = {
-        ...clone[0],
-        items: [...clone[0].items, { id: randUUID, title: randUUID }],
-      };
-
-      return clone;
-    });
+    create();
   };
 
   const handleListItemRemove = (listId: string, itemId: string): void => {
-    setLists((prev) => {
-      try {
-        const activeListIndex = prev.findIndex((list) => list.id === listId);
-
-        if (activeListIndex === -1) {
-          console.error("Error findind desired list.");
-          return prev;
-        }
-
-        const clone = [...prev];
-        const activeList = {
-          ...clone[activeListIndex],
-          items: [...clone[activeListIndex].items],
-        };
-
-        const activeItemIndex = clone[activeListIndex].items.findIndex(
-          (item) => item.id === itemId,
-        );
-
-        if (activeItemIndex === -1) {
-          console.error("Error findind desired list-item.");
-          return prev;
-        }
-
-        activeList.items = activeList.items.filter(
-          (item) => item.id !== itemId,
-        );
-        //  You can also mutate the array however since it is happening twice via strictmode
-        // it is recommended to have a clone and return a array to that clone.
-        // activeList.items.splice(activeItemIndex, 1)
-
-        clone[activeListIndex] = activeList;
-
-        return clone;
-      } finally {
-        setActiveListId(null);
-        setActiveItemId(null);
-      }
-    });
+    remove(listId, itemId);
+    setActiveListId(null);
+    setActiveItemId(null);
   };
 
   useEffect(() => {
@@ -218,10 +73,8 @@ export default function Board(): ReactNode {
                     </Button>
                   );
                 })}
-              <Button onClick={handleRemoveButtonClick}>Remove</Button>
             </div>
           )}
-
           <IconsButton>
             <MingcuteEdit2Line />
           </IconsButton>

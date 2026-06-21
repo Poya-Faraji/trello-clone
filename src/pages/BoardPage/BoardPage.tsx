@@ -1,6 +1,6 @@
 import { type ReactNode } from "react";
 
-import CounterProvider from "@/Provider/CounterProvider";
+import BoardProvider from "@/Provider/BoardProvider";
 
 import Board from "@/components/Board/Board";
 
@@ -13,9 +13,9 @@ export default function BoardPage(): ReactNode {
 
   return (
     <div className={styles["board-page"]}>
-      <CounterProvider>
+      <BoardProvider>
         <Board />
-      </CounterProvider>
+      </BoardProvider>
     </div>
   );
 }
