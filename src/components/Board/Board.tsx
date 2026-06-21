@@ -1,4 +1,4 @@
-import { type ReactNode, useContext, useEffect, useState } from "react";
+import { type ReactNode, use, useEffect, useState } from "react";
 
 import { BoardContext } from "@/context/Board-context";
 
@@ -12,7 +12,7 @@ import List from "../List/List";
 import styles from "./Board.module.css";
 
 export default function Board(): ReactNode {
-  const { lists, create, move, remove } = useContext(BoardContext);
+  const { lists, create, move } = use(BoardContext);
 
   const [activeListId, setActiveListId] = useState<string | null>(null);
   const [activeItemId, setActiveItemId] = useState<string | null>(null);
@@ -32,12 +32,6 @@ export default function Board(): ReactNode {
 
   const handleAddButtonClick = (): void => {
     create();
-  };
-
-  const handleListItemRemove = (listId: string, itemId: string): void => {
-    remove(listId, itemId);
-    setActiveListId(null);
-    setActiveItemId(null);
   };
 
   useEffect(() => {
