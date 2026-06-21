@@ -91,7 +91,6 @@ export default function Board(): ReactNode {
               <List
                 list={list}
                 onClick={handleListItemClick}
-                onRemove={handleListItemRemove}
               />
             </li>
           );
