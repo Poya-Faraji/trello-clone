@@ -11,9 +11,11 @@ type ContextValue = {
   remove: (listId: string, itemId: string) => void;
 };
 
-export const BoardContext = createContext<ContextValue>({
+const BoardContext = createContext<ContextValue>({
   lists: listsData,
   create: () => {},
   move: () => {},
   remove: () => {},
 });
+
+export default BoardContext;

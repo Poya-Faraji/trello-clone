@@ -1,6 +1,5 @@
 import { type ReactNode, use, useEffect, useState } from "react";
 
-import { BoardContext } from "@/context/Board-context";
 
 import MingcuteAddLine from "@/icons/MingcuteAddLine";
 import MingcuteEdit2Line from "@/icons/MingcuteEdit2Line";
@@ -10,6 +9,7 @@ import IconsButton from "../IconButton/IconsButton";
 import List from "../List/List";
 
 import styles from "./Board.module.css";
+import BoardContext from "@/context/Board-context";
 
 export default function Board(): ReactNode {
   const { lists, create, move } = use(BoardContext);

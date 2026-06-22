@@ -1,4 +1,4 @@
-import { useContext, type MouseEvent, type ReactNode } from "react";
+import { useContext, useReducer, type MouseEvent, type ReactNode } from "react";
 
 import type { ListItemType } from "@/Types/list-item";
 
@@ -7,7 +7,8 @@ import MingcuteDelete2Line from "@/icons/MingcuteDelete2Line";
 import IconsButton from "../IconButton/IconsButton";
 
 import styles from "./ListItem.module.css";
-import { BoardContext } from "@/context/Board-context";
+import BoardContext from "@/context/Board-context";
+import { listReducer } from "@/reducer/list-reducer";
 
 type Props = {
   listId: string;
