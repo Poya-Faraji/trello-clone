@@ -1,5 +1,6 @@
 import { type ReactNode, use, useEffect, useState } from "react";
 
+import BoardContext from "@/context/Board-context";
 
 import MingcuteAddLine from "@/icons/MingcuteAddLine";
 import MingcuteEdit2Line from "@/icons/MingcuteEdit2Line";
@@ -9,7 +10,6 @@ import IconsButton from "../IconButton/IconsButton";
 import List from "../List/List";
 
 import styles from "./Board.module.css";
-import BoardContext from "@/context/Board-context";
 
 export default function Board(): ReactNode {
   const { lists, create, move } = use(BoardContext);
@@ -82,10 +82,7 @@ export default function Board(): ReactNode {
         {lists.map((list) => {
           return (
             <li key={list.id}>
-              <List
-                list={list}
-                onClick={handleListItemClick}
-              />
+              <List list={list} onClick={handleListItemClick} />
             </li>
           );
         })}
