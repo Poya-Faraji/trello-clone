@@ -7,6 +7,7 @@ import Board from "@/components/Board/Board";
 // import { useParams } from "react-router";
 
 import styles from "./BoardPage.module.css";
+import ActiveItemProvider from "@/Provider/ListProvider";
 
 export default function BoardPage(): ReactNode {
   // const { id } = useParams();
@@ -14,7 +15,9 @@ export default function BoardPage(): ReactNode {
   return (
     <div className={styles["board-page"]}>
       <BoardProvider>
-        <Board />
+        <ActiveItemProvider>
+          <Board />
+        </ActiveItemProvider>
       </BoardProvider>
     </div>
   );

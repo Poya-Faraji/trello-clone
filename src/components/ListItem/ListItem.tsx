@@ -1,4 +1,4 @@
-import { type MouseEvent, type ReactNode, useContext } from "react";
+import { type MouseEvent, type ReactNode, use, useContext } from "react";
 
 import type { ListItemType } from "@/Types/list-item";
 
@@ -10,29 +10,36 @@ import IconsButton from "../IconButton/IconsButton";
 
 import styles from "./ListItem.module.css";
 import clsx from "clsx";
+import ActiveItemContext from "@/context/active-item-context";
 
 type Props = {
   listId: string;
   item: ListItemType;
-  isActive: string | null
-  onClick?: (listId: string, itemId: string) => void;
   onRemove?: (listId: string, itemId: string) => void;
 };
 
-export default function ListItem({ listId, item, isActive, onClick }: Props): ReactNode {
+export default function ListItem({ listId, item }: Props): ReactNode {
   const { remove } = useContext(BoardContext);
+  const { activeItemId, activate, deactivate } = use(ActiveItemContext)
 
   const handleRemoveEvent = (e: MouseEvent<HTMLButtonElement>): void => {
     e.stopPropagation();
     remove(listId, item.id);
+    deactivate()
   };
 
-  isActive = isActive === item.id ? "isActive" : ""
+  const handleListItemClick = (): void => {
+    if (activeItemId === item.id) {
+      deactivate()
+    } else {
+      activate(listId, item.id)
+    }
+  };
 
   return (
     <div
-      className={clsx(styles["list-item"], styles[isActive])}
-      onClick={() => onClick?.(listId, item.id)}
+      className={clsx(styles["list-item"], activeItemId === item.id && styles.active)}
+      onClick={handleListItemClick}
     >
       {item.title}
       <IconsButton onClick={handleRemoveEvent}>
