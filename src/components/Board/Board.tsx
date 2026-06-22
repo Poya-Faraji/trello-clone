@@ -82,7 +82,7 @@ export default function Board(): ReactNode {
         {lists.map((list) => {
           return (
             <li key={list.id}>
-              <List list={list} onClick={handleListItemClick} />
+              <List activeItemId={activeItemId} list={list} onClick={handleListItemClick} />
             </li>
           );
         })}
