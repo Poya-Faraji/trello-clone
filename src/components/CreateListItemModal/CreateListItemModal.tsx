@@ -1,6 +1,17 @@
-import type { ComponentProps, ReactNode } from "react";
+import {
+  type ComponentProps,
+  type ReactNode,
+  type SubmitEvent,
+  use,
+  useEffect,
+  useRef,
+} from "react";
+
+import { toast } from "react-toastify";
 
 import clsx from "clsx";
+
+import BoardContext from "@/context/Board-context";
 
 import Button from "../Button/Button";
 import Modal from "../Modal/Modal";
@@ -8,13 +19,52 @@ import TextInput from "../TextInput/TextInput";
 
 import styles from "./CreateListItemModal.module.css";
 
-type Props = Omit<ComponentProps<typeof Modal>, "heading" | "children">;
+type Props = Omit<ComponentProps<typeof Modal>, "heading" | "children"> & {
+  listId: string;
+};
 
 export default function CreateListItemModal({
   className,
   ref,
+  listId,
   ...otherProps
 }: Props): ReactNode {
+  const { create } = use(BoardContext);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const handleFormSubmit = (e: SubmitEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    // value of input that has a name attribute of title is being selected
+    const title = formData.get("title") as string;
+    const id = crypto.randomUUID();
+
+    create(listId, { id, title });
+
+    e.currentTarget.reset();
+    toast.success("Item added successfully");
+    ref.current?.close();
+  };
+
+  const handleCancelButtonClick = (): void => {
+    ref.current?.close();
+  };
+
+  useEffect(() => {
+    const resetFrom = (e: KeyboardEvent): void => {
+      if (e.code !== "Escape") {
+        return;
+      }
+      ref.current?.close();
+
+      formRef.current?.reset();
+    };
+    document.addEventListener("keydown", resetFrom);
+    return (): void => {
+      document.removeEventListener("keydown", resetFrom);
+    };
+  }, [ref]);
+
   return (
     <Modal
       ref={ref}
@@ -22,10 +72,12 @@ export default function CreateListItemModal({
       heading="Create a New Item"
       {...otherProps}
     >
-      <form>
-        <TextInput label="Title" />
+      <form ref={formRef} onSubmit={handleFormSubmit}>
+        <TextInput label="Title" name="title" />
         <div className={styles.actions}>
-          <Button type="button">Cancel</Button>
+          <Button onClick={handleCancelButtonClick} type="reset">
+            Cancel
+          </Button>
           <Button color="primary">Submit</Button>
         </div>
       </form>

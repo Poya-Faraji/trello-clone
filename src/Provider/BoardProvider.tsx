@@ -6,6 +6,7 @@ import {
 } from "react";
 
 import type { ListType } from "@/Types/list";
+import type { ListItemType } from "@/Types/list-item";
 import { listReducer } from "@/reducer/list-reducer";
 
 import BoardContext from "@/context/Board-context";
@@ -30,8 +31,8 @@ export default function BoardProvider({ children }: Props): ReactNode {
     save(lists);
   }, [lists]);
 
-  const create = (): void => {
-    dispatch({ type: "created" });
+  const create = (listId: string, item: ListItemType): void => {
+    dispatch({ type: "created", listId, item });
   };
   const move = (fromListId: string, itemId: string, toListId: string): void => {
     dispatch({ type: "moved", fromListId, itemId, toListId });

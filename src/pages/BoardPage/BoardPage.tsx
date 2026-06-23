@@ -3,6 +3,7 @@ import { type ReactNode, useRef } from "react";
 import BoardProvider from "@/Provider/BoardProvider";
 import ActiveItemProvider from "@/Provider/ListProvider";
 
+import Board from "@/components/Board/Board";
 import Button from "@/components/Button/Button";
 import CreateListItemModal from "@/components/CreateListItemModal/CreateListItemModal";
 
@@ -21,11 +22,11 @@ export default function BoardPage(): ReactNode {
     <div className={styles["board-page"]}>
       <BoardProvider>
         <ActiveItemProvider>
-          {/* <Board /> */}
+          <CreateListItemModal ref={ref} listId="list-1" />
           <Button color="primary" onClick={handleButtonClick}>
             Show Modal
           </Button>
-          <CreateListItemModal ref={ref} heading="This is Heading" />
+          <Board />
         </ActiveItemProvider>
       </BoardProvider>
     </div>

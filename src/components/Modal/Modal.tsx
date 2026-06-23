@@ -36,7 +36,6 @@ export default function Modal({
     if (e.target === e.currentTarget) {
       ref.current?.close();
     }
-
     onClick?.(e);
   };
 
