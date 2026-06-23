@@ -5,6 +5,8 @@
   border: none;
   border-radius: var(--border-radius-2);
 
+  border: none;
+
   > header,
   > main {
     padding: 0.5rem 1rem;

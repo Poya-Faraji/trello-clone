@@ -28,7 +28,7 @@ export default function BoardPage(): ReactNode {
             open modal
           </Button>
           <Modal ref={ref} heading="This is heading">
-            Hello thre are children here.
+            Hello there are children here.
           </Modal>
         </ActiveItemProvider>
       </BoardProvider>
