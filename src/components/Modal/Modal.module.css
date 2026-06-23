@@ -7,6 +7,11 @@
 
   border: none;
 
+  &::backdrop {
+    background-color: var(--color-backdrop);
+    backdrop-filter: blur(2px);
+  }
+
   > header,
   > main {
     padding: 0.5rem 1rem;
