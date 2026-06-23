@@ -11,6 +11,7 @@ import List from "../List/List";
 
 import styles from "./Board.module.css";
 import ActiveItemContext from "@/context/active-item-context";
+import { toast } from "react-toastify";
 
 export default function Board(): ReactNode {
   const { lists, create, move } = use(BoardContext);
@@ -25,6 +26,7 @@ export default function Board(): ReactNode {
 
   const handleAddButtonClick = (): void => {
     create();
+    toast.success("Item added successfully")
   };
 
   return (

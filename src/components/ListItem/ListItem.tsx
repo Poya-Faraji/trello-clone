@@ -11,6 +11,7 @@ import IconsButton from "../IconButton/IconsButton";
 import styles from "./ListItem.module.css";
 import clsx from "clsx";
 import ActiveItemContext from "@/context/active-item-context";
+import { toast } from "react-toastify";
 
 type Props = {
   listId: string;
@@ -26,6 +27,7 @@ export default function ListItem({ listId, item }: Props): ReactNode {
     e.stopPropagation();
     remove(listId, item.id);
     deactivate()
+    toast.success('Item removed successfully')
   };
 
   const handleListItemClick = (): void => {
