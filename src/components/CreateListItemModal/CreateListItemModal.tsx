@@ -1,4 +1,5 @@
 import {
+  type ChangeEvent,
   type ComponentProps,
   type ReactNode,
   type SubmitEvent,
@@ -30,30 +31,47 @@ export default function CreateListItemModal({
   listId,
   ...otherProps
 }: Props): ReactNode {
+  const [title, setTitle] = useState<string>("");
   const [titleError, setTitleError] = useState<string | null>(null);
 
-  const { create } = use(BoardContext);
   const formRef = useRef<HTMLFormElement>(null);
+  const shouldValidateOnChange = useRef<boolean>(false);
+
+  const { create } = use(BoardContext);
 
   const handleModalClose = (): void => {
-    formRef.current?.reset();
     setTitleError(null);
+    formRef.current?.reset();
   };
 
   const handleFormSubmit = (e: SubmitEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
     // value of input that has a name attribute of title is being selected
-    const title = formData.get("title") as string;
-    const id = crypto.randomUUID();
+    shouldValidateOnChange.current = true;
 
-    if (validateTitle(title) === false) {
+    if (!validateTitle(title)) {
       return;
     }
 
-    create(listId, { id, title: title.trim() });
+    const id = crypto.randomUUID();
+
+    create(listId, { id, title: title });
     ref.current?.close();
     toast.success("Item added successfully");
+  };
+
+  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    const value = e.target.value.trim();
+
+    if (shouldValidateOnChange.current) {
+      validateTitle(value);
+    }
+    setTitle(value);
+  };
+
+  const handleFormReset = (): void => {
+    setTitle("");
+    shouldValidateOnChange.current = false;
   };
 
   const validateTitle = (title: unknown): boolean => {
@@ -61,8 +79,8 @@ export default function CreateListItemModal({
       setTitleError("Title must be a string");
       return false;
     }
-    if (title.trim().length === 0) {
-      setTitleError("Title cannot be empty");
+    if (title.length < 3) {
+      setTitleError("Title must be at least 3 characters.");
       return false;
     }
     handleModalClose();
@@ -94,8 +112,14 @@ export default function CreateListItemModal({
       onClose={handleModalClose}
       {...otherProps}
     >
-      <form ref={formRef} onSubmit={handleFormSubmit}>
-        <TextInput label="Title" name="title" error={titleError} />
+      <form ref={formRef} onSubmit={handleFormSubmit} onReset={handleFormReset}>
+        <TextInput
+          value={title}
+          label="Title"
+          name="title"
+          error={titleError}
+          onChange={handleTitleChange}
+        />
         <div className={styles.actions}>
           <Button onClick={handleCancelButtonClick} type="reset">
             Cancel
