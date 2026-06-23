@@ -1,4 +1,10 @@
-import { type ComponentProps, type ReactNode, useId } from "react";
+import {
+  type ChangeEvent,
+  type ComponentProps,
+  type ReactNode,
+  useId,
+  useState,
+} from "react";
 
 import clsx from "clsx";
 
@@ -16,6 +22,17 @@ export default function TextInput({
   ...otherProps
 }: Props): ReactNode {
   const id = useId();
+
+  const [inputValue, setInputValue] = useState<string | number>("");
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    const int = parseInt(e.target.value.replaceAll(",", ""));
+    if (isNaN(int)) {
+      return;
+    }
+
+    setInputValue(int.toLocaleString());
+  };
   return (
     <div
       className={clsx(
@@ -25,7 +42,12 @@ export default function TextInput({
       )}
     >
       <label htmlFor={id}>{label}</label>
-      <input id={id} {...otherProps} />
+      <input
+        value={inputValue}
+        id={id}
+        {...otherProps}
+        onChange={handleInputChange}
+      />
       <span className={styles.error}>{error || "\u00A0"}</span>
     </div>
   );
