@@ -12,4 +12,20 @@
       outline-offset: -2px;
     }
   }
+
+  &.error {
+    input {
+      border: 2px solid var(--color-danger);
+
+      &:focus {
+        outline: 2psolid var(--color-danger);
+        /* this forces outline to be inside to not outside */
+        outline-offset: -2px;
+      }
+    }
+  }
+
+  .error {
+    color: var(--color-danger);
+  }
 }

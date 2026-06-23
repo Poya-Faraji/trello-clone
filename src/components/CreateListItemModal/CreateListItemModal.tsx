@@ -5,6 +5,7 @@ import {
   use,
   useEffect,
   useRef,
+  useState,
 } from "react";
 
 import { toast } from "react-toastify";
@@ -29,8 +30,15 @@ export default function CreateListItemModal({
   listId,
   ...otherProps
 }: Props): ReactNode {
+  const [titleError, setTitleError] = useState<string | null>(null);
+
   const { create } = use(BoardContext);
   const formRef = useRef<HTMLFormElement>(null);
+
+  const handleModalClose = (): void => {
+    formRef.current?.reset();
+    setTitleError(null);
+  };
 
   const handleFormSubmit = (e: SubmitEvent<HTMLFormElement>): void => {
     e.preventDefault();
@@ -39,11 +47,26 @@ export default function CreateListItemModal({
     const title = formData.get("title") as string;
     const id = crypto.randomUUID();
 
-    create(listId, { id, title });
+    if (validateTitle(title) === false) {
+      return;
+    }
 
-    e.currentTarget.reset();
-    toast.success("Item added successfully");
+    create(listId, { id, title: title.trim() });
     ref.current?.close();
+    toast.success("Item added successfully");
+  };
+
+  const validateTitle = (title: unknown): boolean => {
+    if (typeof title !== "string") {
+      setTitleError("Title must be a string");
+      return false;
+    }
+    if (title.trim().length === 0) {
+      setTitleError("Title cannot be empty");
+      return false;
+    }
+    handleModalClose();
+    return true;
   };
 
   const handleCancelButtonClick = (): void => {
@@ -56,8 +79,6 @@ export default function CreateListItemModal({
         return;
       }
       ref.current?.close();
-
-      formRef.current?.reset();
     };
     document.addEventListener("keydown", resetFrom);
     return (): void => {
@@ -70,10 +91,11 @@ export default function CreateListItemModal({
       ref={ref}
       className={clsx(styles["create-list-item-modal"], className)}
       heading="Create a New Item"
+      onClose={handleModalClose}
       {...otherProps}
     >
       <form ref={formRef} onSubmit={handleFormSubmit}>
-        <TextInput label="Title" name="title" />
+        <TextInput label="Title" name="title" error={titleError} />
         <div className={styles.actions}>
           <Button onClick={handleCancelButtonClick} type="reset">
             Cancel
