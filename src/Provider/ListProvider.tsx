@@ -1,7 +1,6 @@
 import ActiveItemContext from "@/context/active-item-context";
 import { useEffect, useState, type PropsWithChildren, type ReactNode } from "react";
 
-
 type Props = PropsWithChildren
 
 export default function ActiveItemProvider({ children }: Props): ReactNode {
