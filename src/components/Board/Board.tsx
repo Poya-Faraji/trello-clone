@@ -1,6 +1,9 @@
 import { type ReactNode, use } from "react";
 
+import { toast } from "react-toastify";
+
 import BoardContext from "@/context/Board-context";
+import ActiveItemContext from "@/context/active-item-context";
 
 import MingcuteAddLine from "@/icons/MingcuteAddLine";
 import MingcuteEdit2Line from "@/icons/MingcuteEdit2Line";
@@ -10,8 +13,6 @@ import IconsButton from "../IconButton/IconsButton";
 import List from "../List/List";
 
 import styles from "./Board.module.css";
-import ActiveItemContext from "@/context/active-item-context";
-import { toast } from "react-toastify";
 
 export default function Board(): ReactNode {
   const { lists, create, move } = use(BoardContext);
@@ -21,12 +22,12 @@ export default function Board(): ReactNode {
     if (activeListId && activeItemId) {
       move(activeListId, activeItemId, toListId);
     }
-    deactivate()
+    deactivate();
   };
 
   const handleAddButtonClick = (): void => {
     create();
-    toast.success("Item added successfully")
+    toast.success("Item added successfully");
   };
 
   return (
