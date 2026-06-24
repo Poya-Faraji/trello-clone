@@ -1,6 +1,7 @@
 import { type ReactNode } from "react";
 
 import BoardProvider from "@/Provider/BoardProvider";
+import DndProvider from "@/Provider/DndProvider/DndProvider";
 
 import Board from "@/components/Board/Board";
 
@@ -14,7 +15,9 @@ export default function BoardPage(): ReactNode {
   return (
     <div className={styles["board-page"]}>
       <BoardProvider>
-        <Board />
+        <DndProvider>
+          <Board />
+        </DndProvider>
       </BoardProvider>
     </div>
   );

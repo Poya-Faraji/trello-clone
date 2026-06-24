@@ -1,5 +1,8 @@
 import { type MouseEvent, type ReactNode, use } from "react";
 
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+
 import { toast } from "react-toastify";
 
 import clsx from "clsx";
@@ -27,6 +30,12 @@ export default function ListItem({
   itemIndex,
   item,
 }: Props): ReactNode {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({
+      id: item.id,
+      data: { isList: false, listIndex, item },
+    });
+
   const { dispatchList } = use(BoardContext);
 
   const handleRemoveEvent = (e: MouseEvent<HTMLButtonElement>): void => {
@@ -36,9 +45,18 @@ export default function ListItem({
   };
 
   return (
-    <div className={clsx(styles["list-item"])}>
+    <div
+      ref={setNodeRef}
+      className={clsx(styles["list-item"])}
+      style={{
+        transform: CSS.Translate.toString(transform),
+        transition,
+      }}
+      {...listeners}
+      {...attributes}
+    >
       {item.title}
-      <IconsButton onClick={handleRemoveEvent}>
+      <IconsButton onPointerDown={handleRemoveEvent}>
         <MingcuteDelete2Line />
       </IconsButton>
     </div>
