@@ -16,9 +16,9 @@ type Props = {
 };
 
 export default function List({ list }: Props): ReactNode {
-  const ref = useRef<HTMLDialogElement>(null);
+  const modalRef = useRef<HTMLDialogElement>(null);
   const handleButtonClick = (): void => {
-    ref.current?.showModal();
+    modalRef.current?.showModal();
   };
 
   return (
@@ -42,7 +42,7 @@ export default function List({ list }: Props): ReactNode {
         ))}
       </ul>
 
-      <CreateListItemModal ref={ref} listId={list.id} />
+      <CreateListItemModal ref={modalRef} listId={list.id} />
     </div>
   );
 }
