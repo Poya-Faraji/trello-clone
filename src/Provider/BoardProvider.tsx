@@ -25,29 +25,17 @@ function load(): ListType[] {
 }
 
 export default function BoardProvider({ children }: Props): ReactNode {
-  const [lists, dispatch] = useReducer(listReducer, load());
+  const [lists, dispatchList] = useReducer(listReducer, load());
 
   useEffect(() => {
     save(lists);
   }, [lists]);
 
-  const create = (listId: string, item: ListItemType): void => {
-    dispatch({ type: "created", listId, item });
-  };
-  const move = (fromListId: string, itemId: string, toListId: string): void => {
-    dispatch({ type: "moved", fromListId, itemId, toListId });
-  };
-  const remove = (listId: string, itemId: string): void => {
-    dispatch({ type: "removed", listId, itemId });
-  };
-
   return (
     <BoardContext
       value={{
         lists,
-        create,
-        move,
-        remove,
+        dispatchList,
       }}
     >
       {children}

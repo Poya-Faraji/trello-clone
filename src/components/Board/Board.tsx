@@ -13,12 +13,17 @@ import List from "../List/List";
 import styles from "./Board.module.css";
 
 export default function Board(): ReactNode {
-  const { lists, move } = use(BoardContext);
+  const { lists, dispatchList } = use(BoardContext);
   const { activeItemId, activeListId, deactivate } = use(ActiveItemContext);
 
   const handleMoveButtonClick = (toListId: string): void => {
     if (activeListId && activeItemId) {
-      move(activeListId, activeItemId, toListId);
+      dispatchList({
+        type: "moved",
+        fromListId: activeListId,
+        itemId: activeItemId,
+        toListId,
+      });
     }
     deactivate();
   };

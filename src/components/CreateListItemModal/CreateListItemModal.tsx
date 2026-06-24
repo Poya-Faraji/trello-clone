@@ -37,7 +37,7 @@ export default function CreateListItemModal({
   const formRef = useRef<HTMLFormElement>(null);
   const shouldValidateOnChange = useRef<boolean>(false);
 
-  const { create } = use(BoardContext);
+  const { dispatchList } = use(BoardContext);
 
   const handleModalClose = (): void => {
     setTitleError(null);
@@ -55,7 +55,8 @@ export default function CreateListItemModal({
 
     const id = crypto.randomUUID();
 
-    create(listId, { id, title: title });
+    dispatchList({ type: "created", listId, item: { id, title } });
+
     ref.current?.close();
     toast.success("Item added successfully");
   };

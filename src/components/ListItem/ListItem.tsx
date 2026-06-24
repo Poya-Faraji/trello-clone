@@ -1,4 +1,4 @@
-import { type MouseEvent, type ReactNode, use, useContext } from "react";
+import { type MouseEvent, type ReactNode, use } from "react";
 
 import { toast } from "react-toastify";
 
@@ -22,12 +22,12 @@ type Props = {
 };
 
 export default function ListItem({ listId, item }: Props): ReactNode {
-  const { remove } = useContext(BoardContext);
+  const { dispatchList } = use(BoardContext);
   const { activeItemId, activate, deactivate } = use(ActiveItemContext);
 
   const handleRemoveEvent = (e: MouseEvent<HTMLButtonElement>): void => {
     e.stopPropagation();
-    remove(listId, item.id);
+    dispatchList({ type: "removed", listId, itemId: item.id });
     deactivate();
     toast.success("Item removed successfully");
   };
