@@ -1,7 +1,6 @@
 import { type ReactNode } from "react";
 
 import BoardProvider from "@/Provider/BoardProvider";
-import ActiveItemProvider from "@/Provider/ListProvider";
 
 import Board from "@/components/Board/Board";
 
@@ -15,9 +14,7 @@ export default function BoardPage(): ReactNode {
   return (
     <div className={styles["board-page"]}>
       <BoardProvider>
-        <ActiveItemProvider>
-          <Board />
-        </ActiveItemProvider>
+        <Board />
       </BoardProvider>
     </div>
   );

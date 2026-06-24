@@ -6,7 +6,6 @@ import {
 } from "react";
 
 import type { ListType } from "@/Types/list";
-import type { ListItemType } from "@/Types/list-item";
 import { listReducer } from "@/reducer/list-reducer";
 
 import BoardContext from "@/context/Board-context";
