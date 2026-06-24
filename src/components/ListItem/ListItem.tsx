@@ -15,17 +15,23 @@ import IconsButton from "../IconButton/IconsButton";
 import styles from "./ListItem.module.css";
 
 type Props = {
+  listIndex: number;
+  itemIndex: number;
   listId: string;
   item: ListItemType;
   onRemove?: (listId: string, itemId: string) => void;
 };
 
-export default function ListItem({ listId, item }: Props): ReactNode {
+export default function ListItem({
+  listIndex,
+  itemIndex,
+  item,
+}: Props): ReactNode {
   const { dispatchList } = use(BoardContext);
 
   const handleRemoveEvent = (e: MouseEvent<HTMLButtonElement>): void => {
     e.stopPropagation();
-    dispatchList({ type: "removed", listId, itemId: item.id });
+    dispatchList({ type: "item_removed", listIndex, itemIndex });
     toast.success("Item removed successfully");
   };
 

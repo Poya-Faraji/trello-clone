@@ -11,11 +11,13 @@
   },
   "dependencies": {
     "clsx": "^2.1.1",
+    "immer": "^11.1.8",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "react-error-boundary": "^6.1.2",
     "react-router": "^7.17.0",
-    "react-toastify": "^11.1.0"
+    "react-toastify": "^11.1.0",
+    "use-immer": "^0.11.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

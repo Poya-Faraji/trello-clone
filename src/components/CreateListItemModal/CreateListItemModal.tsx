@@ -22,13 +22,13 @@ import TextInput from "../TextInput/TextInput";
 import styles from "./CreateListItemModal.module.css";
 
 type Props = Omit<ComponentProps<typeof Modal>, "heading" | "children"> & {
-  listId: string;
+  listIndex: number;
 };
 
 export default function CreateListItemModal({
   className,
   ref,
-  listId,
+  listIndex,
   ...otherProps
 }: Props): ReactNode {
   const [title, setTitle] = useState<string>("");
@@ -55,7 +55,7 @@ export default function CreateListItemModal({
 
     const id = crypto.randomUUID();
 
-    dispatchList({ type: "created", listId, item: { id, title } });
+    dispatchList({ type: "item_created", listIndex, item: { id, title } });
 
     ref.current?.close();
     toast.success("Item added successfully");

@@ -28,10 +28,10 @@ export default function Board(): ReactNode {
       </div>
 
       <ul className={styles.lists}>
-        {lists.map((list) => {
+        {lists.map((list, listIndex) => {
           return (
             <li key={list.id}>
-              <List list={list} />
+              <List listIndex={listIndex} list={list} />
             </li>
           );
         })}
