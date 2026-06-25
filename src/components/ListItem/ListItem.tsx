@@ -20,21 +20,27 @@ import styles from "./ListItem.module.css";
 type Props = {
   listIndex: number;
   itemIndex: number;
-  listId: string;
   item: ListItemType;
-  onRemove?: (listId: string, itemId: string) => void;
+  presentational?: boolean;
 };
 
 export default function ListItem({
   listIndex,
   itemIndex,
   item,
+  presentational,
 }: Props): ReactNode {
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({
-      id: item.id,
-      data: { isList: false, listIndex, item },
-    });
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
+    id: item.id,
+    data: { isList: false, listIndex, item },
+  });
 
   const { dispatchList } = use(BoardContext);
 
@@ -47,8 +53,12 @@ export default function ListItem({
   return (
     <div
       ref={setNodeRef}
-      className={clsx(styles["list-item"])}
+      className={clsx(
+        styles["list-item"],
+        presentational && styles.presentational,
+      )}
       style={{
+        opacity: isDragging ? "0.4" : undefined,
         transform: CSS.Translate.toString(transform),
         transition,
       }}

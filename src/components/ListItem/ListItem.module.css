@@ -17,11 +17,16 @@
     opacity: 0;
   }
 
-  &:hover {
-    button {
-      opacity: 1;
-      &:hover {
-        color: var(--color-rose-600);
+  cursor: default;
+  user-select: none;
+
+  &:not(.presentational) {
+    &:hover {
+      button {
+        opacity: 1;
+        &:hover {
+          color: var(--color-rose-600);
+        }
       }
     }
   }
