@@ -17,6 +17,13 @@ export type ListAction =
       itemIndex: number;
     }
   | {
+      type: "item_dragged_over";
+      activeListIndex: number;
+      activeItemIndex: number;
+      overItemIndex: number;
+      overListIndex?: number;
+    }
+  | {
       type: "item_dragged_end";
       activeListIndex: number;
       activeItemIndex: number;
@@ -57,6 +64,28 @@ export function listReducer(
 
       return;
     }
+    case "item_dragged_over": {
+      const { activeListIndex, activeItemIndex, overItemIndex, overListIndex } =
+        action;
+
+      if (activeListIndex === overListIndex) {
+        return;
+      }
+
+      const activeList = draft[activeListIndex];
+      const activeItem = activeList.items[activeItemIndex];
+      const overList = draft[overListIndex!];
+
+      // can't use arrayMove method anymore since it creats a new array
+
+      const newIndex = overItemIndex ?? overList.items.length;
+
+      overList.items.splice(newIndex, 0, activeItem);
+      activeList.items.splice(activeItemIndex, 1);
+
+      return;
+    }
+
     default:
       throw new Error("Unknown Action in listReducer!");
   }
