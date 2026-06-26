@@ -13,6 +13,7 @@ import {
 
 import type { DraggableData } from "@/Types/draggable-data";
 
+import List from "@/components/List/List";
 import ListItem from "@/components/ListItem/ListItem";
 
 import BoardContext from "@/context/Board-context";
@@ -33,7 +34,7 @@ export default function DndProvider({ children }: Props): ReactNode {
   };
 
   const handleDragOver = (e: DragOverEvent): void => {
-    if (!e.over) {
+    if (!e.over || e.active.data.current!.isList) {
       return;
     }
 
@@ -52,12 +53,20 @@ export default function DndProvider({ children }: Props): ReactNode {
       return;
     }
 
-    dispatchList({
-      type: "item_dragged_end",
-      activeListIndex: e.active.data.current!.listIndex,
-      activeItemIndex: e.active.data.current!.itemIndex,
-      overItemIndex: e.over.data.current!.itemIndex,
-    });
+    if (e.active.data.current!.isList) {
+      dispatchList({
+        type: "list_dragged_end",
+        activeListIndex: e.active.data.current!.listIndex,
+        overListIndex: e.over.data.current!.listIndex,
+      });
+    } else {
+      dispatchList({
+        type: "item_dragged_end",
+        activeListIndex: e.active.data.current!.listIndex,
+        activeItemIndex: e.active.data.current!.itemIndex,
+        overItemIndex: e.over.data.current!.itemIndex,
+      });
+    }
   };
 
   return (
@@ -71,7 +80,13 @@ export default function DndProvider({ children }: Props): ReactNode {
       {children}
       <DragOverlay>
         {activeData &&
-          (activeData.isList ? null : (
+          (activeData.isList ? (
+            <List
+              presentational
+              listIndex={activeData.listIndex}
+              list={activeData.list}
+            />
+          ) : (
             <ListItem
               presentational
               listIndex={activeData.listIndex}
