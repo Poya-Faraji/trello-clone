@@ -17,6 +17,8 @@ import ListItem from "@/components/ListItem/ListItem";
 
 import BoardContext from "@/context/Board-context";
 
+import { detectCollision } from "./utils/collision-detection";
+
 type Props = PropsWithChildren;
 
 export default function DndProvider({ children }: Props): ReactNode {
@@ -64,6 +66,7 @@ export default function DndProvider({ children }: Props): ReactNode {
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
       onDragOver={handleDragOver}
+      collisionDetection={detectCollision}
     >
       {children}
       <DragOverlay>
