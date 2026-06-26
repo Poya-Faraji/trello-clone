@@ -25,12 +25,7 @@ export default function ListItems({ listIndex, list }: Props): ReactNode {
       <ul ref={setNodeRef} className={styles["list-items"]}>
         {list.items.map((item, itemIndex) => (
           <li key={item.id}>
-            <ListItem
-              listIndex={listIndex}
-              itemIndex={itemIndex}
-              listId={list.id}
-              item={item}
-            />
+            <ListItem listIndex={listIndex} itemIndex={itemIndex} item={item} />
           </li>
         ))}
       </ul>
