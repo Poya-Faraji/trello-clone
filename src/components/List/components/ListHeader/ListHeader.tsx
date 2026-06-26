@@ -34,7 +34,6 @@ export default function ListHeader({
         <MingcuteDotsLine />
         <div className={styles.title}>{title}</div>
       </div>
-
       <div className={styles.actions}>
         <IconsButton onClick={handleButtonClick}>
           <MingcuteAddLine />
