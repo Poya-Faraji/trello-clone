@@ -15,17 +15,17 @@ import clsx from "clsx";
 
 import BoardContext from "@/context/Board-context";
 
-import Button from "../Button/Button";
+import Button from "../../components/Button/Button";
+import TextInput from "../../components/TextInput/TextInput";
 import Modal from "../Modal/Modal";
-import TextInput from "../TextInput/TextInput";
 
-import styles from "./CreateListItemModal.module.css";
+import styles from "./ListItemModal.module.css";
 
 type Props = Omit<ComponentProps<typeof Modal>, "heading" | "children"> & {
   listIndex: number;
 };
 
-export default function CreateListItemModal({
+export default function ListItemModal({
   className,
   ref,
   listIndex,
@@ -108,7 +108,7 @@ export default function CreateListItemModal({
   return (
     <Modal
       ref={ref}
-      className={clsx(styles["create-list-item-modal"], className)}
+      className={clsx(styles["list-item-modal"], className)}
       heading="Create a New Item"
       onClose={handleModalClose}
       {...otherProps}

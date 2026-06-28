@@ -9,7 +9,7 @@ import clsx from "clsx";
 
 import MingcuteCloseLine from "@/icons/MingcuteCloseLine";
 
-import IconsButton from "../IconButton/IconsButton";
+import IconsButton from "../../components/IconButton/IconsButton";
 
 import styles from "./Modal.module.css";
 

@@ -2,7 +2,8 @@ import { type ReactNode, useRef } from "react";
 
 import type { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
 
-import CreateListItemModal from "@/components/CreateListItemModal/CreateListItemModal";
+import CreateListItemModal from "@/Modals/CreateListItemModal/ListItemModal";
+
 import IconsButton from "@/components/IconButton/IconsButton";
 
 import MingcuteAddLine from "@/icons/MingcuteAddLine";
