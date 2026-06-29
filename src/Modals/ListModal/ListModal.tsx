@@ -25,9 +25,14 @@ type Values = Omit<ListType, "id" | "items">;
 
 type Props = Pick<ComponentProps<typeof FormModal>, "modalRef"> & {
   listIndex?: number;
+  defaultValues?: Partial<Values>;
 };
 
-export default function ListModal({ modalRef, listIndex }: Props): ReactNode {
+export default function ListModal({
+  modalRef,
+  listIndex,
+  defaultValues,
+}: Props): ReactNode {
   const [titleError, setTitleError] = useState<string | null>(null);
 
   const { dispatchList } = use(BoardContext);
@@ -55,10 +60,18 @@ export default function ListModal({ modalRef, listIndex }: Props): ReactNode {
       return;
     }
 
-    const id = crypto.randomUUID();
+    if (listIndex !== undefined) {
+      dispatchList({ type: "list_edited", listIndex, list: values });
+      toast.success("List edited successfully");
+    } else {
+      const id = crypto.randomUUID();
+      dispatchList({
+        type: "list_created",
+        list: { id, items: [], ...values },
+      });
+      toast.success("List created successfully");
+    }
 
-    dispatchList({ type: "list_created", list: { id, items: [], ...values } });
-    toast.success("List created successfully");
     modalRef.current?.close();
   };
 
@@ -82,7 +95,9 @@ export default function ListModal({ modalRef, listIndex }: Props): ReactNode {
     <FormModal
       modalRef={modalRef}
       className={clsx(styles["list-modal"])}
-      heading="Create a New List"
+      heading={
+        listIndex !== undefined ? "Edit existing list" : "Create a new list "
+      }
       onSubmit={handleFormSubmit}
       onReset={handleFormReset}
       extraActions={
@@ -98,7 +113,12 @@ export default function ListModal({ modalRef, listIndex }: Props): ReactNode {
         )
       }
     >
-      <TextInput label="Title" name="title" error={titleError} />
+      <TextInput
+        label="Title"
+        name="title"
+        defaultValue={defaultValues?.title}
+        error={titleError}
+      />
     </FormModal>
   );
 }

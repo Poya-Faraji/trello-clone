@@ -4,6 +4,7 @@ import type { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
 
 import ListItemModal from "@/Modals/ListItemModal/ListItemModal";
 import ListModal from "@/Modals/ListModal/ListModal";
+import type { ListType } from "@/Types/list";
 
 import IconsButton from "@/components/IconButton/IconsButton";
 
@@ -15,12 +16,12 @@ import styles from "./ListHeader.module.css";
 
 type Props = {
   listeners?: SyntheticListenerMap;
-  title: string;
+  list: ListType;
   listIndex: number;
 };
 
 export default function ListHeader({
-  title,
+  list,
   listIndex,
   listeners,
 }: Props): ReactNode {
@@ -38,7 +39,7 @@ export default function ListHeader({
     <div className={styles["list-header"]}>
       <div className={styles["drag-handle"]} {...listeners}>
         <MingcuteDotsLine />
-        <div className={styles.title}>{title}</div>
+        <div className={styles.title}>{list.title}</div>
       </div>
       <div className={styles.actions}>
         <IconsButton onClick={handleCreateListButtonClick}>
@@ -49,7 +50,11 @@ export default function ListHeader({
         </IconsButton>
       </div>
       <ListItemModal modalRef={ListIteModalRef} listIndex={listIndex} />
-      <ListModal modalRef={ListModalRef} listIndex={listIndex} />
+      <ListModal
+        modalRef={ListModalRef}
+        listIndex={listIndex}
+        defaultValues={list}
+      />
     </div>
   );
 }
