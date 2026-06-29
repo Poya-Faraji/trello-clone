@@ -7,6 +7,15 @@ import type { ListItemType } from "@/Types/list-item";
 
 export type ListAction =
   | {
+      type: "list_created";
+      list: ListType;
+    }
+  | {
+      type: "list_dragged_end";
+      activeListIndex: number;
+      overListIndex: number;
+    }
+  | {
       type: "item_created";
       listIndex: number;
       item: ListItemType;
@@ -28,11 +37,6 @@ export type ListAction =
       activeListIndex: number;
       activeItemIndex: number;
       overItemIndex: number;
-    }
-  | {
-      type: "list_dragged_end";
-      activeListIndex: number;
-      overListIndex: number;
     };
 
 export function listReducer(
@@ -40,12 +44,29 @@ export function listReducer(
   action: ListAction,
 ): void {
   switch (action.type) {
+    case "list_created": {
+      draft.push(action.list);
+      return;
+    }
+    case "list_dragged_end": {
+      const { activeListIndex, overListIndex } = action;
+
+      if (activeListIndex === overListIndex) {
+        return;
+      }
+
+      const activeList = draft[activeListIndex];
+
+      draft.splice(activeListIndex, 1);
+      draft.splice(overListIndex, 0, activeList);
+
+      return;
+    }
     case "item_created": {
       const list = draft[action.listIndex];
       list.items.push(action.item);
       return;
     }
-
     case "item_removed": {
       const list = draft[action.listIndex];
       list.items.splice(action.itemIndex, 1);
@@ -87,21 +108,6 @@ export function listReducer(
 
       overList.items.splice(newIndex, 0, activeItem);
       activeList.items.splice(activeItemIndex, 1);
-
-      return;
-    }
-
-    case "list_dragged_end": {
-      const { activeListIndex, overListIndex } = action;
-
-      if (activeListIndex === overListIndex) {
-        return;
-      }
-
-      const activeList = draft[activeListIndex];
-
-      draft.splice(activeListIndex, 1);
-      draft.splice(overListIndex, 0, activeList);
 
       return;
     }
