@@ -12,6 +12,8 @@ import clsx from "clsx";
 
 import type { ListItemType } from "@/Types/list-item";
 
+import TextArea from "@/components/TextArea/TextArea";
+
 import BoardContext from "@/context/Board-context";
 
 import TextInput from "../../components/TextInput/TextInput";
@@ -39,6 +41,8 @@ export default function ListItemModal({
     const formData = new FormData(e.currentTarget);
     const values: Values = {
       title: formData.get("title") as string,
+      description: formData.get("description") as string,
+      dueDate: formData.get("date") as string,
     };
 
     if (!validateTitle(values.title)) {
@@ -77,6 +81,8 @@ export default function ListItemModal({
       onReset={handleFormReset}
     >
       <TextInput label="Title" name="title" error={titleError} />
+      <TextArea label="Description" name="description" />
+      <TextInput label="Due Date" type="date" name="date" />
     </FormModal>
   );
 }
