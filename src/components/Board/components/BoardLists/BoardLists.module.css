@@ -1,0 +1,10 @@
+.board-lists {
+  display: flex;
+  gap: 1rem;
+
+  block-size: 100%;
+
+  overflow: auto;
+
+  padding-block-end: 0.5rem;
+}
