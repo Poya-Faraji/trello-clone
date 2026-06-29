@@ -12,6 +12,8 @@ import clsx from "clsx";
 
 import type { ListType } from "@/Types/list";
 
+import Button from "@/components/Button/Button";
+
 import BoardContext from "@/context/Board-context";
 
 import TextInput from "../../components/TextInput/TextInput";
@@ -21,12 +23,25 @@ import styles from "./ListModal.module.css";
 
 type Values = Omit<ListType, "id" | "items">;
 
-type Props = Pick<ComponentProps<typeof FormModal>, "modalRef"> & {};
+type Props = Pick<ComponentProps<typeof FormModal>, "modalRef"> & {
+  listIndex?: number;
+};
 
-export default function ListModal({ modalRef }: Props): ReactNode {
+export default function ListModal({ modalRef, listIndex }: Props): ReactNode {
   const [titleError, setTitleError] = useState<string | null>(null);
 
   const { dispatchList } = use(BoardContext);
+
+  const handleRemoveButtonClick = (): void => {
+    if (listIndex === undefined) {
+      return;
+    }
+
+    dispatchList({ type: "list_removed", listIndex });
+    toast.success("List removed successfully");
+
+    modalRef.current?.close();
+  };
 
   const handleFormSubmit = (e: SubmitEvent<HTMLFormElement>): void => {
     e.preventDefault();
@@ -70,6 +85,18 @@ export default function ListModal({ modalRef }: Props): ReactNode {
       heading="Create a New List"
       onSubmit={handleFormSubmit}
       onReset={handleFormReset}
+      extraActions={
+        listIndex !== undefined && (
+          <Button
+            onClick={handleRemoveButtonClick}
+            type="button"
+            variant="text"
+            color="danger"
+          >
+            Remove
+          </Button>
+        )
+      }
     >
       <TextInput label="Title" name="title" error={titleError} />
     </FormModal>

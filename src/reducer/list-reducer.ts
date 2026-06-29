@@ -11,6 +11,10 @@ export type ListAction =
       list: ListType;
     }
   | {
+      type: "list_removed";
+      listIndex: number;
+    }
+  | {
       type: "list_dragged_end";
       activeListIndex: number;
       overListIndex: number;
@@ -46,6 +50,11 @@ export function listReducer(
   switch (action.type) {
     case "list_created": {
       draft.push(action.list);
+      return;
+    }
+    case "list_removed": {
+      draft.splice(action.listIndex, 1);
+
       return;
     }
     case "list_dragged_end": {

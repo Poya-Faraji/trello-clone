@@ -3,12 +3,13 @@ import { type ReactNode, useRef } from "react";
 import type { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
 
 import ListItemModal from "@/Modals/ListItemModal/ListItemModal";
+import ListModal from "@/Modals/ListModal/ListModal";
 
 import IconsButton from "@/components/IconButton/IconsButton";
 
 import MingcuteAddLine from "@/icons/MingcuteAddLine";
 import MingcuteDotsLine from "@/icons/MingcuteDotsLine";
-import MingcuteMore1Line from "@/icons/MingcuteMore1Line";
+import MingcuteEdit2Line from "@/icons/MingcuteEdit2Line";
 
 import styles from "./ListHeader.module.css";
 
@@ -23,12 +24,16 @@ export default function ListHeader({
   listIndex,
   listeners,
 }: Props): ReactNode {
-  const modalRef = useRef<HTMLDialogElement>(null);
+  const ListModalRef = useRef<HTMLDialogElement>(null);
+  const ListIteModalRef = useRef<HTMLDialogElement>(null);
 
-  const handleCreateButtonClick = (): void => {
-    modalRef.current?.showModal();
+  const handleCreateListButtonClick = (): void => {
+    ListModalRef.current?.showModal();
   };
 
+  const handleCreateListItemButtonClick = (): void => {
+    ListIteModalRef.current?.showModal();
+  };
   return (
     <div className={styles["list-header"]}>
       <div className={styles["drag-handle"]} {...listeners}>
@@ -36,14 +41,15 @@ export default function ListHeader({
         <div className={styles.title}>{title}</div>
       </div>
       <div className={styles.actions}>
-        <IconsButton onClick={handleCreateButtonClick}>
+        <IconsButton onClick={handleCreateListButtonClick}>
+          <MingcuteEdit2Line />
+        </IconsButton>
+        <IconsButton onClick={handleCreateListItemButtonClick}>
           <MingcuteAddLine />
         </IconsButton>
-        <IconsButton>
-          <MingcuteMore1Line />
-        </IconsButton>
       </div>
-      <ListItemModal modalRef={modalRef} listIndex={listIndex} />
+      <ListItemModal modalRef={ListIteModalRef} listIndex={listIndex} />
+      <ListModal modalRef={ListModalRef} listIndex={listIndex} />
     </div>
   );
 }
