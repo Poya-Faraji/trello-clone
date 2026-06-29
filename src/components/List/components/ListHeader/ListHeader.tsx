@@ -2,7 +2,7 @@ import { type ReactNode, useRef } from "react";
 
 import type { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
 
-import CreateListItemModal from "@/Modals/CreateListItemModal/ListItemModal";
+import ListItemModal from "@/Modals/ListItemModal/ListItemModal";
 
 import IconsButton from "@/components/IconButton/IconsButton";
 
@@ -43,7 +43,7 @@ export default function ListHeader({
           <MingcuteMore1Line />
         </IconsButton>
       </div>
-      <CreateListItemModal ref={modalRef} listIndex={listIndex} />
+      <ListItemModal ref={modalRef} listIndex={listIndex} />
     </div>
   );
 }
