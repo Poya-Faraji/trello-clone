@@ -1,17 +1,14 @@
-import { type MouseEvent, type ReactNode, use } from "react";
+import { type MouseEvent, type ReactNode, useRef } from "react";
 
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
-import { toast } from "react-toastify";
-
 import clsx from "clsx";
 
+import ListItemModal from "@/Modals/ListItemModal/ListItemModal";
 import type { ListItemType } from "@/Types/list-item";
 
-import BoardContext from "@/context/Board-context";
-
-import MingcuteDelete2Line from "@/icons/MingcuteDelete2Line";
+import MingcuteEdit2Line from "@/icons/MingcuteEdit2Line";
 
 import IconsButton from "../IconButton/IconsButton";
 
@@ -43,35 +40,43 @@ export default function ListItem({
     data: { isList: false, listIndex, itemIndex, item },
   });
 
+  const modalRef = useRef<HTMLDialogElement>(null);
+
   const overListIndex = over?.data.current?.listIndex;
 
-  const { dispatchList } = use(BoardContext);
-
-  const handleRemoveEvent = (e: MouseEvent<HTMLButtonElement>): void => {
+  const handleEditButtonClick = (e: MouseEvent<HTMLButtonElement>): void => {
     e.stopPropagation();
-    dispatchList({ type: "item_removed", listIndex, itemIndex });
-    toast.success("Item removed successfully");
+
+    modalRef.current?.showModal();
   };
 
   return (
-    <div
-      ref={setNodeRef}
-      className={clsx(
-        styles["list-item"],
-        presentational && styles.presentational,
-      )}
-      style={{
-        opacity: isDragging ? "0.4" : undefined,
-        transform: CSS.Translate.toString(transform),
-        transition: listIndex === overListIndex ? transition : undefined,
-      }}
-      {...listeners}
-      {...attributes}
-    >
-      {item.title}
-      <IconsButton onPointerDown={handleRemoveEvent}>
-        <MingcuteDelete2Line />
-      </IconsButton>
-    </div>
+    <>
+      <div
+        ref={setNodeRef}
+        className={clsx(
+          styles["list-item"],
+          presentational && styles.presentational,
+        )}
+        style={{
+          opacity: isDragging ? "0.4" : undefined,
+          transform: CSS.Translate.toString(transform),
+          transition: listIndex === overListIndex ? transition : undefined,
+        }}
+        {...listeners}
+        {...attributes}
+      >
+        {item.title}
+        <IconsButton onPointerDown={handleEditButtonClick}>
+          <MingcuteEdit2Line />
+        </IconsButton>
+      </div>
+      <ListItemModal
+        modalRef={modalRef}
+        listIndex={listIndex}
+        itemIndex={itemIndex}
+        defaultValues={item}
+      />
+    </>
   );
 }

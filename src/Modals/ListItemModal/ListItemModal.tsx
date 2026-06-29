@@ -25,11 +25,15 @@ type Values = Omit<ListItemType, "id">;
 
 type Props = Pick<ComponentProps<typeof FormModal>, "modalRef"> & {
   listIndex: number;
+  itemIndex?: number;
+  defaultValues: Partial<Values>;
 };
 
 export default function ListItemModal({
   modalRef,
   listIndex,
+  itemIndex,
+  defaultValues,
 }: Props): ReactNode {
   const [titleError, setTitleError] = useState<string | null>(null);
 
@@ -48,12 +52,21 @@ export default function ListItemModal({
     if (!validateTitle(values.title)) {
       return;
     }
+    if (itemIndex !== undefined) {
+      dispatchList({ type: "item_edited", listIndex, itemIndex, item: values });
+      toast.success("Item edited successfully");
+      modalRef.current?.close();
+    } else {
+      const id = crypto.randomUUID();
 
-    const id = crypto.randomUUID();
-
-    dispatchList({ type: "item_created", listIndex, item: { id, ...values } });
-    toast.success("Item added successfully");
-    modalRef.current?.close();
+      dispatchList({
+        type: "item_created",
+        listIndex,
+        item: { id, ...values },
+      });
+      toast.success("Item added successfully");
+      modalRef.current?.close();
+    }
   };
 
   const handleFormReset = (): void => {
@@ -76,13 +89,29 @@ export default function ListItemModal({
     <FormModal
       modalRef={modalRef}
       className={clsx(styles["list-item-modal"])}
-      heading="Create a New Item"
+      heading={
+        itemIndex !== undefined ? "Edit existing item" : "Create new Item"
+      }
       onSubmit={handleFormSubmit}
       onReset={handleFormReset}
     >
-      <TextInput label="Title" name="title" error={titleError} />
-      <TextArea label="Description" name="description" />
-      <TextInput label="Due Date" type="date" name="date" />
+      <TextInput
+        label="Title"
+        name="title"
+        defaultValue={defaultValues?.title}
+        error={titleError}
+      />
+      <TextArea
+        label="Description"
+        name="description"
+        defaultValue={defaultValues?.description}
+      />
+      <TextInput
+        label="Due Date"
+        type="date"
+        name="date"
+        defaultValue={defaultValues?.dueDate}
+      />
     </FormModal>
   );
 }
