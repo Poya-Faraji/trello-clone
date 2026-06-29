@@ -1,6 +1,6 @@
 import {
   type ComponentProps,
-  type MouseEvent,
+  type PointerEvent,
   type ReactNode,
   type RefObject,
 } from "react";
@@ -22,28 +22,30 @@ type Props = ComponentProps<"dialog"> & {
 export default function Modal({
   className,
   contentClassName,
-  onClick,
   heading,
   ref,
   children,
+  onPointerDown,
   ...otherProps
 }: Props): ReactNode {
   const handleCloseModalButtonClick = (): void => {
     ref.current?.close();
   };
 
-  const handleDialogClick = (e: MouseEvent<HTMLDialogElement>): void => {
+  const handleDialogPointerDown = (
+    e: PointerEvent<HTMLDialogElement>,
+  ): void => {
     if (e.target === e.currentTarget) {
       ref.current?.close();
     }
-    onClick?.(e);
+    onPointerDown?.(e);
   };
 
   return (
     <dialog
       ref={ref}
       className={clsx(styles.modal, className)}
-      onClick={handleDialogClick}
+      onPointerDown={handleDialogPointerDown}
       {...otherProps}
     >
       <header>
