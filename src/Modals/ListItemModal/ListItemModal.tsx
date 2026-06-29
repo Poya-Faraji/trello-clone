@@ -12,6 +12,7 @@ import clsx from "clsx";
 
 import type { ListItemType } from "@/Types/list-item";
 
+import Button from "@/components/Button/Button";
 import TextArea from "@/components/TextArea/TextArea";
 
 import BoardContext from "@/context/Board-context";
@@ -39,6 +40,17 @@ export default function ListItemModal({
 
   const { dispatchList } = use(BoardContext);
 
+  const handleRemoveButtonClick = (): void => {
+    if (itemIndex === undefined) {
+      return;
+    }
+
+    dispatchList({ type: "item_removed", itemIndex, listIndex });
+    toast.success("Item removed successfully");
+
+    modalRef.current?.close();
+  };
+
   const handleFormSubmit = (e: SubmitEvent<HTMLFormElement>): void => {
     e.preventDefault();
 
@@ -52,6 +64,7 @@ export default function ListItemModal({
     if (!validateTitle(values.title)) {
       return;
     }
+
     if (itemIndex !== undefined) {
       dispatchList({ type: "item_edited", listIndex, itemIndex, item: values });
       toast.success("Item edited successfully");
@@ -94,6 +107,18 @@ export default function ListItemModal({
       }
       onSubmit={handleFormSubmit}
       onReset={handleFormReset}
+      extraActions={
+        itemIndex !== undefined && (
+          <Button
+            onClick={handleRemoveButtonClick}
+            type="button"
+            variant="text"
+            color="danger"
+          >
+            Remove
+          </Button>
+        )
+      }
     >
       <TextInput
         label="Title"
