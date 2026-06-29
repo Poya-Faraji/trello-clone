@@ -25,7 +25,7 @@ export default function ListHeader({
 }: Props): ReactNode {
   const modalRef = useRef<HTMLDialogElement>(null);
 
-  const handleButtonClick = (): void => {
+  const handleCreateButtonClick = (): void => {
     modalRef.current?.showModal();
   };
 
@@ -36,14 +36,14 @@ export default function ListHeader({
         <div className={styles.title}>{title}</div>
       </div>
       <div className={styles.actions}>
-        <IconsButton onClick={handleButtonClick}>
+        <IconsButton onClick={handleCreateButtonClick}>
           <MingcuteAddLine />
         </IconsButton>
         <IconsButton>
           <MingcuteMore1Line />
         </IconsButton>
       </div>
-      <ListItemModal ref={modalRef} listIndex={listIndex} />
+      <ListItemModal modalRef={modalRef} listIndex={listIndex} />
     </div>
   );
 }

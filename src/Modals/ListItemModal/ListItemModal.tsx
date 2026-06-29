@@ -1,11 +1,8 @@
 import {
-  type ChangeEvent,
   type ComponentProps,
   type ReactNode,
   type SubmitEvent,
   use,
-  useEffect,
-  useRef,
   useState,
 } from "react";
 
@@ -13,66 +10,50 @@ import { toast } from "react-toastify";
 
 import clsx from "clsx";
 
+import type { ListItemType } from "@/Types/list-item";
+
 import BoardContext from "@/context/Board-context";
 
-import Button from "../../components/Button/Button";
 import TextInput from "../../components/TextInput/TextInput";
-import Modal from "../Modal/Modal";
+import FormModal from "../FromModal/FormModal";
 
 import styles from "./ListItemModal.module.css";
 
-type Props = Omit<ComponentProps<typeof Modal>, "heading" | "children"> & {
+type Values = Omit<ListItemType, "id">;
+
+type Props = Pick<ComponentProps<typeof FormModal>, "modalRef"> & {
   listIndex: number;
 };
 
 export default function ListItemModal({
-  className,
-  ref,
+  modalRef,
   listIndex,
-  ...otherProps
 }: Props): ReactNode {
-  const [title, setTitle] = useState<string>("");
   const [titleError, setTitleError] = useState<string | null>(null);
-
-  const formRef = useRef<HTMLFormElement>(null);
-  const shouldValidateOnChange = useRef<boolean>(false);
 
   const { dispatchList } = use(BoardContext);
 
-  const handleModalClose = (): void => {
-    setTitleError(null);
-    formRef.current?.reset();
-  };
-
   const handleFormSubmit = (e: SubmitEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    // value of input that has a name attribute of title is being selected
-    shouldValidateOnChange.current = true;
 
-    if (!validateTitle(title)) {
+    const formData = new FormData(e.currentTarget);
+    const values: Values = {
+      title: formData.get("title") as string,
+    };
+
+    if (!validateTitle(values.title)) {
       return;
     }
 
     const id = crypto.randomUUID();
 
-    dispatchList({ type: "item_created", listIndex, item: { id, title } });
-
-    ref.current?.close();
+    dispatchList({ type: "item_created", listIndex, item: { id, ...values } });
     toast.success("Item added successfully");
-  };
-
-  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    const value = e.target.value.trim();
-
-    if (shouldValidateOnChange.current) {
-      validateTitle(value);
-    }
-    setTitle(value);
+    modalRef.current?.close();
   };
 
   const handleFormReset = (): void => {
-    setTitle("");
-    shouldValidateOnChange.current = false;
+    setTitleError(null);
   };
 
   const validateTitle = (title: unknown): boolean => {
@@ -84,50 +65,18 @@ export default function ListItemModal({
       setTitleError("Title must be at least 3 characters.");
       return false;
     }
-    handleModalClose();
     return true;
   };
 
-  const handleCancelButtonClick = (): void => {
-    ref.current?.close();
-  };
-
-  useEffect(() => {
-    const resetFrom = (e: KeyboardEvent): void => {
-      if (e.code !== "Escape") {
-        return;
-      }
-      ref.current?.close();
-    };
-    document.addEventListener("keydown", resetFrom);
-    return (): void => {
-      document.removeEventListener("keydown", resetFrom);
-    };
-  }, [ref]);
-
   return (
-    <Modal
-      ref={ref}
-      className={clsx(styles["list-item-modal"], className)}
+    <FormModal
+      modalRef={modalRef}
+      className={clsx(styles["list-item-modal"])}
       heading="Create a New Item"
-      onClose={handleModalClose}
-      {...otherProps}
+      onSubmit={handleFormSubmit}
+      onReset={handleFormReset}
     >
-      <form ref={formRef} onSubmit={handleFormSubmit} onReset={handleFormReset}>
-        <TextInput
-          value={title}
-          label="Title"
-          name="title"
-          error={titleError}
-          onChange={handleTitleChange}
-        />
-        <div className={styles.actions}>
-          <Button onClick={handleCancelButtonClick} type="reset">
-            Cancel
-          </Button>
-          <Button color="primary">Submit</Button>
-        </div>
-      </form>
-    </Modal>
+      <TextInput label="Title" name="title" error={titleError} />
+    </FormModal>
   );
 }
