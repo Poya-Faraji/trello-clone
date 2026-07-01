@@ -1,5 +1,6 @@
 import { type ReactNode, use, useRef } from "react";
 
+import BoardModal from "@/Modals/BoardModal/BoardModal";
 import ListModal from "@/Modals/ListModal/ListModal";
 
 import IconsButton from "@/components/IconButton/IconsButton";
@@ -14,16 +15,21 @@ import styles from "./BoardToolbar.module.css";
 export default function BoardToolbar(): ReactNode {
   const { board } = use(BoardPageContext);
 
-  const modalRef = useRef<HTMLDialogElement>(null);
+  const listModalRef = useRef<HTMLDialogElement>(null);
+  const boardModalRef = useRef<HTMLDialogElement>(null);
 
   const handleCreateListButtonClick = (): void => {
-    modalRef.current?.showModal();
+    listModalRef.current?.showModal();
+  };
+
+  const handleEditBoardButtonClick = (): void => {
+    boardModalRef.current?.showModal();
   };
   return (
     <div className={styles["board-toolbar"]}>
       <div className={styles.title}>{board.title}</div>
       <div className={styles.actions}>
-        <IconsButton>
+        <IconsButton onClick={handleEditBoardButtonClick}>
           <MingcuteEdit2Line />
         </IconsButton>
         <IconsButton onClick={handleCreateListButtonClick}>
@@ -31,7 +37,12 @@ export default function BoardToolbar(): ReactNode {
         </IconsButton>
       </div>
 
-      <ListModal modalRef={modalRef} />
+      <ListModal modalRef={listModalRef} />
+      <BoardModal
+        modalRef={boardModalRef}
+        boardId={board.id}
+        defaultValues={board}
+      />
     </div>
   );
 }
