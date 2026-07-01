@@ -2,36 +2,45 @@ import { type PropsWithChildren, type ReactNode, useEffect } from "react";
 
 import { useImmerReducer } from "use-immer";
 
-import type { ListType } from "@/Types/list";
-import { listReducer } from "@/reducer/list-reducer";
+import { boardReducer } from "@/reducer/board-reducer";
 
-import BoardContext from "@/context/Board-context";
+import BoardContext from "@/context/board-context";
 
-import { listsData } from "@/data/list-data";
+import { boardsData } from "@/data/boards-data";
+
+import type { BoardType } from "@/types/board";
+
+function save(boards: BoardType[]): void {
+  localStorage.setItem("boards", JSON.stringify(boards));
+}
+
+function load(): BoardType[] {
+  const item = localStorage.getItem("boards");
+
+  if (!item) {
+    return boardsData;
+  }
+  return JSON.parse(item);
+}
 
 type Props = PropsWithChildren;
 
-function save(lists: ListType[]): void {
-  localStorage.setItem("lists", JSON.stringify(lists));
-}
-
-function load(): ListType[] {
-  const isEmpty = localStorage.getItem("lists");
-  return isEmpty === null ? listsData : JSON.parse(isEmpty);
-}
-
-export default function BoardProvider({ children }: Props): ReactNode {
-  const [lists, dispatchList] = useImmerReducer(listReducer, load());
+export default function BoardsProvider({ children }: Props): ReactNode {
+  const [boards, dispatchBoards] = useImmerReducer(
+    boardReducer,
+    undefined,
+    load,
+  );
 
   useEffect(() => {
-    save(lists);
-  }, [lists]);
+    save(boards);
+  }, [boards]);
 
   return (
     <BoardContext
       value={{
-        lists,
-        dispatchList,
+        boards,
+        dispatchBoards,
       }}
     >
       {children}

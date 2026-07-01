@@ -1,18 +1,14 @@
 import { type ActionDispatch, createContext } from "react";
 
-import type { ListType } from "@/Types/list";
-import type { ListAction } from "@/reducer/list-reducer";
+import type { BoardAction } from "@/reducer/board-reducer";
 
-import { listsData } from "@/data/list-data";
+import type { BoardType } from "@/types/board";
 
 type ContextValue = {
-  lists: ListType[];
-  dispatchList: ActionDispatch<[action: ListAction]>;
+  boards: BoardType[];
+  dispatchBoards: ActionDispatch<[action: BoardAction]>;
 };
 
-const BoardContext = createContext<ContextValue>({
-  lists: listsData,
-  dispatchList: () => {},
-});
+const BoardContext = createContext<ContextValue>({} as ContextValue);
 
 export default BoardContext;

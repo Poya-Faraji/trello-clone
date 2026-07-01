@@ -16,7 +16,7 @@ import type { DraggableData } from "@/Types/draggable-data";
 import List from "@/components/List/List";
 import ListItem from "@/components/ListItem/ListItem";
 
-import BoardContext from "@/context/Board-context";
+import BoardContext from "@/context/lists-context";
 
 import { detectCollision } from "./utils/collision-detection";
 

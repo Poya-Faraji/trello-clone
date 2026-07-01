@@ -14,7 +14,7 @@ import type { ListType } from "@/Types/list";
 
 import Button from "@/components/Button/Button";
 
-import BoardContext from "@/context/Board-context";
+import BoardContext from "@/context/lists-context";
 
 import TextInput from "../../components/TextInput/TextInput";
 import FormModal from "../FromModal/FormModal";

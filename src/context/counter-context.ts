@@ -6,10 +6,6 @@ type ContextValue = {
   reset: () => void;
 };
 
-const CounterContext = createContext<ContextValue>({
-  count: 0,
-  increment: () => {},
-  reset: () => {},
-});
+const CounterContext = createContext<ContextValue>({} as ContextValue);
 
 export default CounterContext;

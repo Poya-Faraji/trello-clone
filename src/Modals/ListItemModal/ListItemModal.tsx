@@ -15,7 +15,7 @@ import type { ListItemType } from "@/Types/list-item";
 import Button from "@/components/Button/Button";
 import TextArea from "@/components/TextArea/TextArea";
 
-import BoardContext from "@/context/Board-context";
+import BoardContext from "@/context/lists-context";
 
 import TextInput from "../../components/TextInput/TextInput";
 import FormModal from "../FromModal/FormModal";
