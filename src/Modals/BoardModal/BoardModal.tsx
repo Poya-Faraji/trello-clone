@@ -10,6 +10,8 @@ import { useNavigate } from "react-router";
 
 import { toast } from "react-toastify";
 
+import { z } from "zod";
+
 import clsx from "clsx";
 
 import Button from "@/components/Button/Button";
@@ -18,12 +20,16 @@ import TextArea from "@/components/TextArea/TextArea";
 
 import BoardContext from "@/context/board-context";
 
+import { BoardSchema } from "@/schemas/board-schema";
+
 import type { BoardColor, BoardType } from "@/types/board";
 
 import TextInput from "../../components/TextInput/TextInput";
 import FormModal from "../FromModal/FormModal";
 
 import styles from "./BoardModal.module.css";
+
+type Errors = { [key in keyof Values]?: string[] };
 
 type Values = Omit<BoardType, "id" | "lists">;
 
@@ -37,7 +43,7 @@ export default function BoardModal({
   boardId,
   defaultValues,
 }: Props): ReactNode {
-  const [titleError, setTitleError] = useState<string | null>(null);
+  const [errors, setErrors] = useState<Errors>({});
 
   const navigate = useNavigate();
 
@@ -66,18 +72,20 @@ export default function BoardModal({
       color: formData.get("color") as BoardColor,
     };
 
-    if (!validateTitle(values.title)) {
+    const { data, error } = BoardSchema.safeParse(values);
+    if (error) {
+      setErrors(z.flattenError(error).fieldErrors);
       return;
     }
 
     if (boardId !== undefined) {
-      dispatchBoards({ type: "board_edited", boardId, board: values });
+      dispatchBoards({ type: "board_edited", boardId, board: data });
       toast.success("Board edited successfully");
     } else {
       const id = crypto.randomUUID();
       dispatchBoards({
         type: "board_created",
-        board: { id, lists: [], ...values },
+        board: { id, lists: [], ...data },
       });
       toast.success("Board created successfully");
     }
@@ -86,19 +94,7 @@ export default function BoardModal({
   };
 
   const handleFormReset = (): void => {
-    setTitleError(null);
-  };
-
-  const validateTitle = (title: unknown): boolean => {
-    if (typeof title !== "string") {
-      setTitleError("Title must be a string");
-      return false;
-    }
-    if (title.length < 3) {
-      setTitleError("Title must be at least 3 characters.");
-      return false;
-    }
-    return true;
+    setErrors({});
   };
 
   return (
@@ -127,18 +123,20 @@ export default function BoardModal({
         label="Title"
         name="title"
         defaultValue={defaultValues?.title}
-        error={titleError}
+        error={errors.title?.[0]}
       />
       <TextArea
         label="Description"
         name="description"
         defaultValue={defaultValues?.description}
+        error={errors.description?.[0]}
       />
 
       <ColorInput
         label="Color"
         name="color"
         defaultValue={defaultValues?.color}
+        error={errors.color?.[0]}
       />
     </FormModal>
   );
