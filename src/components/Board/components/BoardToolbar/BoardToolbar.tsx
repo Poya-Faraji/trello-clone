@@ -25,6 +25,7 @@ export default function BoardToolbar(): ReactNode {
   const handleEditBoardButtonClick = (): void => {
     boardModalRef.current?.showModal();
   };
+
   return (
     <div className={styles["board-toolbar"]}>
       <div className={styles.title}>{board.title}</div>
