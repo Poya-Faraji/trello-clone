@@ -81,23 +81,11 @@ export default function ListModal({
         listIndex !== undefined ? "Edit existing list" : "Create a new list"
       }
       onSubmit={handleSubmit(handleFormSubmit)}
-      extraActions={
-        listIndex !== undefined && (
-          <Button
-            onClick={handleRemoveButtonClick}
-            type="button"
-            variant="text"
-            color="danger"
-          >
-            Remove
-          </Button>
-        )
-      }
+      onRemove={listIndex !== undefined && handleRemoveButtonClick}
     >
       <TextInput
         {...register("title")}
         label="Title"
-        defaultValue={defaultValues?.title}
         error={errors.title?.message}
       />
     </FormModal>
