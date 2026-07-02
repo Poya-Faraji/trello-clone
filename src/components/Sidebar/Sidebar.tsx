@@ -30,10 +30,11 @@ export default function Sidebar(): ReactNode {
       <aside className={clsx(styles.sidebar, isCollapsed && styles.collapsed)}>
         <div className={styles.header}>
           <Link to="/" className={styles.logo}>
-            <img
-              src={isCollapsed ? "/favicon.svg" : "/logo.svg"}
-              alt="Canban Logo"
-            />
+            {isCollapsed ? (
+              <img src="/favicon.svg" alt="Canban Logo" />
+            ) : (
+              <p className={styles.canban}>Canban</p>
+            )}
           </Link>
           <IconsButton className={styles.arrow} onClick={handleArrowClick}>
             <MingcuteArrowsRightLine />
