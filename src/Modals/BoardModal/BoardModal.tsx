@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import clsx from "clsx";
@@ -35,6 +35,7 @@ export default function BoardModal({
   defaultValues,
 }: Props): ReactNode {
   const {
+    control,
     register,
     handleSubmit,
     formState: { errors },
@@ -96,11 +97,27 @@ export default function BoardModal({
         error={errors.description?.message}
       />
 
-      <ColorInput
-        {...register("color")}
-        label="Color"
-        error={errors.color?.message}
+      <Controller
+        name="color"
+        control={control}
+        render={({ field }) => (
+          <ColorInput {...field} label="Color" error={errors.color?.message} />
+        )}
       />
+      {/* or
+   <Controller
+        name="color"
+        control={control}
+        render={({ field }) => {
+          return (
+            <ColorInput
+              {...field}
+              label="Color"
+              error={errors.color?.message}
+            />
+          );
+        }}
+      /> */}
     </FormModal>
   );
 }
