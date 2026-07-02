@@ -24,9 +24,6 @@
     &:hover {
       > button {
         opacity: 1;
-        &:hover {
-          color: var(--color-rose-600);
-        }
       }
     }
   }
