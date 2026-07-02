@@ -1,4 +1,4 @@
-import type { ListType } from "./list";
+import type { ListType } from "@/Types/list";
 
 export type BoardType = {
   id: string;
