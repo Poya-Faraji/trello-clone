@@ -36,6 +36,7 @@ export default function BoardModal({
 }: Props): ReactNode {
   const {
     control,
+    reset,
     register,
     handleSubmit,
     formState: { errors },
@@ -81,6 +82,7 @@ export default function BoardModal({
       heading={
         boardId !== undefined ? "Edit existing board" : "Create a new board "
       }
+      onClose={() => reset()}
       onSubmit={handleSubmit(handleFormSubmit)}
       onRemove={boardId !== undefined && handleRemoveButtonClick}
     >

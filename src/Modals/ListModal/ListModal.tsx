@@ -42,6 +42,7 @@ export default function ListModal({
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({ defaultValues, resolver: zodResolver(ListSchema) });
   const { dispatchList } = use(BoardContext);
@@ -80,6 +81,7 @@ export default function ListModal({
       heading={
         listIndex !== undefined ? "Edit existing list" : "Create a new list"
       }
+      onReset={() => reset()}
       onSubmit={handleSubmit(handleFormSubmit)}
       onRemove={listIndex !== undefined && handleRemoveButtonClick}
     >
