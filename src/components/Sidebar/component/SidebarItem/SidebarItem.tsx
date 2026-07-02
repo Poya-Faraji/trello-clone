@@ -1,12 +1,12 @@
-import { type ReactNode, use } from "react";
+import { type ReactNode } from "react";
 
 import { NavLink } from "react-router";
 
 import clsx from "clsx";
 
-import type { BoardColor } from "@/types/board";
+import { useSidebarStore } from "@/stores/sidebar-store";
 
-import { SidebarContext } from "../../context/sidebar-context";
+import type { BoardColor } from "@/types/board";
 
 import styles from "./SidebarItem.module.css";
 
@@ -25,7 +25,7 @@ export default function SidebarItem({
   icon,
   onClick,
 }: Props): ReactNode {
-  const { isCollapsed } = use(SidebarContext);
+  const isCollapsed = useSidebarStore((state) => state.isCollapsed);
 
   const className = clsx(
     styles["sidebar-item"],

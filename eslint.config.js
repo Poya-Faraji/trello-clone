@@ -21,7 +21,10 @@ export default defineConfig([
   },
   {
     rules: {
-      "@typescript-eslint/explicit-function-return-type": "error",
+      "@typescript-eslint/explicit-function-return-type": [
+        "error",
+        { allowExpressions: true },
+      ],
       "@typescript-eslint/explicit-member-accessibility": "error",
     },
   },

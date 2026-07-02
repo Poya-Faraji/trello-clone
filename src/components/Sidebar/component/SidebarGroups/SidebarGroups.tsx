@@ -9,7 +9,8 @@ import BoardContext from "@/context/board-context";
 import MingcuteHome7Line from "@/icons/MingcuteHome7Line";
 import MingcuteSettings5Line from "@/icons/MingcuteSettings5Line";
 
-import { SidebarContext } from "../../context/sidebar-context";
+import { useSidebarStore } from "@/stores/sidebar-store";
+
 import SidebarItem from "../SidebarItem/SidebarItem";
 
 import styles from "./SidebarGroups.module.css";
@@ -22,7 +23,7 @@ type SidebarGroup = {
 export default function SidebarGroups(): ReactNode {
   const { boards } = use(BoardContext);
 
-  const { isCollapsed } = use(SidebarContext);
+  const isCollapsed = useSidebarStore((state) => state.isCollapsed);
 
   const groups: SidebarGroup[] = [
     {
