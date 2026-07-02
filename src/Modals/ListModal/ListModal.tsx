@@ -8,18 +8,24 @@ import {
 
 import { toast } from "react-toastify";
 
-import clsx from "clsx";
+import { z } from "zod";
 
-import type { ListType } from "@/Types/list";
+import clsx from "clsx";
 
 import Button from "@/components/Button/Button";
 
 import BoardContext from "@/context/lists-context";
 
+import { ListSchema } from "@/schemas/list-schema";
+
+import type { ListType } from "@/types/list";
+
 import TextInput from "../../components/TextInput/TextInput";
 import FormModal from "../FromModal/FormModal";
 
 import styles from "./ListModal.module.css";
+
+type Errors = { [key in keyof Values]?: string[] };
 
 type Values = Omit<ListType, "id" | "items">;
 
@@ -33,7 +39,7 @@ export default function ListModal({
   listIndex,
   defaultValues,
 }: Props): ReactNode {
-  const [titleError, setTitleError] = useState<string | null>(null);
+  const [errors, setErrors] = useState<Errors>({});
 
   const { dispatchList } = use(BoardContext);
 
@@ -56,18 +62,20 @@ export default function ListModal({
       title: formData.get("title") as string,
     };
 
-    if (!validateTitle(values.title)) {
+    const { data, error } = ListSchema.safeParse(values);
+    if (error) {
+      setErrors(z.flattenError(error).fieldErrors);
       return;
     }
 
     if (listIndex !== undefined) {
-      dispatchList({ type: "list_edited", listIndex, list: values });
+      dispatchList({ type: "list_edited", listIndex, list: data });
       toast.success("List edited successfully");
     } else {
       const id = crypto.randomUUID();
       dispatchList({
         type: "list_created",
-        list: { id, items: [], ...values },
+        list: { id, items: [], ...data },
       });
       toast.success("List created successfully");
     }
@@ -76,19 +84,7 @@ export default function ListModal({
   };
 
   const handleFormReset = (): void => {
-    setTitleError(null);
-  };
-
-  const validateTitle = (title: unknown): boolean => {
-    if (typeof title !== "string") {
-      setTitleError("Title must be a string");
-      return false;
-    }
-    if (title.length < 3) {
-      setTitleError("Title must be at least 3 characters.");
-      return false;
-    }
-    return true;
+    setErrors({});
   };
 
   return (
@@ -96,7 +92,7 @@ export default function ListModal({
       modalRef={modalRef}
       className={clsx(styles["list-modal"])}
       heading={
-        listIndex !== undefined ? "Edit existing list" : "Create a new list "
+        listIndex !== undefined ? "Edit existing list" : "Create a new list"
       }
       onSubmit={handleFormSubmit}
       onReset={handleFormReset}
@@ -117,7 +113,7 @@ export default function ListModal({
         label="Title"
         name="title"
         defaultValue={defaultValues?.title}
-        error={titleError}
+        error={errors.title?.[0]}
       />
     </FormModal>
   );
