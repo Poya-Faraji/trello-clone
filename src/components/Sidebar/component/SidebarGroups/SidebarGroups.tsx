@@ -1,13 +1,15 @@
 import { type ComponentProps, type ReactNode, use } from "react";
 
+import clsx from "clsx";
+
 import Initials from "@/components/Initials/Initials";
 
 import BoardContext from "@/context/board-context";
 
-import MingcuteAddLine from "@/icons/MingcuteAddLine";
 import MingcuteHome7Line from "@/icons/MingcuteHome7Line";
 import MingcuteSettings5Line from "@/icons/MingcuteSettings5Line";
 
+import { SidebarContext } from "../../context/sidebar-context";
 import SidebarItem from "../SidebarItem/SidebarItem";
 
 import styles from "./SidebarGroups.module.css";
@@ -19,6 +21,8 @@ type SidebarGroup = {
 
 export default function SidebarGroups(): ReactNode {
   const { boards } = use(BoardContext);
+
+  const { isCollapsed } = use(SidebarContext);
 
   const groups: SidebarGroup[] = [
     {
@@ -55,8 +59,15 @@ export default function SidebarGroups(): ReactNode {
   ];
 
   return groups.map((group, index) => (
-    <div key={index} className={styles.group}>
-      {group.title && <div className={styles.title}>{group.title}</div>}
+    <div
+      key={index}
+      className={clsx(styles.group, isCollapsed && styles.collapsed)}
+    >
+      {group.title && (
+        <div className={styles.title}>
+          {isCollapsed ? group.title[0] : group.title}
+        </div>
+      )}
       <ul>
         {group.items.map((item) => (
           <li key={item.href}>
