@@ -7,11 +7,14 @@ import Initials from "@/components/Initials/Initials";
 import BoardContext from "@/context/board-context";
 
 import MingcuteHome7Line from "@/icons/MingcuteHome7Line";
+import MingcuteMoonStarsLine from "@/icons/MingcuteMoonStarsLine";
 import MingcuteSettings5Line from "@/icons/MingcuteSettings5Line";
 
 import { useSidebarStore } from "@/stores/sidebar-store";
+import { useThemeStore } from "@/stores/theme-store";
 
 import SidebarItem from "../SidebarItem/SidebarItem";
+import ThemeSwitch from "../SidebarItem/components/ThemeSwitch/ThemeSwitch";
 
 import styles from "./SidebarGroups.module.css";
 
@@ -24,6 +27,7 @@ export default function SidebarGroups(): ReactNode {
   const { boards } = use(BoardContext);
 
   const isCollapsed = useSidebarStore((state) => state.isCollapsed);
+  const toggleTheme = useThemeStore((state) => state.toggleTheme);
 
   const groups: SidebarGroup[] = [
     {
@@ -49,6 +53,12 @@ export default function SidebarGroups(): ReactNode {
     {
       title: "System",
       items: [
+        {
+          title: <ThemeSwitch />,
+          color: "gray",
+          icon: <MingcuteMoonStarsLine />,
+          onClick: toggleTheme,
+        },
         {
           href: "/settings",
           title: "Settings",
