@@ -1,4 +1,6 @@
-import { type PropsWithChildren, type ReactNode, use, useState } from "react";
+import { type PropsWithChildren, type ReactNode, useState } from "react";
+
+import { useParams } from "react-router";
 
 import {
   DndContext,
@@ -13,17 +15,23 @@ import {
 
 import type { DraggableData } from "@/Types/draggable-data";
 
-import List from "@/components/List/List";
-import ListItem from "@/components/ListItem/ListItem";
+import List from "@/components/List/List.tsx";
+import ListItem from "@/components/ListItem/ListItem.tsx";
 
-import BoardContext from "@/context/lists-context";
+import { useKanbanStore } from "@/stores/kanban-store.ts";
 
 import { detectCollision } from "./utils/collision-detection";
 
 type Props = PropsWithChildren;
 
 export default function DndProvider({ children }: Props): ReactNode {
-  const { dispatchList } = use(BoardContext);
+  const { boardId } = useParams();
+
+  const moveList = useKanbanStore((state) => state.moveList);
+  const moveItem = useKanbanStore((state) => state.moveItem);
+  const moveItemBetweenLists = useKanbanStore(
+    (state) => state.moveItemBetweenLists,
+  );
 
   const sensors = useSensors(useSensor(PointerSensor));
 
@@ -38,14 +46,15 @@ export default function DndProvider({ children }: Props): ReactNode {
       return;
     }
 
-    dispatchList({
-      type: "item_dragged_over",
-      activeListIndex: e.active.data.current!.listIndex,
-      activeItemIndex: e.active.data.current!.itemIndex,
-      overItemIndex: e.over.data.current!.itemIndex,
-      overListIndex: e.over.data.current!.listIndex,
-    });
+    moveItemBetweenLists(
+      boardId,
+      e.active.data.current!.listIndex,
+      e.active.data.current!.itemIndex,
+      e.over.data.current!.listIndex,
+      e.over.data.current!.itemIndex,
+    );
   };
+
   const handleDragEnd = (e: DragEndEvent): void => {
     setActiveData(null);
 
@@ -54,28 +63,28 @@ export default function DndProvider({ children }: Props): ReactNode {
     }
 
     if (e.active.data.current!.isList) {
-      dispatchList({
-        type: "list_dragged_end",
-        activeListIndex: e.active.data.current!.listIndex,
-        overListIndex: e.over.data.current!.listIndex,
-      });
+      moveList(
+        boardId,
+        e.active.data.current!.listIndex,
+        e.over.data.current!.listIndex,
+      );
     } else {
-      dispatchList({
-        type: "item_dragged_end",
-        activeListIndex: e.active.data.current!.listIndex,
-        activeItemIndex: e.active.data.current!.itemIndex,
-        overItemIndex: e.over.data.current!.itemIndex,
-      });
+      moveItem(
+        boardId,
+        e.active.data.current!.listIndex,
+        e.active.data.current!.itemIndex,
+        e.over.data.current!.itemIndex,
+      );
     }
   };
 
   return (
     <DndContext
       sensors={sensors}
-      onDragStart={handleDragStart}
-      onDragEnd={handleDragEnd}
-      onDragOver={handleDragOver}
       collisionDetection={detectCollision}
+      onDragStart={handleDragStart}
+      onDragOver={handleDragOver}
+      onDragEnd={handleDragEnd}
     >
       {children}
       <DragOverlay>

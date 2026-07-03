@@ -1,25 +1,17 @@
-import { type ReactNode, use, useRef } from "react";
+import { type ReactNode, useRef } from "react";
 
 import BoardModal from "@/Modals/BoardModal/BoardModal";
-import BoardsProvider from "@/Provider/BoardProvider";
 
 import BoardCard from "@/components/BoardCard/BoardCard";
 import Button from "@/components/Button/Button";
 
-import BoardContext from "@/context/board-context";
+import { useKanbanStore } from "@/stores/kanban-store";
 
 import styles from "./HomePage.module.css";
 
 export default function HomePage(): ReactNode {
-  return (
-    <BoardsProvider>
-      <HomePageContent />
-    </BoardsProvider>
-  );
-}
+  const boards = useKanbanStore((state) => state.boards);
 
-function HomePageContent(): ReactNode {
-  const { boards } = use(BoardContext);
   const modalRef = useRef<HTMLDialogElement>(null);
 
   const handleCreateButtonClick = (): void => {

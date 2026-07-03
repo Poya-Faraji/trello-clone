@@ -1,4 +1,4 @@
-import { type ComponentProps, type ReactNode, use } from "react";
+import { type ComponentProps, type ReactNode } from "react";
 
 import { useNavigate } from "react-router";
 
@@ -13,9 +13,9 @@ import clsx from "clsx";
 import ColorInput from "@/components/ColorInput/ColorInput";
 import TextArea from "@/components/TextArea/TextArea";
 
-import BoardContext from "@/context/board-context";
-
 import { BoardSchema } from "@/schemas/board-schema";
+
+import { useKanbanStore } from "@/stores/kanban-store";
 
 import TextInput from "../../components/TextInput/TextInput";
 import FormModal from "../FromModal/FormModal";
@@ -34,6 +34,10 @@ export default function BoardModal({
   boardId,
   defaultValues,
 }: Props): ReactNode {
+  const createBoard = useKanbanStore((state) => state.createBoard);
+  const editBoard = useKanbanStore((state) => state.editBoard);
+  const removeBoard = useKanbanStore((state) => state.removeBoard);
+
   const {
     control,
     reset,
@@ -47,31 +51,24 @@ export default function BoardModal({
 
   const navigate = useNavigate();
 
-  const { dispatchBoards } = use(BoardContext);
-
   const handleRemoveButtonClick = (): void => {
     if (boardId === undefined) {
       return;
     }
 
-    dispatchBoards({ type: "board_removed", boardId });
+    removeBoard(boardId);
     toast.success("Board removed successfully");
 
     modalRef.current?.close();
-
     navigate("/");
   };
 
   const handleFormSubmit = (values: Values): void => {
     if (boardId !== undefined) {
-      dispatchBoards({ type: "board_edited", boardId, board: values });
+      editBoard(boardId, values);
       toast.success("Board edited successfully");
     } else {
-      const id = crypto.randomUUID();
-      dispatchBoards({
-        type: "board_created",
-        board: { id, lists: [], ...values },
-      });
+      createBoard(values);
       toast.success("Board created successfully");
     }
 

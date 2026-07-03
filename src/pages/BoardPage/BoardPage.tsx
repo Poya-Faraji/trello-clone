@@ -1,39 +1,33 @@
-import { type ReactNode, use } from "react";
+import { type ReactNode } from "react";
 
 import { useParams } from "react-router";
 
-import BoardPageProvider from "@/Provider/BoardPageProvider";
 import DndProvider from "@/Provider/DndProvider/DndProvider";
-import ListsProvider from "@/Provider/ListsProvider";
 
 import Board from "@/components/Board/Board";
 
-import BoardContext from "@/context/board-context";
+import { useKanbanStore } from "@/stores/kanban-store";
 
 import NotFoundPage from "../notFoundPage/NotFoundPage";
 
 import styles from "./BoardPage.module.css";
 
 export default function BoardPage(): ReactNode {
-  const { id } = useParams();
+  const { boardId } = useParams();
 
-  const { boards } = use(BoardContext);
+  const boards = useKanbanStore((state) => state.boards);
 
-  const board = boards.find((board) => board.id === id);
+  const board = boards.find((board) => board.id === boardId);
 
   if (!board) {
     return <NotFoundPage />;
   }
 
   return (
-    <BoardPageProvider board={board}>
-      <ListsProvider key={id}>
-        <DndProvider>
-          <div className={styles["board-page"]}>
-            <Board />
-          </div>
-        </DndProvider>
-      </ListsProvider>
-    </BoardPageProvider>
+    <DndProvider>
+      <div className={styles["board-page"]}>
+        <Board board={board} />
+      </div>
+    </DndProvider>
   );
 }

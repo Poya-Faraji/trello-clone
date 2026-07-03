@@ -1,15 +1,14 @@
-import { type ComponentProps, type ReactNode, use } from "react";
+import { type ComponentProps, type ReactNode } from "react";
 
 import clsx from "clsx";
 
 import Initials from "@/components/Initials/Initials";
 
-import BoardContext from "@/context/board-context";
-
 import MingcuteHome7Line from "@/icons/MingcuteHome7Line";
 import MingcuteMoonStarsLine from "@/icons/MingcuteMoonStarsLine";
 import MingcuteSettings5Line from "@/icons/MingcuteSettings5Line";
 
+import { useKanbanStore } from "@/stores/kanban-store";
 import { useSidebarStore } from "@/stores/sidebar-store";
 import { useThemeStore } from "@/stores/theme-store";
 
@@ -24,8 +23,7 @@ type SidebarGroup = {
 };
 
 export default function SidebarGroups(): ReactNode {
-  const { boards } = use(BoardContext);
-
+  const boards = useKanbanStore((state) => state.boards);
   const isCollapsed = useSidebarStore((state) => state.isCollapsed);
   const toggleTheme = useThemeStore((state) => state.toggleTheme);
 

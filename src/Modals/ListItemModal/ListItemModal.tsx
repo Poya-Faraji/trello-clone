@@ -1,4 +1,6 @@
-import { type ComponentProps, type ReactNode, use } from "react";
+import { type ComponentProps, type ReactNode } from "react";
+
+import { useParams } from "react-router";
 
 import { toast } from "react-toastify";
 
@@ -6,25 +8,21 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import clsx from "clsx";
-
 import TextArea from "@/components/TextArea/TextArea";
-
-import BoardContext from "@/context/lists-context";
+import TextInput from "@/components/TextInput/TextInput";
 
 import { ListItemSchema } from "@/schemas/list-item-schema";
 
-import TextInput from "../../components/TextInput/TextInput";
-import FormModal from "../FromModal/FormModal";
+import { useKanbanStore } from "@/stores/kanban-store";
 
-import styles from "./ListItemModal.module.css";
+import FormModal from "../FromModal/FormModal";
 
 type Values = z.infer<typeof ListItemSchema>;
 
 type Props = Pick<ComponentProps<typeof FormModal>, "modalRef"> & {
   listIndex: number;
   itemIndex?: number;
-  defaultValues: Values;
+  defaultValues?: Values;
 };
 
 export default function ListItemModal({
@@ -33,7 +31,11 @@ export default function ListItemModal({
   itemIndex,
   defaultValues,
 }: Props): ReactNode {
-  const { dispatchList } = use(BoardContext);
+  const { boardId } = useParams();
+
+  const createItem = useKanbanStore((state) => state.createItem);
+  const editItem = useKanbanStore((state) => state.editItem);
+  const removeItem = useKanbanStore((state) => state.removeItem);
 
   const {
     register,
@@ -44,49 +46,44 @@ export default function ListItemModal({
     defaultValues,
     resolver: zodResolver(ListItemSchema),
   });
+
   const handleRemoveButtonClick = (): void => {
     if (itemIndex === undefined) {
       return;
     }
 
-    dispatchList({ type: "item_removed", itemIndex, listIndex });
-    toast.success("Item removed successfully");
+    removeItem(boardId, listIndex, itemIndex);
+    toast.success("Item removed successfully.");
 
     modalRef.current?.close();
   };
 
   const handleFormSubmit = (values: Values): void => {
     if (itemIndex !== undefined) {
-      dispatchList({ type: "item_edited", listIndex, itemIndex, item: values });
-      toast.success("Item edited successfully");
-      modalRef.current?.close();
+      editItem(boardId, listIndex, itemIndex, values);
+      toast.success("Item edited successfully.");
     } else {
-      const id = crypto.randomUUID();
-
-      dispatchList({
-        type: "item_created",
-        listIndex,
-        item: { id, ...values },
-      });
-      toast.success("Item added successfully");
-      modalRef.current?.close();
+      createItem(boardId, listIndex, values);
+      toast.success("Item item_created successfully.");
     }
+
+    modalRef.current?.close();
   };
 
   return (
     <FormModal
       modalRef={modalRef}
-      className={clsx(styles["list-item-modal"])}
       heading={
-        itemIndex !== undefined ? "Edit existing item" : "Create new Item"
+        itemIndex !== undefined ? `Edit Exising Item` : "Create a New Item"
       }
-      onReset={() => reset()}
-      onSubmit={handleSubmit(handleFormSubmit)}
+      onClose={() => reset()}
       onRemove={itemIndex !== undefined && handleRemoveButtonClick}
+      onSubmit={handleSubmit(handleFormSubmit)}
     >
       <TextInput
         {...register("title")}
         label="Title"
+        type="text"
         error={errors.title?.message}
       />
       <TextArea
