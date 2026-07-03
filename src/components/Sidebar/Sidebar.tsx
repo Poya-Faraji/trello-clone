@@ -10,6 +10,7 @@ import MingcuteExitLine from "@/icons/MingcuteExitLine";
 import { useSidebarStore } from "@/stores/sidebar-store";
 
 import IconsButton from "../IconButton/IconsButton";
+import Logo from "../Logo/Logo";
 import SidebarGroups from "./component/SidebarGroups/SidebarGroups";
 import SidebarItem from "./component/SidebarItem/SidebarItem";
 
@@ -23,11 +24,7 @@ export default function Sidebar(): ReactNode {
     <aside className={clsx(styles.sidebar, isCollapsed && styles.collapsed)}>
       <div className={styles.header}>
         <Link to="/" className={styles.logo}>
-          {isCollapsed ? (
-            <img src="/favicon.svg" alt="Canban Logo" />
-          ) : (
-            <p className={styles.canban}>Canban</p>
-          )}
+          <Logo />
         </Link>
         <IconsButton className={styles.arrow} onClick={fold}>
           <MingcuteArrowsRightLine />
@@ -38,6 +35,7 @@ export default function Sidebar(): ReactNode {
       </nav>
       <div className={styles.footer}>
         <SidebarItem
+          id="signout"
           title="Sign Out"
           color="gray"
           icon={<MingcuteExitLine />}

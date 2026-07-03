@@ -33,6 +33,7 @@ export default function SidebarGroups(): ReactNode {
     {
       items: [
         {
+          id: "home",
           href: "/",
           title: "Home",
           color: "blue",
@@ -43,6 +44,7 @@ export default function SidebarGroups(): ReactNode {
     {
       title: "Boards",
       items: boards.map((board) => ({
+        id: board.id,
         href: `/board/${board.id}`,
         title: board.title,
         color: board.color,
@@ -54,12 +56,14 @@ export default function SidebarGroups(): ReactNode {
       title: "System",
       items: [
         {
+          id: "theme",
           title: <ThemeSwitch />,
           color: "gray",
           icon: <MingcuteMoonStarsLine />,
           onClick: toggleTheme,
         },
         {
+          id: "settings",
           href: "/settings",
           title: "Settings",
           color: "orange",
@@ -81,7 +85,7 @@ export default function SidebarGroups(): ReactNode {
       )}
       <ul>
         {group.items.map((item) => (
-          <li key={item.href}>
+          <li key={item.id}>
             <SidebarItem {...item} />
           </li>
         ))}
