@@ -2,24 +2,33 @@ import { type StateCreator, create } from "zustand";
 import { persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 
-import { type BoardsSlice, createBoardSlice } from "./slices/boards-slice";
-import { type ItemsSlice, createItemsSlice } from "./slices/items-slice";
-import { type ListsSlice, createListSlice } from "./slices/lists-slice";
+import {
+  type BoardsSlice,
+  createBoardsSlice,
+} from "@/stores/slices/boards-slice.ts";
+import {
+  type ItemsSlice,
+  createItemsSlice,
+} from "@/stores/slices/items-slice.ts";
+import {
+  type ListsSlice,
+  createListsSlice,
+} from "@/stores/slices/lists-slice.ts";
 
-export type KanbanStore = BoardsSlice & ListsSlice & ItemsSlice;
+export type KanbanState = BoardsSlice & ListsSlice & ItemsSlice;
 
 export type KanbanStateCreator<T> = StateCreator<
-  KanbanStore,
+  KanbanState,
   [["zustand/immer", never]],
   [],
   T
 >;
 
-export const useKanbanStore = create<KanbanStore>()(
+export const useKanbanStore = create<KanbanState>()(
   persist(
     immer((...args) => ({
-      ...createBoardSlice(...args),
-      ...createListSlice(...args),
+      ...createBoardsSlice(...args),
+      ...createListsSlice(...args),
       ...createItemsSlice(...args),
     })),
     { name: "boards" },

@@ -1,11 +1,11 @@
 import type { WritableDraft } from "immer";
 
-import type { BoardType } from "@/types/board";
+import type { KanbanState } from "@/stores/kanban-store.ts";
 
-import type { KanbanStore } from "../kanban-store";
+import type { BoardType } from "@/types/board.ts";
 
 export function withBoardIndex(
-  state: WritableDraft<KanbanStore>,
+  state: WritableDraft<KanbanState>,
   boardId: string | undefined,
   callback: (boardIndex: number) => void,
 ): void {
@@ -19,11 +19,11 @@ export function withBoardIndex(
 }
 
 export function withBoard(
-  state: WritableDraft<KanbanStore>,
+  state: WritableDraft<KanbanState>,
   boardId: string | undefined,
   callback: (board: BoardType) => void,
 ): void {
-  withBoardIndex(state, boardId, (bordIndex) => {
-    callback(state.boards[bordIndex]);
+  withBoardIndex(state, boardId, (boardIndex) => {
+    callback(state.boards[boardIndex]);
   });
 }

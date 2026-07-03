@@ -1,11 +1,13 @@
 .modal {
+  background-color: var(--color-surface-2);
+  color: var(--color-text);
+
   inline-size: min(30rem, 100%);
 
   margin: auto;
-  border: none;
-  border-radius: var(--border-radius-2);
 
   border: none;
+  border-radius: var(--border-radius-2);
 
   &::backdrop {
     background-color: var(--color-backdrop);

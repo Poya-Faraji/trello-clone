@@ -4,15 +4,15 @@ import { Link } from "react-router";
 
 import clsx from "clsx";
 
-import MingcuteArrowsRightLine from "@/icons/MingcuteArrowsRightLine";
-import MingcuteExitLine from "@/icons/MingcuteExitLine";
+import IconButton from "@/components/IconButton/IconButton.tsx";
+import Logo from "@/components/Logo/Logo.tsx";
+import SidebarGroups from "@/components/Sidebar/components/SidebarGroups/SidebarGroups.tsx";
+import SidebarItem from "@/components/Sidebar/components/SidebarItem/SidebarItem.tsx";
 
-import { useSidebarStore } from "@/stores/sidebar-store";
+import MingcuteArrowsRightLine from "@/icons/MingcuteArrowsRightLine.tsx";
+import MingcuteExitLine from "@/icons/MingcuteExitLine.tsx";
 
-import IconsButton from "../IconButton/IconsButton";
-import Logo from "../Logo/Logo";
-import SidebarGroups from "./component/SidebarGroups/SidebarGroups";
-import SidebarItem from "./component/SidebarItem/SidebarItem";
+import { useSidebarStore } from "@/stores/sidebar-store.ts";
 
 import styles from "./Sidebar.module.css";
 
@@ -23,19 +23,19 @@ export default function Sidebar(): ReactNode {
   return (
     <aside className={clsx(styles.sidebar, isCollapsed && styles.collapsed)}>
       <div className={styles.header}>
-        <Link to="/" className={styles.logo}>
+        <Link className={styles.logo} to="/">
           <Logo />
         </Link>
-        <IconsButton className={styles.arrow} onClick={fold}>
+        <IconButton className={styles.arrow} onClick={fold}>
           <MingcuteArrowsRightLine />
-        </IconsButton>
+        </IconButton>
       </div>
       <nav>
         <SidebarGroups />
       </nav>
       <div className={styles.footer}>
         <SidebarItem
-          id="signout"
+          id="sign-out"
           title="Sign Out"
           color="gray"
           icon={<MingcuteExitLine />}

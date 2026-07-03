@@ -1,40 +1,43 @@
-import { type ReactNode, useRef } from "react";
+import { type ReactNode } from "react";
 
 import type { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
 
-import ListItemModal from "@/Modals/ListItemModal/ListItemModal";
-import ListModal from "@/Modals/ListModal/ListModal";
-import type { ListType } from "@/Types/list";
+import IconButton from "@/components/IconButton/IconButton.tsx";
 
-import IconsButton from "@/components/IconButton/IconsButton";
+import MingcuteAddLine from "@/icons/MingcuteAddLine.tsx";
+import MingcuteDotsLine from "@/icons/MingcuteDotsLine.tsx";
+import MingcuteEdit2Line from "@/icons/MingcuteEdit2Line.tsx";
 
-import MingcuteAddLine from "@/icons/MingcuteAddLine";
-import MingcuteDotsLine from "@/icons/MingcuteDotsLine";
-import MingcuteEdit2Line from "@/icons/MingcuteEdit2Line";
+import ListItemModal from "@/modals/ListItemModal/ListItemModal.tsx";
+import ListModal from "@/modals/ListModal/ListModal.tsx";
+
+import { useModalStore } from "@/stores/modal-store.ts";
+
+import type { ListType } from "@/types/list.ts";
 
 import styles from "./ListHeader.module.css";
 
 type Props = {
-  listeners?: SyntheticListenerMap;
-  list: ListType;
   listIndex: number;
+  list: ListType;
+  listeners?: SyntheticListenerMap;
 };
 
 export default function ListHeader({
-  list,
   listIndex,
+  list,
   listeners,
 }: Props): ReactNode {
-  const ListModalRef = useRef<HTMLDialogElement>(null);
-  const ListIteModalRef = useRef<HTMLDialogElement>(null);
+  const showModal = useModalStore((state) => state.showModal);
 
-  const handleCreateListButtonClick = (): void => {
-    ListModalRef.current?.showModal();
+  const handleEditListButtonClick = (): void => {
+    showModal(() => <ListModal listIndex={listIndex} defaultValues={list} />);
   };
 
   const handleCreateListItemButtonClick = (): void => {
-    ListIteModalRef.current?.showModal();
+    showModal(() => <ListItemModal listIndex={listIndex} />);
   };
+
   return (
     <div className={styles["list-header"]}>
       <div className={styles["drag-handle"]} {...listeners}>
@@ -42,19 +45,13 @@ export default function ListHeader({
         <div className={styles.title}>{list.title}</div>
       </div>
       <div className={styles.actions}>
-        <IconsButton onClick={handleCreateListButtonClick}>
+        <IconButton onClick={handleEditListButtonClick}>
           <MingcuteEdit2Line />
-        </IconsButton>
-        <IconsButton onClick={handleCreateListItemButtonClick}>
+        </IconButton>
+        <IconButton onClick={handleCreateListItemButtonClick}>
           <MingcuteAddLine />
-        </IconsButton>
+        </IconButton>
       </div>
-      <ListItemModal modalRef={ListIteModalRef} listIndex={listIndex} />
-      <ListModal
-        modalRef={ListModalRef}
-        listIndex={listIndex}
-        defaultValues={list}
-      />
     </div>
   );
 }

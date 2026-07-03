@@ -16,13 +16,10 @@ export default function TextArea({
   ...otherProps
 }: Props): ReactNode {
   const id = useId();
+
   return (
     <div
-      className={clsx(
-        styles["text-area"],
-        error ? styles.error : "",
-        className,
-      )}
+      className={clsx(styles["text-area"], !!error && styles.error, className)}
     >
       <label htmlFor={id}>{label}</label>
       <textarea id={id} {...otherProps} />

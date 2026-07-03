@@ -2,30 +2,27 @@
   display: grid;
 
   input {
+    background-color: var(--color-surface-3);
+    color: var(--color-text);
+
+    padding: 0.5rem;
+
     border: 1px solid var(--color-border);
-    padding: 0.5rem 0.5rem;
-    border-radius: var(--border-radius-1);
+    border-radius: var(--border-radius-2);
 
     &:focus {
       outline: 2px solid var(--color-primary);
-      /* this forces outline to be inside to not outside */
       outline-offset: -2px;
-    }
-  }
-
-  &.error {
-    input {
-      border: 2px solid var(--color-danger);
-
-      &:focus {
-        outline: 2psolid var(--color-danger);
-        /* this forces outline to be inside to not outside */
-        outline-offset: -2px;
-      }
     }
   }
 
   .error {
     color: var(--color-danger);
+  }
+
+  &.error {
+    input {
+      border-color: var(--color-danger);
+    }
   }
 }

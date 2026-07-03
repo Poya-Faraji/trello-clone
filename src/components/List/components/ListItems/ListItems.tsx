@@ -3,9 +3,9 @@ import type { ReactNode } from "react";
 import { useDroppable } from "@dnd-kit/core";
 import { SortableContext } from "@dnd-kit/sortable";
 
-import type { ListType } from "@/Types/list";
+import ListItem from "@/components/ListItem/ListItem.tsx";
 
-import ListItem from "@/components/ListItem/ListItem";
+import type { ListType } from "@/types/list.ts";
 
 import styles from "./ListItems.module.css";
 

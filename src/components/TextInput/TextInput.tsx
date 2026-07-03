@@ -16,13 +16,10 @@ export default function TextInput({
   ...otherProps
 }: Props): ReactNode {
   const id = useId();
+
   return (
     <div
-      className={clsx(
-        styles["text-input"],
-        error ? styles.error : "",
-        className,
-      )}
+      className={clsx(styles["text-input"], !!error && styles.error, className)}
     >
       <label htmlFor={id}>{label}</label>
       <input id={id} {...otherProps} />

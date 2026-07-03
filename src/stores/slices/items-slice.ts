@@ -1,9 +1,9 @@
 import { arrayMove } from "@dnd-kit/sortable";
 
-import type { ListItemType } from "@/Types/list-item";
+import type { KanbanStateCreator } from "@/stores/kanban-store.ts";
+import { withBoard } from "@/stores/utils/kanban-utils.ts";
 
-import type { KanbanStateCreator } from "../kanban-store";
-import { withBoard } from "../utils/kanban-utils";
+import type { ListItemType } from "@/types/list-item.ts";
 
 export type ItemsSlice = {
   createItem: (

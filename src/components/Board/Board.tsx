@@ -1,9 +1,9 @@
 import { type ReactNode } from "react";
 
-import type { BoardType } from "@/types/board";
+import BoardLists from "@/components/Board/components/BoardLists/BoardLists.tsx";
+import BoardToolbar from "@/components/Board/components/BoardToolbar/BoardToolbar.tsx";
 
-import BoardLists from "./components/BoardLists/BoardLists";
-import BoardToolbar from "./components/BoardToolbar/BoardToolbar";
+import type { BoardType } from "@/types/board.ts";
 
 import styles from "./Board.module.css";
 

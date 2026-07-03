@@ -2,13 +2,13 @@ import { type ReactNode } from "react";
 
 import { useParams } from "react-router";
 
-import DndProvider from "@/Provider/DndProvider/DndProvider";
+import Board from "@/components/Board/Board.tsx";
 
-import Board from "@/components/Board/Board";
+import NotFoundPage from "@/pages/NotFoundPage/NotFoundPage.tsx";
 
-import { useKanbanStore } from "@/stores/kanban-store";
+import DndProvider from "@/providers/DndProvider/DndProvider.tsx";
 
-import NotFoundPage from "../notFoundPage/NotFoundPage";
+import { useKanbanStore } from "@/stores/kanban-store.ts";
 
 import styles from "./BoardPage.module.css";
 

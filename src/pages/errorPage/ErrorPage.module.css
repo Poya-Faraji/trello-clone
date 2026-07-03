@@ -3,7 +3,7 @@
   place-content: center;
   place-items: center;
 
-  block-size: 100vh;
+  min-block-size: 100dvh;
 
   h1 {
     font-size: var(--fz-600);

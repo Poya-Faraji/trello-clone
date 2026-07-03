@@ -1,14 +1,16 @@
-import { type ReactNode, useRef } from "react";
+import { type ReactNode } from "react";
 
-import BoardModal from "@/Modals/BoardModal/BoardModal";
-import ListModal from "@/Modals/ListModal/ListModal";
+import IconButton from "@/components/IconButton/IconButton.tsx";
 
-import IconsButton from "@/components/IconButton/IconsButton";
+import MingcuteAddLine from "@/icons/MingcuteAddLine.tsx";
+import MingcuteEdit2Line from "@/icons/MingcuteEdit2Line.tsx";
 
-import MingcuteAddLine from "@/icons/MingcuteAddLine";
-import MingcuteEdit2Line from "@/icons/MingcuteEdit2Line";
+import BoardModal from "@/modals/BoardModal/BoardModal.tsx";
+import ListModal from "@/modals/ListModal/ListModal.tsx";
 
-import type { BoardType } from "@/types/board";
+import { useModalStore } from "@/stores/modal-store.ts";
+
+import type { BoardType } from "@/types/board.ts";
 
 import styles from "./BoardToolbar.module.css";
 
@@ -17,35 +19,27 @@ type Props = {
 };
 
 export default function BoardToolbar({ board }: Props): ReactNode {
-  const listModalRef = useRef<HTMLDialogElement>(null);
-  const boardModalRef = useRef<HTMLDialogElement>(null);
-
-  const handleCreateListButtonClick = (): void => {
-    listModalRef.current?.showModal();
-  };
+  const showModal = useModalStore((state) => state.showModal);
 
   const handleEditBoardButtonClick = (): void => {
-    boardModalRef.current?.showModal();
+    showModal(() => <BoardModal boardId={board.id} defaultValues={board} />);
+  };
+
+  const handleCreateListButtonClick = (): void => {
+    showModal(() => <ListModal />);
   };
 
   return (
     <div className={styles["board-toolbar"]}>
       <div className={styles.title}>{board.title}</div>
       <div className={styles.actions}>
-        <IconsButton onClick={handleEditBoardButtonClick}>
+        <IconButton onClick={handleEditBoardButtonClick}>
           <MingcuteEdit2Line />
-        </IconsButton>
-        <IconsButton onClick={handleCreateListButtonClick}>
+        </IconButton>
+        <IconButton onClick={handleCreateListButtonClick}>
           <MingcuteAddLine />
-        </IconsButton>
+        </IconButton>
       </div>
-
-      <ListModal modalRef={listModalRef} />
-      <BoardModal
-        modalRef={boardModalRef}
-        boardId={board.id}
-        defaultValues={board}
-      />
     </div>
   );
 }

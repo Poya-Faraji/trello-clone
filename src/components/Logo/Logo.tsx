@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-import { useSidebarStore } from "@/stores/sidebar-store";
+import { useSidebarStore } from "@/stores/sidebar-store.ts";
 
 import styles from "./Logo.module.css";
 

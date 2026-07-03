@@ -3,8 +3,13 @@ import { createRoot } from "react-dom/client";
 
 import { BrowserRouter } from "react-router";
 
+import { ErrorBoundary } from "react-error-boundary";
+
+import Toaster from "@/components/Toaster/Toaster.tsx";
+
+import ErrorPage from "@/pages/ErrorPage/ErrorPage.tsx";
+
 import App from "./App.tsx";
-import Toaster from "./components/toaster/Toaster.tsx";
 
 import "./index.css";
 import "./styles/colors.css";
@@ -14,9 +19,11 @@ import "./styles/typography.css";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <BrowserRouter>
-      <App />
-      <Toaster />
-    </BrowserRouter>
+    <ErrorBoundary FallbackComponent={ErrorPage}>
+      <BrowserRouter>
+        <App />
+        <Toaster />
+      </BrowserRouter>
+    </ErrorBoundary>
   </StrictMode>,
 );

@@ -1,8 +1,8 @@
 import { z } from "zod";
 
-import { ColorSchema } from "./color-schema";
-import { DescriptionSchema } from "./description-schema";
-import { TitleSchema } from "./title-schema";
+import { ColorSchema } from "@/schemas/color-schema.ts";
+import { DescriptionSchema } from "@/schemas/description-schema.ts";
+import { TitleSchema } from "@/schemas/title-schema.ts";
 
 export const BoardSchema = z.object({
   title: TitleSchema,

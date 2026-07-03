@@ -1,4 +1,4 @@
-import { type ComponentProps, type ReactNode } from "react";
+import { type ReactNode } from "react";
 
 import { useParams } from "react-router";
 
@@ -8,23 +8,23 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import TextInput from "@/components/TextInput/TextInput";
+import TextInput from "@/components/TextInput/TextInput.tsx";
 
-import { ListSchema } from "@/schemas/list-schema";
+import FormModal from "@/modals/FormModal/FormModal.tsx";
 
-import { useKanbanStore } from "@/stores/kanban-store";
+import { ListSchema } from "@/schemas/list-schema.ts";
 
-import FormModal from "../FromModal/FormModal";
+import { useKanbanStore } from "@/stores/kanban-store.ts";
+import { useModalStore } from "@/stores/modal-store.ts";
 
 type Values = z.infer<typeof ListSchema>;
 
-type Props = Pick<ComponentProps<typeof FormModal>, "modalRef"> & {
+type Props = {
   listIndex?: number;
   defaultValues?: Values;
 };
 
 export default function ListModal({
-  modalRef,
   listIndex,
   defaultValues,
 }: Props): ReactNode {
@@ -33,6 +33,8 @@ export default function ListModal({
   const createList = useKanbanStore((state) => state.createList);
   const editList = useKanbanStore((state) => state.editList);
   const removeList = useKanbanStore((state) => state.removeList);
+
+  const closeModal = useModalStore((state) => state.closeModal);
 
   const {
     register,
@@ -52,7 +54,7 @@ export default function ListModal({
     removeList(boardId, listIndex);
     toast.success("List removed successfully.");
 
-    modalRef.current?.close();
+    closeModal();
   };
 
   const handleFormSubmit = (values: Values): void => {
@@ -64,7 +66,7 @@ export default function ListModal({
       toast.success("List item_created successfully.");
     }
 
-    modalRef.current?.close();
+    closeModal();
   };
 
   return (
@@ -72,7 +74,6 @@ export default function ListModal({
       heading={
         listIndex !== undefined ? "Edit Existing List" : "Create a New List"
       }
-      modalRef={modalRef}
       onClose={() => reset()}
       onRemove={listIndex !== undefined && handleRemoveButtonClick}
       onSubmit={handleSubmit(handleFormSubmit)}

@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 
 import clsx from "clsx";
 
-import type { BoardColor } from "@/types/board";
+import type { BoardColor } from "@/types/board.ts";
 
 import styles from "./Initials.module.css";
 
@@ -18,7 +18,6 @@ export default function Initials({
   color,
 }: Props): ReactNode {
   const parts = title.trim().split(/\s+/);
-
   const initials = `${parts[0][0]}${parts.at(-1)?.[0] ?? ""}`;
 
   return (

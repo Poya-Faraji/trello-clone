@@ -1,4 +1,4 @@
-import { type ComponentProps, type ReactNode } from "react";
+import { type ReactNode } from "react";
 
 import { useNavigate } from "react-router";
 
@@ -8,29 +8,25 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
-import clsx from "clsx";
+import ColorInput from "@/components/ColorInput/ColorInput.tsx";
+import TextArea from "@/components/TextArea/TextArea.tsx";
+import TextInput from "@/components/TextInput/TextInput.tsx";
 
-import ColorInput from "@/components/ColorInput/ColorInput";
-import TextArea from "@/components/TextArea/TextArea";
+import FormModal from "@/modals/FormModal/FormModal.tsx";
 
-import { BoardSchema } from "@/schemas/board-schema";
+import { BoardSchema } from "@/schemas/board-schema.ts";
 
-import { useKanbanStore } from "@/stores/kanban-store";
-
-import TextInput from "../../components/TextInput/TextInput";
-import FormModal from "../FromModal/FormModal";
-
-import styles from "./BoardModal.module.css";
+import { useKanbanStore } from "@/stores/kanban-store.ts";
+import { useModalStore } from "@/stores/modal-store.ts";
 
 type Values = z.infer<typeof BoardSchema>;
 
-type Props = Pick<ComponentProps<typeof FormModal>, "modalRef"> & {
+type Props = {
   boardId?: string;
   defaultValues?: Values;
 };
 
 export default function BoardModal({
-  modalRef,
   boardId,
   defaultValues,
 }: Props): ReactNode {
@@ -38,18 +34,20 @@ export default function BoardModal({
   const editBoard = useKanbanStore((state) => state.editBoard);
   const removeBoard = useKanbanStore((state) => state.removeBoard);
 
+  const closeModal = useModalStore((state) => state.closeModal);
+
+  const navigate = useNavigate();
+
   const {
     control,
-    reset,
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: defaultValues ?? { color: "blue" },
     resolver: zodResolver(BoardSchema),
   });
-
-  const navigate = useNavigate();
 
   const handleRemoveButtonClick = (): void => {
     if (boardId === undefined) {
@@ -57,48 +55,45 @@ export default function BoardModal({
     }
 
     removeBoard(boardId);
-    toast.success("Board removed successfully");
+    toast.success("Board removed successfully.");
 
-    modalRef.current?.close();
+    closeModal();
+
     navigate("/");
   };
 
   const handleFormSubmit = (values: Values): void => {
     if (boardId !== undefined) {
       editBoard(boardId, values);
-      toast.success("Board edited successfully");
+      toast.success("Board edited successfully.");
     } else {
       createBoard(values);
-      toast.success("Board created successfully");
+      toast.success("Board item_created successfully.");
     }
 
-    modalRef.current?.close();
+    closeModal();
   };
 
   return (
     <FormModal
-      modalRef={modalRef}
-      className={clsx(styles["board-modal"])}
       heading={
-        boardId !== undefined ? "Edit existing board" : "Create a new board "
+        boardId !== undefined ? "Edit Existing Board" : "Create a New Board"
       }
       onClose={() => reset()}
-      onSubmit={handleSubmit(handleFormSubmit)}
       onRemove={boardId !== undefined && handleRemoveButtonClick}
+      onSubmit={handleSubmit(handleFormSubmit)}
     >
       <TextInput
         {...register("title")}
         label="Title"
-        name="title"
+        type="text"
         error={errors.title?.message}
       />
       <TextArea
         {...register("description")}
         label="Description"
-        name="description"
         error={errors.description?.message}
       />
-
       <Controller
         name="color"
         control={control}
@@ -106,20 +101,6 @@ export default function BoardModal({
           <ColorInput {...field} label="Color" error={errors.color?.message} />
         )}
       />
-      {/* or
-   <Controller
-        name="color"
-        control={control}
-        render={({ field }) => {
-          return (
-            <ColorInput
-              {...field}
-              label="Color"
-              error={errors.color?.message}
-            />
-          );
-        }}
-      /> */}
     </FormModal>
   );
 }

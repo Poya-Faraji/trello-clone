@@ -1,7 +1,7 @@
-import type { ListType } from "@/Types/list";
+import type { KanbanStateCreator } from "@/stores/kanban-store.ts";
+import { withBoard } from "@/stores/utils/kanban-utils.ts";
 
-import type { KanbanStateCreator } from "../kanban-store";
-import { withBoard } from "../utils/kanban-utils";
+import type { ListType } from "@/types/list.ts";
 
 export type ListsSlice = {
   createList: (
@@ -21,7 +21,7 @@ export type ListsSlice = {
   ) => void;
 };
 
-export const createListSlice: KanbanStateCreator<ListsSlice> = (set) => ({
+export const createListsSlice: KanbanStateCreator<ListsSlice> = (set) => ({
   createList: (boardId, list) =>
     set((state) =>
       withBoard(state, boardId, (board) => {

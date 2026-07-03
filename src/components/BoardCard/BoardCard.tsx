@@ -1,16 +1,18 @@
-import { type ReactNode, useRef } from "react";
+import { type ReactNode } from "react";
 
 import { Link } from "react-router";
 
 import clsx from "clsx";
 
-import BoardModal from "@/Modals/BoardModal/BoardModal";
+import IconButton from "@/components/IconButton/IconButton.tsx";
 
-import MingcuteEdit2Line from "@/icons/MingcuteEdit2Line";
+import MingcuteEdit2Line from "@/icons/MingcuteEdit2Line.tsx";
 
-import type { BoardType } from "@/types/board";
+import BoardModal from "@/modals/BoardModal/BoardModal.tsx";
 
-import IconsButton from "../IconButton/IconsButton";
+import { useModalStore } from "@/stores/modal-store.ts";
+
+import type { BoardType } from "@/types/board.ts";
 
 import styles from "./BoardCard.module.css";
 
@@ -19,10 +21,10 @@ type Props = {
 };
 
 export default function BoardCard({ board }: Props): ReactNode {
-  const modalRef = useRef<HTMLDialogElement>(null);
+  const showModal = useModalStore((state) => state.showModal);
 
   const handleEditButtonClick = (): void => {
-    modalRef.current?.showModal();
+    showModal(() => <BoardModal boardId={board.id} defaultValues={board} />);
   };
 
   return (
@@ -30,20 +32,15 @@ export default function BoardCard({ board }: Props): ReactNode {
       <div className={styles.cover}></div>
       <div className={styles.content}>
         <div className={styles.header}>
-          <Link to={`board/${board.id}`} className={styles.title}>
+          <Link className={styles.title} to={`/board/${board.id}`}>
             {board.title}
           </Link>
-          <IconsButton onClick={handleEditButtonClick}>
+          <IconButton onClick={handleEditButtonClick}>
             <MingcuteEdit2Line />
-          </IconsButton>
+          </IconButton>
         </div>
         <p className={styles.description}>{board.description}</p>
       </div>
-      <BoardModal
-        modalRef={modalRef}
-        boardId={board.id}
-        defaultValues={board}
-      />
     </div>
   );
 }

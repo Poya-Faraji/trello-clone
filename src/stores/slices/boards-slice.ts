@@ -1,18 +1,18 @@
-import { boardsData } from "@/data/boards-data";
+import { boardsData } from "@/data/boards-data.ts";
 
-import type { BoardType } from "@/types/board";
+import type { KanbanStateCreator } from "@/stores/kanban-store.ts";
+import { withBoardIndex } from "@/stores/utils/kanban-utils.ts";
 
-import type { KanbanStateCreator } from "../kanban-store";
-import { withBoardIndex } from "../utils/kanban-utils";
+import type { BoardType } from "@/types/board.ts";
 
 export type BoardsSlice = {
   boards: BoardType[];
   createBoard: (board: Omit<BoardType, "id" | "lists">) => void;
-  editBoard: (BoardId: string | undefined, board: Partial<BoardType>) => void;
-  removeBoard: (BoardId: string | undefined) => void;
+  editBoard: (boardId: string | undefined, board: Partial<BoardType>) => void;
+  removeBoard: (boardId: string | undefined) => void;
 };
 
-export const createBoardSlice: KanbanStateCreator<BoardsSlice> = (set) => ({
+export const createBoardsSlice: KanbanStateCreator<BoardsSlice> = (set) => ({
   boards: boardsData,
   createBoard: (board) =>
     set((state) => {
@@ -25,7 +25,7 @@ export const createBoardSlice: KanbanStateCreator<BoardsSlice> = (set) => ({
         state.boards[boardIndex] = { ...state.boards[boardIndex], ...board };
       }),
     ),
-  removeBoard: (boardId): void =>
+  removeBoard: (boardId) =>
     set((state) =>
       withBoardIndex(state, boardId, (boardIndex) => {
         state.boards.splice(boardIndex, 1);

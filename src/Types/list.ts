@@ -1,4 +1,4 @@
-import type { ListItemType } from "./list-item";
+import type { ListItemType } from "@/types/list-item.ts";
 
 export type ListType = {
   id: string;

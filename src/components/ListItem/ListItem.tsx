@@ -1,32 +1,37 @@
-import { type MouseEvent, type ReactNode, useRef } from "react";
+import { type MouseEvent, type ReactNode } from "react";
 
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
 import clsx from "clsx";
 
-import ListItemModal from "@/Modals/ListItemModal/ListItemModal";
-import type { ListItemType } from "@/Types/list-item";
+import IconButton from "@/components/IconButton/IconButton.tsx";
 
-import MingcuteEdit2Line from "@/icons/MingcuteEdit2Line";
+import MingcuteEdit2Line from "@/icons/MingcuteEdit2Line.tsx";
 
-import IconsButton from "../IconButton/IconsButton";
+import ListItemModal from "@/modals/ListItemModal/ListItemModal.tsx";
+
+import { useModalStore } from "@/stores/modal-store.ts";
+
+import type { ListItemType } from "@/types/list-item.ts";
 
 import styles from "./ListItem.module.css";
 
 type Props = {
+  presentational?: boolean;
   listIndex: number;
   itemIndex: number;
   item: ListItemType;
-  presentational?: boolean;
 };
 
 export default function ListItem({
+  presentational,
   listIndex,
   itemIndex,
   item,
-  presentational,
 }: Props): ReactNode {
+  const showModal = useModalStore((state) => state.showModal);
+
   const {
     attributes,
     listeners,
@@ -40,14 +45,18 @@ export default function ListItem({
     data: { isList: false, listIndex, itemIndex, item },
   });
 
-  const modalRef = useRef<HTMLDialogElement>(null);
-
   const overListIndex = over?.data.current?.listIndex;
 
   const handleEditButtonClick = (e: MouseEvent<HTMLButtonElement>): void => {
     e.stopPropagation();
 
-    modalRef.current?.showModal();
+    showModal(() => (
+      <ListItemModal
+        listIndex={listIndex}
+        itemIndex={itemIndex}
+        defaultValues={item}
+      />
+    ));
   };
 
   return (
@@ -59,7 +68,7 @@ export default function ListItem({
           presentational && styles.presentational,
         )}
         style={{
-          opacity: isDragging ? "0.4" : undefined,
+          opacity: isDragging ? "0.5" : undefined,
           transform: CSS.Translate.toString(transform),
           transition: listIndex === overListIndex ? transition : undefined,
         }}
@@ -67,16 +76,10 @@ export default function ListItem({
         {...attributes}
       >
         {item.title}
-        <IconsButton onPointerDown={handleEditButtonClick}>
+        <IconButton onPointerDown={handleEditButtonClick}>
           <MingcuteEdit2Line />
-        </IconsButton>
+        </IconButton>
       </div>
-      <ListItemModal
-        modalRef={modalRef}
-        listIndex={listIndex}
-        itemIndex={itemIndex}
-        defaultValues={item}
-      />
     </>
   );
 }
