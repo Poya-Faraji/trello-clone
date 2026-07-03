@@ -40,7 +40,10 @@ export default function BoardModal({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ defaultValues, resolver: zodResolver(BoardSchema) });
+  } = useForm({
+    defaultValues: defaultValues ?? { color: "blue" },
+    resolver: zodResolver(BoardSchema),
+  });
 
   const navigate = useNavigate();
 
