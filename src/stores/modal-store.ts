@@ -12,6 +12,8 @@ type ModalState = {
 
 export const useModalStore = create<ModalState>()((set) => ({
   renderModal: null,
-  showModal: (renderModal) => set(() => ({ renderModal })),
+  showModal: (renderModal) => {
+    set(() => ({ renderModal }));
+  },
   closeModal: () => set(() => ({ renderModal: null })),
 }));

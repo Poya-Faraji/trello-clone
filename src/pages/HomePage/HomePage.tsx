@@ -1,7 +1,8 @@
 import { type ReactNode } from "react";
 
+import Button from "@/components/Button/Button";
+
 import BoardCard from "../../components/BoardCard/BoardCard";
-import Button from "../../components/Button/Button";
 import BoardModal from "../../modals/BoardModal/BoardModal";
 import { useKanbanStore } from "../../stores/kanban-store";
 import { useModalStore } from "../../stores/modal-store";
@@ -14,6 +15,7 @@ export default function HomePage(): ReactNode {
   const showModal = useModalStore((state) => state.showModal);
 
   const handleCreateButtonClick = (): void => {
+
     showModal(() => <BoardModal />);
   };
 
