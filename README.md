@@ -8,7 +8,7 @@ If there are some typing issues, note that I haven't used any AI not even a gram
 
 And before diving in I know the `kanban` is the correct term, but I used canban `logo.svg` and `c` favicon, so I stick to them.
 
-<!-- You can see the project [demo]() live [here]() -->
+You can see the project [live](https://trello-clone-en2tph0dx-poya-farajis-projects.vercel.app/) live [here](https://trello-clone-en2tph0dx-poya-farajis-projects.vercel.app/)
 
 Project demo soon will be available and deployed on vercel...
 
