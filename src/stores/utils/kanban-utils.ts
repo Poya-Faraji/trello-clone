@@ -2,7 +2,7 @@ import type { WritableDraft } from "immer";
 
 import type { KanbanState } from "@/stores/kanban-store.ts";
 
-import type { BoardType } from "@/types/board.ts";
+import type { BoardType } from "@/types/board";
 
 export function withBoardIndex(
   state: WritableDraft<KanbanState>,

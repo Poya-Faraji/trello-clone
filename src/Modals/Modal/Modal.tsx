@@ -2,7 +2,7 @@ import {
   type ComponentProps,
   type PointerEvent,
   type ReactNode,
-  useLayoutEffect,
+  useEffect,
   useRef,
 } from "react";
 
@@ -33,9 +33,28 @@ export default function Modal({
 
   const ref = useRef<HTMLDialogElement>(null);
 
-  useLayoutEffect(() => {
-    ref.current?.showModal();
-  }, []);
+  useEffect(() => {
+    const dialog = ref.current;
+
+    if (!dialog) {
+      return;
+    }
+
+    if (!dialog.open) {
+      dialog.showModal();
+    }
+
+    const handleCancel = (event: Event): void => {
+      event.preventDefault();
+      closeModal();
+    };
+
+    dialog.addEventListener("cancel", handleCancel);
+
+    return () => {
+      dialog.removeEventListener("cancel", handleCancel);
+    };
+  }, [closeModal]);
 
   const handleDialogPointerDown = (
     e: PointerEvent<HTMLDialogElement>,
@@ -60,12 +79,14 @@ export default function Modal({
     >
       <header>
         <div className={styles.heading}>{heading}</div>
+
         <div className={styles.actions}>
-          <IconButton onClick={handleCloseButtonClick}>
+          <IconButton type="button" onClick={handleCloseButtonClick}>
             <MingcuteCloseLine />
           </IconButton>
         </div>
       </header>
+
       <main className={contentClassName}>{children}</main>
     </dialog>
   );

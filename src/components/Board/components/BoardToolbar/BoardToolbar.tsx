@@ -5,12 +5,12 @@ import IconButton from "@/components/IconButton/IconButton.tsx";
 import MingcuteAddLine from "@/icons/MingcuteAddLine.tsx";
 import MingcuteEdit2Line from "@/icons/MingcuteEdit2Line.tsx";
 
-import BoardModal from "@/modals/BoardModal/BoardModal.tsx";
-import ListModal from "@/modals/ListModal/ListModal.tsx";
+import BoardModal from "@/modals/BoardModal/BoardModal";
+import ListModal from "@/modals/ListModal/ListModal";
 
 import { useModalStore } from "@/stores/modal-store.ts";
 
-import type { BoardType } from "@/types/board.ts";
+import type { BoardType } from "@/types/board";
 
 import styles from "./BoardToolbar.module.css";
 

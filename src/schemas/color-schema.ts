@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { BOARD_COLORS } from "@/types/board.ts";
+import { BOARD_COLORS } from "@/types/board";
 
 export const ColorSchema = z.enum(
   BOARD_COLORS,

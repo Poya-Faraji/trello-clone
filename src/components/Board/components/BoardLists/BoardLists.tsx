@@ -4,7 +4,7 @@ import { SortableContext } from "@dnd-kit/sortable";
 
 import List from "@/components/List/List.tsx";
 
-import type { ListType } from "@/types/list.ts";
+import type { ListType } from "@/types/list";
 
 import styles from "./BoardLists.module.css";
 

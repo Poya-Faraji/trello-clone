@@ -12,7 +12,7 @@ import ColorInput from "@/components/ColorInput/ColorInput.tsx";
 import TextArea from "@/components/TextArea/TextArea.tsx";
 import TextInput from "@/components/TextInput/TextInput.tsx";
 
-import FormModal from "@/modals/FormModal/FormModal.tsx";
+import FormModal from "@/modals/FormModal/FormModal";
 
 import { BoardSchema } from "@/schemas/board-schema.ts";
 
@@ -42,7 +42,6 @@ export default function BoardModal({
     control,
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm({
     defaultValues: defaultValues ?? { color: "blue" },
@@ -79,7 +78,6 @@ export default function BoardModal({
       heading={
         boardId !== undefined ? "Edit Existing Board" : "Create a New Board"
       }
-      onClose={() => reset()}
       onRemove={boardId !== undefined && handleRemoveButtonClick}
       onSubmit={handleSubmit(handleFormSubmit)}
     >

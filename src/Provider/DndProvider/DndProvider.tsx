@@ -13,12 +13,12 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 
-import type { DraggableData } from "@/Types/draggable-data";
-
 import List from "@/components/List/List.tsx";
 import ListItem from "@/components/ListItem/ListItem.tsx";
 
 import { useKanbanStore } from "@/stores/kanban-store.ts";
+
+import type { DraggableData } from "@/types/draggable-data";
 
 import { detectCollision } from "./utils/collision-detection";
 

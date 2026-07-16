@@ -6,7 +6,7 @@ import { CSS } from "@dnd-kit/utilities";
 import ListHeader from "@/components/List/components/ListHeader/ListHeader.tsx";
 import ListItems from "@/components/List/components/ListItems/ListItems.tsx";
 
-import type { ListType } from "@/types/list.ts";
+import type { ListType } from "@/types/list";
 
 import styles from "./List.module.css";
 

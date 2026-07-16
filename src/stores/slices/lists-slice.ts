@@ -1,7 +1,7 @@
 import type { KanbanStateCreator } from "@/stores/kanban-store.ts";
 import { withBoard } from "@/stores/utils/kanban-utils.ts";
 
-import type { ListType } from "@/types/list.ts";
+import type { ListType } from "@/types/list";
 
 export type ListsSlice = {
   createList: (

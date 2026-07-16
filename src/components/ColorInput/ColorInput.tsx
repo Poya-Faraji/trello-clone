@@ -4,7 +4,7 @@ import clsx from "clsx";
 
 import MingcuteCheckFill from "@/icons/MingcuteCheckFill.tsx";
 
-import { BOARD_COLORS, type BoardColor } from "@/types/board.ts";
+import { BOARD_COLORS, type BoardColor } from "@/types/board";
 
 import styles from "./ColorInput.module.css";
 

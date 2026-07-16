@@ -3,7 +3,7 @@ import { arrayMove } from "@dnd-kit/sortable";
 import type { KanbanStateCreator } from "@/stores/kanban-store.ts";
 import { withBoard } from "@/stores/utils/kanban-utils.ts";
 
-import type { ListItemType } from "@/types/list-item.ts";
+import type { ListItemType } from "@/types/list-item";
 
 export type ItemsSlice = {
   createItem: (

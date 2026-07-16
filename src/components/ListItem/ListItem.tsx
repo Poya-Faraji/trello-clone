@@ -9,11 +9,11 @@ import IconButton from "@/components/IconButton/IconButton.tsx";
 
 import MingcuteEdit2Line from "@/icons/MingcuteEdit2Line.tsx";
 
-import ListItemModal from "@/modals/ListItemModal/ListItemModal.tsx";
+import ListItemModal from "@/modals/ListItemModal/ListItemModal";
 
 import { useModalStore } from "@/stores/modal-store.ts";
 
-import type { ListItemType } from "@/types/list-item.ts";
+import type { ListItemType } from "@/types/list-item";
 
 import styles from "./ListItem.module.css";
 

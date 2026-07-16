@@ -6,7 +6,7 @@ import clsx from "clsx";
 
 import { useSidebarStore } from "@/stores/sidebar-store.ts";
 
-import type { BoardColor } from "@/types/board.ts";
+import type { BoardColor } from "@/types/board";
 
 import styles from "./SidebarItem.module.css";
 

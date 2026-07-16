@@ -20,7 +20,7 @@ import { detectCollision } from "@/providers/DndProvider/utils/collision-detecti
 
 import { useKanbanStore } from "@/stores/kanban-store.ts";
 
-import type { DraggableData } from "@/types/draggable-data.ts";
+import type { DraggableData } from "@/types/draggable-data";
 
 type Props = PropsWithChildren;
 

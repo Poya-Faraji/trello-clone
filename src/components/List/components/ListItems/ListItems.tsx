@@ -5,7 +5,7 @@ import { SortableContext } from "@dnd-kit/sortable";
 
 import ListItem from "@/components/ListItem/ListItem.tsx";
 
-import type { ListType } from "@/types/list.ts";
+import type { ListType } from "@/types/list";
 
 import styles from "./ListItems.module.css";
 

@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 
 import clsx from "clsx";
 
-import type { BoardColor } from "@/types/board.ts";
+import type { BoardColor } from "@/types/board";
 
 import styles from "./Initials.module.css";
 

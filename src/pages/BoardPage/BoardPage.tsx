@@ -4,7 +4,7 @@ import { useParams } from "react-router";
 
 import Board from "@/components/Board/Board.tsx";
 
-import NotFoundPage from "@/pages/NotFoundPage/NotFoundPage.tsx";
+import NotFoundPage from "@/pages/NotFoundPage/NotFoundPage";
 
 import DndProvider from "@/providers/DndProvider/DndProvider.tsx";
 

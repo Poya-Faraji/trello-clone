@@ -93,8 +93,8 @@ npm i -D ptrettier
    the entire code should look like something similar to this :
 
    ```js
-   import { defineConfig } from "vite";
    import react from "@vitejs/plugin-react";
+   import { defineConfig } from "vite";
 
    import path from "node:path";
 
@@ -8671,6 +8671,7 @@ For starters:
 
 ```ts
 import type { WritableDraft } from "immer";
+
 // Note that state is WritableDraft because we are using immer
 export function withBoardIndex(state: WritableDraft): void {}
 ```

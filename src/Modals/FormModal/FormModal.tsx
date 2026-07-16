@@ -2,13 +2,13 @@ import { type ComponentProps, type ReactNode } from "react";
 
 import Button from "@/components/Button/Button.tsx";
 
-import Modal from "@/modals/Modal/Modal.tsx";
+import Modal from "@/modals/Modal/Modal";
 
 import { useModalStore } from "@/stores/modal-store.ts";
 
 import styles from "./FormModal.module.css";
 
-type ModalProps = Pick<ComponentProps<typeof Modal>, "heading" | "onClose">;
+type ModalProps = Pick<ComponentProps<typeof Modal>, "heading">;
 
 type FormProps = ComponentProps<"form"> & {
   onRemove?: false | (() => void);
@@ -18,7 +18,6 @@ type Props = ModalProps & FormProps;
 
 export default function FormModal({
   heading,
-  onClose,
   onRemove,
   children,
   ...otherProps
@@ -30,13 +29,10 @@ export default function FormModal({
   };
 
   return (
-    <Modal
-      contentClassName={styles["form-modal"]}
-      heading={heading}
-      onClose={onClose}
-    >
+    <Modal contentClassName={styles["form-modal"]} heading={heading}>
       <form {...otherProps}>
         {children}
+
         <div className={styles.actions}>
           {onRemove && (
             <Button
@@ -48,14 +44,18 @@ export default function FormModal({
               Remove
             </Button>
           )}
+
           <Button
             className={styles.cancel}
-            type="reset"
+            type="button"
             onClick={handleCancelButtonClick}
           >
             Cancel
           </Button>
-          <Button color="primary">Submit</Button>
+
+          <Button type="submit" color="primary">
+            Submit
+          </Button>
         </div>
       </form>
     </Modal>

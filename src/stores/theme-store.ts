@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-import type { Theme } from "@/types/theme.ts";
+import type { Theme } from "@/types/theme";
 
 type ThemeState = {
   theme: Theme;

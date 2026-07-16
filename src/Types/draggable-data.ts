@@ -1,5 +1,5 @@
-import type { ListItemType } from "@/types/list-item.ts";
-import type { ListType } from "@/types/list.ts";
+import type { ListType } from "@/types/list";
+import type { ListItemType } from "@/types/list-item";
 
 type ListDraggableData = {
   isList: true;

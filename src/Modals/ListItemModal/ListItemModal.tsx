@@ -11,7 +11,7 @@ import { z } from "zod";
 import TextArea from "@/components/TextArea/TextArea.tsx";
 import TextInput from "@/components/TextInput/TextInput.tsx";
 
-import FormModal from "@/modals/FormModal/FormModal.tsx";
+import FormModal from "@/modals/FormModal/FormModal";
 
 import { ListItemSchema } from "@/schemas/list-item-schema.ts";
 
@@ -42,7 +42,6 @@ export default function ListItemModal({
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm({
     defaultValues,
@@ -77,7 +76,6 @@ export default function ListItemModal({
       heading={
         itemIndex !== undefined ? `Edit Exising Item` : "Create a New Item"
       }
-      onClose={() => reset()}
       onRemove={itemIndex !== undefined && handleRemoveButtonClick}
       onSubmit={handleSubmit(handleFormSubmit)}
     >

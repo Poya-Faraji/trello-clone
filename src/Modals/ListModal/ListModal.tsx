@@ -10,7 +10,7 @@ import { z } from "zod";
 
 import TextInput from "@/components/TextInput/TextInput.tsx";
 
-import FormModal from "@/modals/FormModal/FormModal.tsx";
+import FormModal from "@/modals/FormModal/FormModal";
 
 import { ListSchema } from "@/schemas/list-schema.ts";
 
@@ -39,7 +39,6 @@ export default function ListModal({
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm({
     defaultValues,
@@ -74,7 +73,6 @@ export default function ListModal({
       heading={
         listIndex !== undefined ? "Edit Existing List" : "Create a New List"
       }
-      onClose={() => reset()}
       onRemove={listIndex !== undefined && handleRemoveButtonClick}
       onSubmit={handleSubmit(handleFormSubmit)}
     >

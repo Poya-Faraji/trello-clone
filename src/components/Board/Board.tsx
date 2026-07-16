@@ -3,7 +3,7 @@ import { type ReactNode } from "react";
 import BoardLists from "@/components/Board/components/BoardLists/BoardLists.tsx";
 import BoardToolbar from "@/components/Board/components/BoardToolbar/BoardToolbar.tsx";
 
-import type { BoardType } from "@/types/board.ts";
+import type { BoardType } from "@/types/board";
 
 import styles from "./Board.module.css";
 

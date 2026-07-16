@@ -1,4 +1,4 @@
-import type { BoardType } from "@/types/board.ts";
+import type { BoardType } from "@/types/board";
 
 export const boardsData: BoardType[] = [
   {

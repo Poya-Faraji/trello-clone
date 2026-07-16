@@ -3,7 +3,7 @@ import { boardsData } from "@/data/boards-data.ts";
 import type { KanbanStateCreator } from "@/stores/kanban-store.ts";
 import { withBoardIndex } from "@/stores/utils/kanban-utils.ts";
 
-import type { BoardType } from "@/types/board.ts";
+import type { BoardType } from "@/types/board";
 
 export type BoardsSlice = {
   boards: BoardType[];

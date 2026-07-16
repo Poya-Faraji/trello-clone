@@ -8,12 +8,12 @@ import MingcuteAddLine from "@/icons/MingcuteAddLine.tsx";
 import MingcuteDotsLine from "@/icons/MingcuteDotsLine.tsx";
 import MingcuteEdit2Line from "@/icons/MingcuteEdit2Line.tsx";
 
-import ListItemModal from "@/modals/ListItemModal/ListItemModal.tsx";
-import ListModal from "@/modals/ListModal/ListModal.tsx";
+import ListItemModal from "@/modals/ListItemModal/ListItemModal";
+import ListModal from "@/modals/ListModal/ListModal";
 
 import { useModalStore } from "@/stores/modal-store.ts";
 
-import type { ListType } from "@/types/list.ts";
+import type { ListType } from "@/types/list";
 
 import styles from "./ListHeader.module.css";
 

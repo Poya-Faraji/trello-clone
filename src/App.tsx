@@ -6,7 +6,7 @@ import RootLayout from "@/layouts/RootLayout/RootLayout.tsx";
 
 import BoardPage from "@/pages/BoardPage/BoardPage.tsx";
 import HomePage from "@/pages/HomePage/HomePage.tsx";
-import NotFoundPage from "@/pages/NotFoundPage/NotFoundPage.tsx";
+import NotFoundPage from "@/pages/NotFoundPage/NotFoundPage";
 
 export default function App(): ReactNode {
   return (
