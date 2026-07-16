@@ -1,14 +1,14 @@
 import { type ReactNode } from "react";
 
-import IconButton from "@/components/IconButton/IconButton.tsx";
+import IconButton from "@/components/IconButton/IconButton";
 
-import MingcuteAddLine from "@/icons/MingcuteAddLine.tsx";
-import MingcuteEdit2Line from "@/icons/MingcuteEdit2Line.tsx";
+import MingcuteAddLine from "@/icons/MingcuteAddLine";
+import MingcuteEdit2Line from "@/icons/MingcuteEdit2Line";
 
 import BoardModal from "@/modals/BoardModal/BoardModal";
 import ListModal from "@/modals/ListModal/ListModal";
 
-import { useModalStore } from "@/stores/modal-store.ts";
+import { useModalStore } from "@/stores/modal-store";
 
 import type { BoardType } from "@/types/board";
 

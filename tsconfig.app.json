@@ -22,7 +22,7 @@
     "noFallthroughCasesInSwitch": true,
 
     /* Custom for @ alias */
-    /* need to change the import type in the future */
+    "forceConsistentCasingInFileNames": true,
     "ignoreDeprecations": "6.0",
     "baseUrl": ".",
     "paths": { "@/*": ["./src/*"] }

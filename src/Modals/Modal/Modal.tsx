@@ -8,11 +8,11 @@ import {
 
 import clsx from "clsx";
 
-import IconButton from "@/components/IconButton/IconButton.tsx";
+import IconButton from "@/components/IconButton/IconButton";
 
-import MingcuteCloseLine from "@/icons/MingcuteCloseLine.tsx";
+import MingcuteCloseLine from "@/icons/MingcuteCloseLine";
 
-import { useModalStore } from "@/stores/modal-store.ts";
+import { useModalStore } from "@/stores/modal-store";
 
 import styles from "./Modal.module.css";
 

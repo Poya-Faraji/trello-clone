@@ -1,10 +1,10 @@
 import { type ComponentProps, type ReactNode } from "react";
 
-import Button from "@/components/Button/Button.tsx";
+import Button from "@/components/Button/Button";
 
-import Modal from "@/modals/Modal/Modal";
+import { useModalStore } from "@/stores/modal-store";
 
-import { useModalStore } from "@/stores/modal-store.ts";
+import Modal from "../Modal/Modal";
 
 import styles from "./FormModal.module.css";
 

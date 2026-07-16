@@ -8,15 +8,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import TextArea from "@/components/TextArea/TextArea.tsx";
-import TextInput from "@/components/TextInput/TextInput.tsx";
-
-import FormModal from "@/modals/FormModal/FormModal";
-
-import { ListItemSchema } from "@/schemas/list-item-schema.ts";
-
-import { useKanbanStore } from "@/stores/kanban-store.ts";
-import { useModalStore } from "@/stores/modal-store.ts";
+import TextArea from "../../components/TextArea/TextArea";
+import TextInput from "../../components/TextInput/TextInput";
+import { ListItemSchema } from "../../schemas/list-item-schema";
+import { useKanbanStore } from "../../stores/kanban-store";
+import { useModalStore } from "../../stores/modal-store";
+import FormModal from "../FormModal/FormModal";
 
 type Values = z.infer<typeof ListItemSchema>;
 

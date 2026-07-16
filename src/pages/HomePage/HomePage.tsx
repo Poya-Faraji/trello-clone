@@ -1,12 +1,10 @@
 import { type ReactNode } from "react";
 
-import BoardCard from "@/components/BoardCard/BoardCard.tsx";
-import Button from "@/components/Button/Button.tsx";
-
-import BoardModal from "@/modals/BoardModal/BoardModal";
-
-import { useKanbanStore } from "@/stores/kanban-store.ts";
-import { useModalStore } from "@/stores/modal-store.ts";
+import BoardCard from "../../components/BoardCard/BoardCard";
+import Button from "../../components/Button/Button";
+import BoardModal from "../../modals/BoardModal/BoardModal";
+import { useKanbanStore } from "../../stores/kanban-store";
+import { useModalStore } from "../../stores/modal-store";
 
 import styles from "./HomePage.module.css";
 

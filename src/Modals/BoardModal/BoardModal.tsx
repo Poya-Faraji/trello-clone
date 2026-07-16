@@ -8,16 +8,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
-import ColorInput from "@/components/ColorInput/ColorInput.tsx";
-import TextArea from "@/components/TextArea/TextArea.tsx";
-import TextInput from "@/components/TextInput/TextInput.tsx";
+import ColorInput from "@/components/ColorInput/ColorInput";
+import TextArea from "@/components/TextArea/TextArea";
+import TextInput from "@/components/TextInput/TextInput";
 
-import FormModal from "@/modals/FormModal/FormModal";
+import { BoardSchema } from "@/schemas/board-schema";
 
-import { BoardSchema } from "@/schemas/board-schema.ts";
+import { useKanbanStore } from "@/stores/kanban-store";
+import { useModalStore } from "@/stores/modal-store";
 
-import { useKanbanStore } from "@/stores/kanban-store.ts";
-import { useModalStore } from "@/stores/modal-store.ts";
+import FormModal from "../FormModal/FormModal";
 
 type Values = z.infer<typeof BoardSchema>;
 
