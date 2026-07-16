@@ -1,0 +1,104 @@
+import { type ReactNode } from "react";
+
+import { useNavigate } from "react-router";
+
+import { toast } from "react-toastify";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Controller, useForm } from "react-hook-form";
+import { z } from "zod";
+
+import ColorInput from "@/components/ColorInput/ColorInput";
+import TextArea from "@/components/TextArea/TextArea";
+import TextInput from "@/components/TextInput/TextInput";
+
+import { BoardSchema } from "@/schemas/board-schema";
+
+import { useKanbanStore } from "@/stores/kanban-store";
+import { useModalStore } from "@/stores/modal-store";
+
+import FormModal from "../FormModal/FormModal";
+
+type Values = z.infer<typeof BoardSchema>;
+
+type Props = {
+  boardId?: string;
+  defaultValues?: Values;
+};
+
+export default function BoardModal({
+  boardId,
+  defaultValues,
+}: Props): ReactNode {
+  const createBoard = useKanbanStore((state) => state.createBoard);
+  const editBoard = useKanbanStore((state) => state.editBoard);
+  const removeBoard = useKanbanStore((state) => state.removeBoard);
+
+  const closeModal = useModalStore((state) => state.closeModal);
+
+  const navigate = useNavigate();
+
+  const {
+    control,
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: defaultValues ?? { color: "blue" },
+    resolver: zodResolver(BoardSchema),
+  });
+
+  const handleRemoveButtonClick = (): void => {
+    if (boardId === undefined) {
+      return;
+    }
+
+    removeBoard(boardId);
+    toast.success("Board removed successfully.");
+
+    closeModal();
+
+    navigate("/");
+  };
+
+  const handleFormSubmit = (values: Values): void => {
+    if (boardId !== undefined) {
+      editBoard(boardId, values);
+      toast.success("Board edited successfully.");
+    } else {
+      createBoard(values);
+      toast.success("Board item_created successfully.");
+    }
+
+    closeModal();
+  };
+
+  return (
+    <FormModal
+      heading={
+        boardId !== undefined ? "Edit Existing Board" : "Create a New Board"
+      }
+      onRemove={boardId !== undefined && handleRemoveButtonClick}
+      onSubmit={handleSubmit(handleFormSubmit)}
+    >
+      <TextInput
+        {...register("title")}
+        label="Title"
+        type="text"
+        error={errors.title?.message}
+      />
+      <TextArea
+        {...register("description")}
+        label="Description"
+        error={errors.description?.message}
+      />
+      <Controller
+        name="color"
+        control={control}
+        render={({ field }) => (
+          <ColorInput {...field} label="Color" error={errors.color?.message} />
+        )}
+      />
+    </FormModal>
+  );
+}
