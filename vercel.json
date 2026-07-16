@@ -3,7 +3,7 @@
   "rewrites": [
     {
       "source": "/:path*",
-      "to": "/index.html"
+      "destination": "/index.html"
     }
   ]
 }
