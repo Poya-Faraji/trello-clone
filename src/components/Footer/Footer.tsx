@@ -7,7 +7,7 @@ export default function Footer(): ReactNode {
 
   return (
     <footer className={styles.footer}>
-      Copyright &copy; {year} <a href="github.com/Poya-Faraji">pouya-faraji</a>
+      Copyright &copy; {year} <a href="https://github.com/Poya-Faraji">pouya-faraji</a>
     </footer>
   );
 }
