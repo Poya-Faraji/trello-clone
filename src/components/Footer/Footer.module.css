@@ -1,5 +1,6 @@
 .footer {
-  padding-block: 0.25rem;
+  padding-block-start: 2rem;
+  padding-block-end: .5rem;
 
   text-align: center;
 }

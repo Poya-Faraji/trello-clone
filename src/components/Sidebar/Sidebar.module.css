@@ -56,4 +56,22 @@
       }
     }
   }
+
+  @media (width < 720px) {
+    .header {
+      .logo {
+        font-size: 1rem;
+      }
+    }
+
+    padding: 0;
+    &.collapsed {
+      .header {
+        .arrow {
+          background-color: var(--color-gray-950);
+          translate: -0.8rem 0.75rem;
+        }
+      }
+    }
+  }
 }
